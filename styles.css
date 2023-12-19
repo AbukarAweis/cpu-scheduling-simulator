@@ -55,6 +55,12 @@ header {
     text-align: left;
 }
 
+#process-summary {
+    background-color: purple;
+    height: 50%;
+    width: 100%;
+}
+
 #input {
     display: flex;
     justify-content: space-around;
