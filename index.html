@@ -3,10 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scheduling Simulator</title>
-    <ref link="stylesheet" href="styles.css"></ref>
+    <title>CPU Scheduling Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <p1>Hello World</p1>
+    <header><h1>CPU Scheduling Simulator</h1></header>
+
+    <div class="container">
+
+        <div class="left-div">
+            <div id="process-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Process ID</th>
+                            <th>Arrival Time</th>
+                            <th>Burst Time</th>
+                        </tr>
+                    </thead>
+                    <table>
+                        <tbody>
+        
+                        </tbody>
+                    </table>
+                </table>
+                
+            </div>
+
+            <div id="data-input">
+                <input type="text" id="process-id" placeholder="Process ID" style="width: 70px; padding: 4px; box-sizing: border-box; font-size: 11px;">
+                <input type="text" id="arrival-time" placeholder="Arrival Time" style="width: 70px; padding: 4px; box-sizing: border-box; font-size: 11px;">
+                <input type="text" id="burst-time" placeholder="Burst Time" style="width: 70px; padding: 6px; box-sizing: border-box; font-size: 11px;">
+                <button type="button" onclick="addProcess()">Add Process</button>
+            </div>
+
+            <div id="process-summary">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Process ID</th>
+                            <th>Arrival Time</th>
+                            <th>Burst Time</th>
+                            <th>Completed Time</th>
+                            <th>Waiting Time</th>
+                            <th>Turnaroud Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="center-div">
+            
+        </div>
+
+        <div class="right-div">
+            
+        </div>
+
+    </div>
+   
+
 </body>
 </html>
