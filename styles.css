@@ -25,21 +25,34 @@ header {
 }
 
 .left-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex: 1;
     background-color: white;
     height: 100%;
 }
 
 .center-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex: 2;
     background-color: gray;
-    height:50%;
+    height:100%;
 }
 
 .right-div {
     flex:1;
     background-color: blue;
     height:25%
+}
+
+#text {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
 }
 
 #process-table {
@@ -55,10 +68,67 @@ header {
     text-align: left;
 }
 
-#process-summary {
+#queues {
+    display:flex;
+    flex-direction: column;
+    width: 75%;
+}
+
+#waiting-queue {
+    background-color: red;
+
+}
+
+#finished-queue {
+    background-color: blue;
+}
+
+#waiting-queue, #finished-queue {
+    display: flex;
+    flex-wrap: wrap;
+    height: 30%;
+    width: 85%;
+    overflow:auto;
+    margin-left: 5%;
+}
+
+
+#control {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    margin-right: 2%;
+}
+
+#cpu {
+    display: flex;
+    justify-content: center;
+    background-color: orange;
+    height: 30%;
+    margin-left: 10%;
+    margin-right: 40%;
+}
+
+#status {
+    background-color: red;
+    height: 45%;
+    margin-left:10%;
+}
+
+#simulation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color: green;
+    height: 50%;
+    
+}
+
+#simulation-summary {
     background-color: purple;
     height: 50%;
     width: 100%;
+    margin-top: 1%;
 }
 
 #input {
@@ -70,6 +140,15 @@ header {
     transition: border-color 0.3s;
 }
 
+#algo-div {
+    display:flex;
+    background-color: purple;
+    margin: 8px;
+    padding: 8px;
+    height: 25%;
+    align-items: center;
+}
+
 #process-id, #arrival-time, #burst-time {
     border-radius: 50px;
     border-color:green;
@@ -78,4 +157,16 @@ header {
 #process-id.error, #arrival-time.error, #burst-time.error {
     border-color: red;
     border-radius: 100px;
+}
+
+
+/*Testing*/
+.process-element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    border-radius: 50%;
 }
