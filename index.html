@@ -22,19 +22,23 @@
                             <th>Burst Time</th>
                         </tr>
                     </thead>
-                    <table>
-                        <tbody>
+                    <tbody>
         
-                        </tbody>
+                    </tbody>
+                    <table>
+                        
                     </table>
                 </table>
                 
             </div>
 
-            <div id="data-input">
-                <input type="text" id="process-id" placeholder="Process ID" style="width: 70px; padding: 4px; box-sizing: border-box; font-size: 11px;">
-                <input type="text" id="arrival-time" placeholder="Arrival Time" style="width: 70px; padding: 4px; box-sizing: border-box; font-size: 11px;">
-                <input type="text" id="burst-time" placeholder="Burst Time" style="width: 70px; padding: 6px; box-sizing: border-box; font-size: 11px;">
+            <div id="input">
+                <input type="number" min="0" id="process-id" placeholder="Process ID" pattern="[0-9]+"
+                        style="width: 80px; padding: 4px; box-sizing: border-box; font-size: 11px;">
+                <input type="number" min="0" id="arrival-time" placeholder="Arrival Time" pattern="[0-9]+"
+                        style="width: 85px; padding: 4px; box-sizing: border-box; font-size: 11px;">
+                <input type="number" min="0" id="burst-time" placeholder="Burst Time" pattern="[0-9]+"
+                        style="width: 85px; padding: 6px; box-sizing: border-box; font-size: 11px;">
                 <button type="button" onclick="addProcess()">Add Process</button>
             </div>
 

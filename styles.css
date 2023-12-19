@@ -26,7 +26,7 @@ header {
 
 .left-div {
     flex: 1;
-    background-color: red;
+    background-color: white;
     height: 100%;
 }
 
@@ -55,9 +55,21 @@ header {
     text-align: left;
 }
 
-#data-input {
+#input {
     display: flex;
     justify-content: space-around;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 100px;
+    transition: border-color 0.3s;
 }
 
+#process-id, #arrival-time, #burst-time {
+    border-radius: 50px;
+    border-color:green;
+}
 
+#process-id.error, #arrival-time.error, #burst-time.error {
+    border-color: red;
+    border-radius: 100px;
+}
