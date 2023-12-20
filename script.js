@@ -65,13 +65,13 @@ function addToCPU(process) {
    */
 function addProcess() {
 
-  validateInput(process.processID);
-  validateInput(process.arrivalTime);
-  validateInput(process.burstTime);
+  validateInput(process.processID, true);
+  validateInput(process.arrivalTime, false);
+  validateInput(process.burstTime, false);
 
   randomColor = getRandomColor();
 
-   if (validateInput(process.processID) && validateInput(process.arrivalTime) && validateInput(process.burstTime)){
+   if (validateInput(process.processID, true) && validateInput(process.arrivalTime, false) && validateInput(process.burstTime, false)){
       var newRow = table.insertRow(table.rows.length);
 
       var cell1 = newRow.insertCell(0);
@@ -119,9 +119,32 @@ function createProcessElement(process) {
 
    /*
    //An input is invalid if it is empty, a negative number, or a fractional number.
+   //If the input is a id, it must also be unique.
    */
-function validateInput(element) {
-   if (element.value === "" || parseFloat(element.value) < 0 || !/^[0-9]+$/.test(element.value)) {
+function validateInput(element, isID) {
+   /*
+   //When validating ids
+   //If there are previous entries in the table, check to make sure
+   //the id of the new process isn't equal to an id of an existing process
+   */
+   if ((table.rows.length > 0 && isID) || isID) {
+      if ((element.value === "" || parseFloat(element.value) < 0 || !/^[0-9]+$/.test(element.value))) {
+         element.classList.add("error");
+         return false;
+      }
+
+      for (var i = 0; i < table.rows.length; i++) {
+         var existingID = table.rows[i].cells[0].innerHTML;
+
+         if (existingID === element.value) {
+            element.classList.add("error");
+            return false;
+         } 
+      }
+   }
+
+   //when validating any input other than id.
+   if ((element.value === "" || parseFloat(element.value) < 0 || !/^[0-9]+$/.test(element.value)) && !isID) {
       element.classList.add("error");
       return false;
    } else {
