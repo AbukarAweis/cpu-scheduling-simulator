@@ -31,6 +31,7 @@ function addToWaitingQueue(process) {
    var processElement = createProcessElement(process);
    wQueue.push(process);
    waitingDisplay.appendChild(processElement);
+   removeProcess(processElement.textContent);
 }
 
    /*
@@ -53,7 +54,7 @@ function addToCPU(process) {
       var processElement = createProcessElement(process);
       cpu.push(process);
       cpuDisplay.appendChild(processElement);
-      removeProcess(processElement.textContent);
+      //removeProcess(processElement.textContent);
    }
 }
 
@@ -69,7 +70,7 @@ function addProcess() {
   validateInput(process.arrivalTime, false);
   validateInput(process.burstTime, false);
 
-  randomColor = getRandomColor();
+//   randomColor = getRandomColor();
 
    if (validateInput(process.processID, true) && validateInput(process.arrivalTime, false) && validateInput(process.burstTime, false)){
       var newRow = table.insertRow(table.rows.length);
@@ -107,11 +108,11 @@ function removeProcess(childID) {
    */
 function createProcessElement(process) {
    // var randomColor = getRandomColor();
-   console.log("id " + process.processID + " arrive " + process.arrivalTime + " burst " + process.burstTime);
+   // console.log("id " + process.processID + " arrive " + process.arrivalTime + " burst " + process.burstTime);
 
    var processElement = document.createElement('div');
    processElement.className = 'process-element';
-   processElement.textContent = "P" + process.processID.value;
+   processElement.textContent = "P" + process.processID;
    processElement.style.backgroundColor = randomColor;
    processElement.style.color = getTextColor(randomColor);
 
@@ -201,27 +202,30 @@ function start() {
    var selectedAlgo = document.getElementById("algo-select");
    var algorithm = selectedAlgo.value;
 
-   //startTimer();
-
-   switch (algorithm) {
-      case "fcfs":
-         fcfs();
-         break;
-      case "sjf":
-         sjf();
-         break;
-      case "rr":
-         rr();
-         break;
-      default:
-         alert("invalid algorithm");
+   if (table.rows.length != 0) {
+      switch (algorithm) {
+         case "fcfs":
+            startTimer(algorithm);
+            fcfs();
+            break;
+         case "sjf":
+            sjf();
+            break;
+         case "rr":
+            rr();
+            break;
+         default:
+            alert("invalid algorithm");
+      }
+   } else {
+      alert("Add Process Before Starting");
    }
 }
 
-function startTimer() {
+function startTimer(algorithm) {
    clearInterval(timerInterval);
    timerInterval = setInterval(function () {
-       updateTimer();
+       updateTimer(algorithm);
    }, 1000);
 }
 
@@ -229,22 +233,12 @@ function stopTimer() {
    clearInterval(timerInterval);
 }
 
-function updateTimer() {
+function updateTimer(algorithm) {
 //    document.getElementById('time').textContext = formatTime(seconds);
    var timer = document.getElementById('time');
    timer.textContent = "Time: " + formatTime(seconds);
 
-   // if (wQueue.length !== 0) {
-   //    for (var process of wQueue) {
-   //       if (process.arrivalTime.value == seconds) {
-   //          addToCPU(process);
-   //       }
-   //    }
-   // }
-   
-   if (process.arrivalTime == seconds) {
-      addToWaitingQueue(process);
-   }
+   if (algorithm == "fcfs" ){fcfs();}
 
     seconds++;
 }
@@ -258,34 +252,26 @@ function formatTime(seconds) {
 }
 //============================================================================================================================================
 function fcfs() {
-   if (table.children.length != 0) {
+   randomColor = getRandomColor();
+
       for (var i = 0; i < table.rows.length; i++) {
-         process = {
-            // processID: document.getElementById("rowP" + table.rows[i].cells[0].innerHTML),
-            // arrivalTime: document.getElementById("rowP" + table.rows[i].cells[1].innerHTML),
-            // burstTime: document.getElementById("rowP" + table.rows[i].cells[2].innerHTML),
-            // processID: table.rows[i].cells[0].innerHTML,
-            // arrivalTime: table.rows[i].cells[1].innerHTML,
-            // burstTime: table.rows[i].cells[2].innerHTML
+         var process = {
             processID: table.rows[i].cells[0].innerHTML,
             arrivalTime: table.rows[i].cells[1].innerHTML,
-            burstTime: table.rows[i].cells[2].innerHTML,
+            burstTime: table.rows[i].cells[2].innerHTML
          };
-         // addToWaitingQueue(process);
          
-      //    if (process.arrivalTime.value == seconds) {
-      //          console.log(("rowP" + table.rows[i].cells[0].innerHTML));
-      //    }
-         //var processElement = createProcessElement(process);
-         //addToWaitingQueue(process);
-         // console.log("id " + process.processID.value);
+         if (process.arrivalTime == seconds) {
+            addToWaitingQueue(process);
+            console.log(wQueue.length);
+            // if (cpu.length < 1) {
+               addToCPU(process);
+               console.log(wQueue.length);
+            // }
+         }
          
-         console.log("len" + wQueue.length);
-      }
-      startTimer();
-   } else {
-      alert("Add Process Before Starting");
-   }
+         }
+      
 }
 //============================================================================================================================================
 function sjf() {
