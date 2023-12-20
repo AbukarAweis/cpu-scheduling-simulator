@@ -76,7 +76,6 @@ header {
 
 #waiting-queue {
     background-color: red;
-
 }
 
 #finished-queue {
@@ -165,8 +164,9 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     margin: 5px;
     border-radius: 50%;
+    border: 2px solid black;
 }

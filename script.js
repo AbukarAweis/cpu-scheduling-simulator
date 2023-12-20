@@ -1,13 +1,10 @@
 
 var table = document.getElementById('process-table').getElementsByTagName('tbody')[0];
-// var processID = document.getElementById('process-id');
-// var arrivalTime = document.getElementById('arrival-time');
-// var burstTime = document.getElementById('burst-time');
+var waitingDisplay = document.getElementById('waiting-queue');
+var finishedDisplay = document.getElementById('finished-queue');
+var cpuDisplay = document.getElementById('cpu');
 
-var wQElement = document.getElementById('waiting-queue');
-var fQElement = document.getElementById('finished-queue');
-var cpuElement = document.getElementById('cpu');
-
+   //waiting queue, finished queue, cpu queue
 var wQueue = [];
 var fQueue = [];
 var cpu = [];
@@ -15,57 +12,55 @@ var cpu = [];
 var timerInterval;
 var seconds = 0;
 
+   //process object
 var process = {
     processID: document.getElementById('process-id'),
     arrivalTime: document.getElementById('arrival-time'),
     burstTime: document.getElementById('burst-time'),
 };
 
-function addToWaitingQueue(process) {
-   var randomColor = getRandomColor();
-
-   var processElement = document.createElement('div');
-   processElement.className = 'process-element';
-   processElement.textContent = "P" + process.processID.value;
-   processElement.style.backgroundColor = randomColor;
-   processElement.style.color = getTextColor(randomColor);
-
-   wQueue.push(process);
-   wQElement.appendChild(processElement);
-}
-
-function addToFinishedQueue(process) {
-   var randomColor = getRandomColor();
-
-   var processElement = document.createElement('div');
-   processElement.className = 'process-element';
-   processElement.textContent = "P" + process.processID.value;
-   processElement.style.backgroundColor = randomColor;
-   processElement.style.color = getTextColor(randomColor);
-
-   fQueue.push(process);
-   fQElement.appendChild(processElement);
-}
-
-function addToCPU(process) {
-   var randomColor = getRandomColor();
-
-   var processElement = document.createElement('div');
-   processElement.className = 'process-element';
-   processElement.textContent = "P" + process.processID.value;
-   processElement.style.backgroundColor = randomColor;
-   processElement.style.color = getTextColor(randomColor);
-
-   cpu.push(process);
-   cpuElement.appendChild(processElement);
-}
-
-function addProcess() {
    /*
-   If all inputs are valid, add a new row with three cells to the table.
-   Set the content of each cell as the inputs, respectively.
+   //Push the given process to the wQueue to keep track of it
+   //and append a process element child to waitingDisplay so it can be displayed.
    */
-//    alert(process.arrivalTime.value);
+function addToWaitingQueue(process) {
+   var processElement = createProcessElement(process);
+   wQueue.push(process);
+   waitingDisplay.appendChild(processElement);
+}
+
+   /*
+   //Push the given process to the fQueue to keep track of it
+   //and append a process element child to finishedDisplay so it can be displayed.
+   */
+function addToFinishedQueue(process) {
+   var processElement = createProcessElement(process);
+   fQueue.push(process);
+   finishedDisplay.appendChild(processElement);
+}
+
+   /*
+   //If the CPU is empty, remove the process from waitingDisplay,
+   //push the given process to the cpu to keep track of it
+   //and append a process element child to cpuDisplay so it can be displayed.
+   */
+function addToCPU(process) {
+   if (cpu.length < 1) {
+      var processElement = createProcessElement(process);
+      cpu.push(process);
+      cpuDisplay.appendChild(processElement);
+      removeProcess(processElement.textContent);
+   }
+}
+
+   /*
+   //Once all inputs are validated, add a new row with 3 columns
+   //to the table. Insert the correct values in each of the 3 columns.
+   //Then add the process to the waiting queue and updated the number
+   //of processes that are completed
+   */
+function addProcess() {
+
   validateInput(process.processID);
   validateInput(process.arrivalTime);
   validateInput(process.burstTime);
@@ -83,31 +78,43 @@ function addProcess() {
       cell3.innerHTML = process.burstTime.value;
 
       addToWaitingQueue(process);
-    //   alert(wQueue.join(', '));
-    //   alert(wQueue[0]);
-    //   addToFinishedQueue(process);
-    //   alert("fq " + fQueue.join(', '));
-    //   alert(fQueue.length);
-      // add();
-      // alert(seconds);
-      //finish();
-      
-    //   alert(wQueue[0].arrivalTime.value);
-    // if (wQueue[0].arrivalTime.value == seconds) {
-    //     alert(wQueue[0].arrivalTime.value + " " + seconds);
-    //  addToFinishedQueue(wQueue[0]);
-    // }
-    
-   }
 
-   getNumCompleted();
-   // alert(table.textContent);
-   
+      getNumCompleted();
+   }
 }
 
-/*
-An input is invalid if it is empty, a negative number, or a fractional number.
-*/
+   /*
+   //To remove a process, find the parent of
+   //the child node that matches the given id then
+   //remove the child from the parent.
+   */
+function removeProcess(childID) {
+   var child = document.getElementById(childID);
+   child.parentNode.removeChild(child);
+}
+
+   /*
+   //Create a new div with the class name of process-element.
+   //Give it a text that matches the id found on the given process
+   //and give it a random color.
+   */
+function createProcessElement(process) {
+   var randomColor = getRandomColor();
+
+   var processElement = document.createElement('div');
+   processElement.className = 'process-element';
+   processElement.textContent = "P" + process.processID.value;
+   processElement.style.backgroundColor = randomColor;
+   processElement.style.color = getTextColor(randomColor);
+
+   processElement.id = "P" + process.processID.value;
+
+   return processElement;
+}
+
+   /*
+   //An input is invalid if it is empty, a negative number, or a fractional number.
+   */
 function validateInput(element) {
    if (element.value === "" || parseFloat(element.value) < 0 || !/^[0-9]+$/.test(element.value)) {
       element.classList.add("error");
@@ -118,12 +125,17 @@ function validateInput(element) {
    }
 }
 
+ /*
+ //Used to keep track of how many processes are finished and how many are waiting
+ */
 function getNumCompleted() {
    var completed = document.getElementById('completed');
-
    completed.textContent = "Completed: " + fQueue.length + " / " + wQueue.length;
 }
 
+   /*
+   //Returns a random hexadecimal formatted string
+   */
 function getRandomColor() {
    var letter = '0123456789ABCDEF';
    var color = '#';
@@ -134,6 +146,11 @@ function getRandomColor() {
    return color;
 }
 
+   /*
+   //Used to set either a black or white color for the
+   //text written on the process-element depending
+   //on the brightness of the process-element's color.
+   */
 function getTextColor(bgColor) {
    // Convert the hexadecimal color to RGB
    var hexColor = bgColor.substring(1);
@@ -150,15 +167,10 @@ function getTextColor(bgColor) {
 }
 
 function start() {
-   alert(table.textContent);
    var selectedAlgo = document.getElementById("algo-select");
    var algorithm = selectedAlgo.value;
 
    startTimer();
-
-   
-   
-
 
    // switch (algorithm) {
    //    case "fcfs":
@@ -190,18 +202,10 @@ function updateTimer() {
 //    document.getElementById('time').textContext = formatTime(seconds);
    var timer = document.getElementById('time');
    timer.textContent = "Time: " + formatTime(seconds);
-   
-   //if (wQueue.length !== 0) {
-    // for (var i = 0; i < wQueue.length; i++) {
-        
-    // }  
-   // }
 
-    // for (var element in wQueue) {
-        if (wQueue[0].arrivalTime.value == seconds) {
-            addToCPU(wQueue[0]);
-        }
-    // }
+   if (wQueue[0].arrivalTime.value == seconds) {
+      addToCPU(wQueue[0]);
+   }
     seconds++;
 }
 

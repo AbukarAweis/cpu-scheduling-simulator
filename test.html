@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #square {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background-color: lightgray;
+            margin: 50px;
+        }
+
+        .circle {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: teal;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="square">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <!-- Add more circles as needed -->
+    </div>
+
+    <button onclick="removeCircle()">Remove Circle</button>
+
+    <script>
+        function removeCircle() {
+            var square = document.getElementById("square");
+            var circles = square.getElementsByClassName("circle");
+
+            // Check if there are circles to remove
+            if (circles.length > 0) {
+                // Remove the last circle
+                square.removeChild(circles[circles.length - 1]);
+            }
+        }
+    </script>
+
+</body>
+</html>
