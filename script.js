@@ -12,6 +12,10 @@ var cpu = [];
 var timerInterval;
 var seconds = 0;
 
+var running = false;
+
+var randomColor;
+
    //process object
 var process = {
     processID: document.getElementById('process-id'),
@@ -65,6 +69,7 @@ function addProcess() {
   validateInput(process.arrivalTime);
   validateInput(process.burstTime);
 
+  randomColor = getRandomColor();
 
    if (validateInput(process.processID) && validateInput(process.arrivalTime) && validateInput(process.burstTime)){
       var newRow = table.insertRow(table.rows.length);
@@ -99,7 +104,7 @@ function removeProcess(childID) {
    //and give it a random color.
    */
 function createProcessElement(process) {
-   var randomColor = getRandomColor();
+   // var randomColor = getRandomColor();
 
    var processElement = document.createElement('div');
    processElement.className = 'process-element';
@@ -170,21 +175,21 @@ function start() {
    var selectedAlgo = document.getElementById("algo-select");
    var algorithm = selectedAlgo.value;
 
-   startTimer();
+   //startTimer();
 
-   // switch (algorithm) {
-   //    case "fcfs":
-   //       fcfs();
-   //       break;
-   //    case "sjf":
-   //       sjf();
-   //       break;
-   //    case "rr":
-   //       rr();
-   //       break;
-   //    default:
-   //       alert("invalid algorithm");
-   // }
+   switch (algorithm) {
+      case "fcfs":
+         fcfs();
+         break;
+      case "sjf":
+         sjf();
+         break;
+      case "rr":
+         rr();
+         break;
+      default:
+         alert("invalid algorithm");
+   }
 }
 
 function startTimer() {
@@ -203,9 +208,14 @@ function updateTimer() {
    var timer = document.getElementById('time');
    timer.textContent = "Time: " + formatTime(seconds);
 
-   if (wQueue[0].arrivalTime.value == seconds) {
-      addToCPU(wQueue[0]);
+   if (wQueue.length !== 0) {
+      for (var process of wQueue) {
+         if (process.arrivalTime.value == seconds) {
+            addToCPU(process);
+         }
+      }
    }
+
     seconds++;
 }
 
@@ -216,11 +226,15 @@ function formatTime(seconds) {
    return (minutes < 10 ? "0" : "") + minutes + ":" + 
             (remainingSeconds < 10 ? "0" : "") + remainingSeconds;
 }
-
+//============================================================================================================================================
 function fcfs() {
-   alert("fcfs");
+   if (table.children.length != 0) {
+      startTimer();
+   } else {
+      alert("Add Process Before Starting");
+   }
 }
-
+//============================================================================================================================================
 function sjf() {
    alert("sjf");
 }
