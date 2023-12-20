@@ -107,6 +107,7 @@ function removeProcess(childID) {
    */
 function createProcessElement(process) {
    // var randomColor = getRandomColor();
+   console.log("id " + process.processID + " arrive " + process.arrivalTime + " burst " + process.burstTime);
 
    var processElement = document.createElement('div');
    processElement.className = 'process-element';
@@ -240,6 +241,10 @@ function updateTimer() {
    //       }
    //    }
    // }
+   
+   if (process.arrivalTime == seconds) {
+      addToWaitingQueue(process);
+   }
 
     seconds++;
 }
@@ -254,34 +259,30 @@ function formatTime(seconds) {
 //============================================================================================================================================
 function fcfs() {
    if (table.children.length != 0) {
-      startTimer();
-      process = {
-            processID: 45,
-            arrivalTime: 44,
-            burstTime: 3,
-      }
-
-      process.textContent = "666";
-
-
-      // for (var i = 0; i < table.rows.length; i++) {
-      //    process = {
-      //       // processID: document.getElementById("rowP" + table.rows[i].cells[0].innerHTML),
-      //       // arrivalTime: document.getElementById("rowP" + table.rows[i].cells[1].innerHTML),
-      //       // burstTime: document.getElementById("rowP" + table.rows[i].cells[2].innerHTML),
-      //       processID: table.rows[i].cells[0].innerHTML,
-      //       arrivalTime: table.rows[i].cells[1].innerHTML,
-      //       burstTime: table.rows[i].cells[2].innerHTML
-      //    };
-      //    this.process.textContent = "P1";
-      //    addToWaitingQueue(this.process);
+      for (var i = 0; i < table.rows.length; i++) {
+         process = {
+            // processID: document.getElementById("rowP" + table.rows[i].cells[0].innerHTML),
+            // arrivalTime: document.getElementById("rowP" + table.rows[i].cells[1].innerHTML),
+            // burstTime: document.getElementById("rowP" + table.rows[i].cells[2].innerHTML),
+            // processID: table.rows[i].cells[0].innerHTML,
+            // arrivalTime: table.rows[i].cells[1].innerHTML,
+            // burstTime: table.rows[i].cells[2].innerHTML
+            processID: table.rows[i].cells[0].innerHTML,
+            arrivalTime: table.rows[i].cells[1].innerHTML,
+            burstTime: table.rows[i].cells[2].innerHTML,
+         };
+         // addToWaitingQueue(process);
          
       //    if (process.arrivalTime.value == seconds) {
       //          console.log(("rowP" + table.rows[i].cells[0].innerHTML));
       //    }
          //var processElement = createProcessElement(process);
-         addToWaitingQueue(process);
-      // }
+         //addToWaitingQueue(process);
+         // console.log("id " + process.processID.value);
+         
+         console.log("len" + wQueue.length);
+      }
+      startTimer();
    } else {
       alert("Add Process Before Starting");
    }
