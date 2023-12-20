@@ -11,10 +11,13 @@ var cpu = [];
 
 var timerInterval;
 var seconds = 0;
+var numOfProcesses = 0;
 
 var running = false;
 
 var randomColor;
+
+var availableID = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
    //process object
 var process = {
@@ -32,6 +35,8 @@ function addToWaitingQueue(process) {
    wQueue.push(process);
    waitingDisplay.appendChild(processElement);
    removeProcess(processElement.textContent);
+
+   
 }
 
    /*
@@ -42,6 +47,7 @@ function addToFinishedQueue(process) {
    var processElement = createProcessElement(process);
    fQueue.push(process);
    finishedDisplay.appendChild(processElement);
+   removeProcess(processElement.textContent);
 }
 
    /*
@@ -50,11 +56,41 @@ function addToFinishedQueue(process) {
    //and append a process element child to cpuDisplay so it can be displayed.
    */
 function addToCPU(process) {
+   // if (cpu.length < 1) {
+   //    var processElement = createProcessElement(process);
+   //    cpu.push(process);
+   //    cpuDisplay.appendChild(processElement);
+   //    removeProcess(processElement.textContent);
+   //    process.burstTime--;
+   // }
+
    if (cpu.length < 1) {
       var processElement = createProcessElement(process);
       cpu.push(process);
       cpuDisplay.appendChild(processElement);
-      //removeProcess(processElement.textContent);
+      removeProcess(processElement.textContent);
+   }
+}
+
+function updateCPU() {
+   if (cpu.length != 0) {
+      // process = cpu[0];
+      // if (process.burstTime > 0) {
+      //    console.log("cpu - process:" + process.processID + ", burst:" + process.burstTime);
+      //    process.burstTime--;
+      // } else {
+      //    removeProcess(process);
+      // }
+
+      cpu.forEach(function (element) {
+         if (element.burstTime <= 0) {
+            addToFinishedQueue(element);
+         } else {
+            element.burstTime--;
+            console.log("cpu - process:" + element.processID + ", burst:" + element.burstTime);
+            }
+      });
+      
    }
 }
 
@@ -65,12 +101,9 @@ function addToCPU(process) {
    //of processes that are completed
    */
 function addProcess() {
-
   validateInput(process.processID, true);
   validateInput(process.arrivalTime, false);
   validateInput(process.burstTime, false);
-
-//   randomColor = getRandomColor();
 
    if (validateInput(process.processID, true) && validateInput(process.arrivalTime, false) && validateInput(process.burstTime, false)){
       var newRow = table.insertRow(table.rows.length);
@@ -86,10 +119,35 @@ function addProcess() {
 
       // addToWaitingQueue(process);
 
-      // getNumCompleted();
-      
+      // getNumCompleted(); 
+      numOfProcesses++;
    }
 }
+
+//automatic
+// function addProcess() {
+//    var id;
+
+//    for (var i = 0; i < 2; i++) {
+//       var randomIndex = Math.floor(Math.random() * availableID.length);
+//       var selectedID = availableID.splice(randomIndex, 1)[0];
+//       id = selectedID;
+
+//       var newRow = table.insertRow(table.rows.length);
+
+//       newRow.id = "P" + id;
+
+//       var cell1 = newRow.insertCell(0);
+//       var cell2 = newRow.insertCell(1);
+//       var cell3 = newRow.insertCell(2);
+
+//       cell1.innerHTML = id;
+//       cell2.innerHTML = Math.floor(Math.random() * 10) + 1;
+//       cell3.innerHTML = Math.floor(Math.random() * 10) + 1;
+
+//       numOfProcesses++;
+//    }
+// }
 
    /*
    //To remove a process, find the parent of
@@ -108,7 +166,6 @@ function removeProcess(childID) {
    */
 function createProcessElement(process) {
    // var randomColor = getRandomColor();
-   // console.log("id " + process.processID + " arrive " + process.arrivalTime + " burst " + process.burstTime);
 
    var processElement = document.createElement('div');
    processElement.className = 'process-element';
@@ -116,7 +173,7 @@ function createProcessElement(process) {
    processElement.style.backgroundColor = randomColor;
    processElement.style.color = getTextColor(randomColor);
 
-   processElement.id = "P" + process.processID.value;
+   processElement.id = "P" + process.processID;
 
    return processElement;
 }
@@ -162,7 +219,7 @@ function validateInput(element, isID) {
  */
 function getNumCompleted() {
    var completed = document.getElementById('completed');
-   completed.textContent = "Completed: " + fQueue.length + " / " + wQueue.length;
+   completed.textContent = "Completed: " + fQueue.length + " / " + numOfProcesses;
 }
 
    /*
@@ -202,6 +259,8 @@ function start() {
    var selectedAlgo = document.getElementById("algo-select");
    var algorithm = selectedAlgo.value;
 
+   getNumCompleted();
+
    if (table.rows.length != 0) {
       switch (algorithm) {
          case "fcfs":
@@ -226,6 +285,7 @@ function startTimer(algorithm) {
    clearInterval(timerInterval);
    timerInterval = setInterval(function () {
        updateTimer(algorithm);
+      //  updateCPU();
    }, 1000);
 }
 
@@ -252,25 +312,29 @@ function formatTime(seconds) {
 }
 //============================================================================================================================================
 function fcfs() {
-   randomColor = getRandomColor();
+   var list = [];
 
-      for (var i = 0; i < table.rows.length; i++) {
-         var process = {
-            processID: table.rows[i].cells[0].innerHTML,
-            arrivalTime: table.rows[i].cells[1].innerHTML,
-            burstTime: table.rows[i].cells[2].innerHTML
-         };
-         
-         if (process.arrivalTime == seconds) {
-            addToWaitingQueue(process);
-            console.log(wQueue.length);
-            // if (cpu.length < 1) {
-               addToCPU(process);
-               console.log(wQueue.length);
-            // }
+   for (var i = 0; i < table.rows.length; i++) {
+      var process = {
+         processID: table.rows[i].cells[0].innerHTML,
+         arrivalTime: table.rows[i].cells[1].innerHTML,
+         burstTime: table.rows[i].cells[2].innerHTML
+      };
+
+      list.push(process);
+   }
+
+   list.forEach(function (element) {
+      randomColor = getRandomColor();
+
+      if (element.arrivalTime == seconds) {
+         if (cpu.length < 1) {
+            addToCPU(element);
+         } else {
+            addToWaitingQueue(element);
          }
-         
-         }
+      }
+   });
       
 }
 //============================================================================================================================================
