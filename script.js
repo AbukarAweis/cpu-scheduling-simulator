@@ -73,6 +73,7 @@ function addProcess() {
 
    if (validateInput(process.processID, true) && validateInput(process.arrivalTime, false) && validateInput(process.burstTime, false)){
       var newRow = table.insertRow(table.rows.length);
+      newRow.id = "P" + process.processID.value;
 
       var cell1 = newRow.insertCell(0);
       var cell2 = newRow.insertCell(1);
@@ -82,9 +83,10 @@ function addProcess() {
       cell2.innerHTML = process.arrivalTime.value;
       cell3.innerHTML = process.burstTime.value;
 
-      addToWaitingQueue(process);
+      // addToWaitingQueue(process);
 
-      getNumCompleted();
+      // getNumCompleted();
+      
    }
 }
 
@@ -231,13 +233,13 @@ function updateTimer() {
    var timer = document.getElementById('time');
    timer.textContent = "Time: " + formatTime(seconds);
 
-   if (wQueue.length !== 0) {
-      for (var process of wQueue) {
-         if (process.arrivalTime.value == seconds) {
-            addToCPU(process);
-         }
-      }
-   }
+   // if (wQueue.length !== 0) {
+   //    for (var process of wQueue) {
+   //       if (process.arrivalTime.value == seconds) {
+   //          addToCPU(process);
+   //       }
+   //    }
+   // }
 
     seconds++;
 }
@@ -253,6 +255,33 @@ function formatTime(seconds) {
 function fcfs() {
    if (table.children.length != 0) {
       startTimer();
+      process = {
+            processID: 45,
+            arrivalTime: 44,
+            burstTime: 3,
+      }
+
+      process.textContent = "666";
+
+
+      // for (var i = 0; i < table.rows.length; i++) {
+      //    process = {
+      //       // processID: document.getElementById("rowP" + table.rows[i].cells[0].innerHTML),
+      //       // arrivalTime: document.getElementById("rowP" + table.rows[i].cells[1].innerHTML),
+      //       // burstTime: document.getElementById("rowP" + table.rows[i].cells[2].innerHTML),
+      //       processID: table.rows[i].cells[0].innerHTML,
+      //       arrivalTime: table.rows[i].cells[1].innerHTML,
+      //       burstTime: table.rows[i].cells[2].innerHTML
+      //    };
+      //    this.process.textContent = "P1";
+      //    addToWaitingQueue(this.process);
+         
+      //    if (process.arrivalTime.value == seconds) {
+      //          console.log(("rowP" + table.rows[i].cells[0].innerHTML));
+      //    }
+         //var processElement = createProcessElement(process);
+         addToWaitingQueue(process);
+      // }
    } else {
       alert("Add Process Before Starting");
    }
