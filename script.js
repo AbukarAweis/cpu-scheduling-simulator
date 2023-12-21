@@ -13,8 +13,6 @@ var timerInterval;
 var seconds = 0;
 var numOfProcesses = 0;
 
-var running = false;
-
 var randomColor;
 
 var availableID = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -30,8 +28,7 @@ var process = {
    //Push the given process to the wQueue to keep track of it
    //and append a process element child to waitingDisplay so it can be displayed.
    */
-function addToWaitingQueue(process) {
-   var processElement = createProcessElement(process);
+function addToWaitingQueue(process, processElement) {
    wQueue.push(process);
    waitingDisplay.appendChild(processElement);
    removeProcess(processElement.textContent);  
@@ -41,12 +38,10 @@ function addToWaitingQueue(process) {
    //Push the given process to the fQueue to keep track of it
    //and append a process element child to finishedDisplay so it can be displayed.
    */
-function addToFinishedQueue(process) {
-   var processElement = createProcessElement(process);
+function addToFinishedQueue(process, processElement) {
+   console.log(cpu.length);
    fQueue.push(process);
    finishedDisplay.appendChild(processElement);
-   console.log("con - " + processElement.textContent);
-   // removeProcess("P" + process.id);
 }
 
    /*
@@ -54,40 +49,28 @@ function addToFinishedQueue(process) {
    //push the given process to the cpu to keep track of it
    //and append a process element child to cpuDisplay so it can be displayed.
    */
-function addToCPU(process) {
-   // if (cpu.length < 1) {
-   //    var processElement = createProcessElement(process);
-   //    cpu.push(process);
-   //    cpuDisplay.appendChild(processElement);
-   //    removeProcess(processElement.textContent);
-   //    process.burstTime--;
-   // }
-
+function addToCPU(process, processElement) {
    if (cpu.length < 1) {
-      var processElement = createProcessElement(process);
+      // var processElement = process;
       cpu.push(process);
       cpuDisplay.appendChild(processElement);
       removeProcess(processElement.textContent);
+
    }
 }
 
-function updateCPU() {
-   
-   if (cpu.length != 0) {
-      var process = cpu[0];
-      var processElement = createProcessElement(process);
 
-      if (process.burstTime > 0) {
-         process.burstTime--;
-         console.log("cpu - process:" + process.id + ", burst:" + process.burstTime);
-      } else {
-         console.log("before - " + cpu.length);
-         removeProcess(processElement.textContent);
-         addToFinishedQueue(process);
-         cpu.pop();
-         console.log("after - " + cpu.length);
-      }
-   }  
+function updateCPU() {
+   console.log("cpu - process:" + cpu[0].id + ", burst:" + cpu[0].burstTime);
+   var process = cpu[0];
+   var processElement = document.getElementById("P" + process.processID);
+
+   if (cpu[0].burstTime <= 0) {
+      addToFinishedQueue(process, processElement);
+      cpu.pop();
+   } else {
+      cpu[0].burstTime--;
+   }
 }
 
    /*
@@ -278,7 +261,11 @@ function startTimer(algorithm) {
    clearInterval(timerInterval);
    timerInterval = setInterval(function () {
        updateTimer(algorithm);
-       updateCPU();
+
+       if (cpu.length != 0) {
+           updateCPU();
+       }
+
    }, 1000);
 }
 
@@ -306,6 +293,7 @@ function formatTime(seconds) {
 //============================================================================================================================================
 function fcfs() {
    var list = [];
+   var elements = [];
 
    for (var i = 0; i < table.rows.length; i++) {
       var process = {
@@ -314,25 +302,23 @@ function fcfs() {
          burstTime: table.rows[i].cells[2].innerHTML
       };
       process.id = process.processID;
-
-      // randomColor = getRandomColor();
-
+      
       list.push(process);
    }
 
-   list.forEach(function (element) {
+   list.forEach(function (process) {
+      var processElement = createProcessElement(process);
+      elements.push(processElement);
       
-      if (element.arrivalTime == seconds) {
+      if (process.arrivalTime == seconds) {
          if (cpu.length < 1) {
-            // randomColor = getRandomColor();
-            addToCPU(element);
+            addToCPU(process, processElement);
          } else {
-            // randomColor = getRandomColor();
-            addToWaitingQueue(element);
+            addToWaitingQueue(process, processElement);
          }
       }
    });
-      
+   
 }
 //============================================================================================================================================
 function sjf() {
