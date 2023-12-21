@@ -34,9 +34,7 @@ function addToWaitingQueue(process) {
    var processElement = createProcessElement(process);
    wQueue.push(process);
    waitingDisplay.appendChild(processElement);
-   removeProcess(processElement.textContent);
-
-   
+   removeProcess(processElement.textContent);  
 }
 
    /*
@@ -47,7 +45,8 @@ function addToFinishedQueue(process) {
    var processElement = createProcessElement(process);
    fQueue.push(process);
    finishedDisplay.appendChild(processElement);
-   removeProcess(processElement.textContent);
+   console.log("con - " + processElement.textContent);
+   // removeProcess("P" + process.id);
 }
 
    /*
@@ -73,25 +72,22 @@ function addToCPU(process) {
 }
 
 function updateCPU() {
+   
    if (cpu.length != 0) {
-      // process = cpu[0];
-      // if (process.burstTime > 0) {
-      //    console.log("cpu - process:" + process.processID + ", burst:" + process.burstTime);
-      //    process.burstTime--;
-      // } else {
-      //    removeProcess(process);
-      // }
+      var process = cpu[0];
+      var processElement = createProcessElement(process);
 
-      cpu.forEach(function (element) {
-         if (element.burstTime <= 0) {
-            addToFinishedQueue(element);
-         } else {
-            element.burstTime--;
-            console.log("cpu - process:" + element.processID + ", burst:" + element.burstTime);
-            }
-      });
-      
-   }
+      if (process.burstTime > 0) {
+         process.burstTime--;
+         console.log("cpu - process:" + process.id + ", burst:" + process.burstTime);
+      } else {
+         console.log("before - " + cpu.length);
+         removeProcess(processElement.textContent);
+         addToFinishedQueue(process);
+         cpu.pop();
+         console.log("after - " + cpu.length);
+      }
+   }  
 }
 
    /*
@@ -117,9 +113,6 @@ function addProcess() {
       cell2.innerHTML = process.arrivalTime.value;
       cell3.innerHTML = process.burstTime.value;
 
-      // addToWaitingQueue(process);
-
-      // getNumCompleted(); 
       numOfProcesses++;
    }
 }
@@ -165,7 +158,7 @@ function removeProcess(childID) {
    //and give it a random color.
    */
 function createProcessElement(process) {
-   // var randomColor = getRandomColor();
+   randomColor = getRandomColor();
 
    var processElement = document.createElement('div');
    processElement.className = 'process-element';
@@ -285,7 +278,7 @@ function startTimer(algorithm) {
    clearInterval(timerInterval);
    timerInterval = setInterval(function () {
        updateTimer(algorithm);
-      //  updateCPU();
+       updateCPU();
    }, 1000);
 }
 
@@ -320,17 +313,21 @@ function fcfs() {
          arrivalTime: table.rows[i].cells[1].innerHTML,
          burstTime: table.rows[i].cells[2].innerHTML
       };
+      process.id = process.processID;
+
+      // randomColor = getRandomColor();
 
       list.push(process);
    }
 
    list.forEach(function (element) {
-      randomColor = getRandomColor();
-
+      
       if (element.arrivalTime == seconds) {
          if (cpu.length < 1) {
+            // randomColor = getRandomColor();
             addToCPU(element);
          } else {
+            // randomColor = getRandomColor();
             addToWaitingQueue(element);
          }
       }
