@@ -51,19 +51,17 @@ function addToCPU(process, processElement) {
    if (cpu.length < 1) {
       cpu.push(process);
       cpuDisplay.appendChild(processElement);
-      wQueue.pop();
    }
 }
 
 
 function updateCPU() {
-   // console.log("cpu - process:" + cpu[0].id + ", burst:" + cpu[0].burstTime);
+   console.log("cpu - process:" + cpu[0].id + ", burst:" + cpu[0].burstTime);
    var process = cpu[0];
    var processElement = document.getElementById("P" + process.processID);
-
    if (cpu[0].burstTime <= 0) {
-      addToFinishedQueue(process, processElement);
       cpu.pop();
+      addToFinishedQueue(process, processElement);
    } else {
       cpu[0].burstTime--;
    }
@@ -100,7 +98,7 @@ function updateCPU() {
 function addProcess() {
    var id;
 
-   for (var i = 0; i < 3; i++) {
+   for (var i = 0; i < 10; i++) {
       var randomIndex = Math.floor(Math.random() * availableID.length);
       var selectedID = availableID.splice(randomIndex, 1)[0];
       id = selectedID;
@@ -120,6 +118,42 @@ function addProcess() {
       numOfProcesses++;
    }
 }
+
+//test
+// function addProcess() {
+//    var id;
+
+//    var newRow1 = table.insertRow(table.rows.length);
+//    newRow1.id = "P" + 1;
+//    var cell1 = newRow1.insertCell(0);
+//    var cell2 = newRow1.insertCell(1);
+//    var cell3 = newRow1.insertCell(2);
+//    cell1.innerHTML = 1;
+//    cell2.innerHTML = 2;
+//    cell3.innerHTML = 3;
+
+//    var newRow2 = table.insertRow(table.rows.length);
+//    newRow2.id = "P" + 2;
+//    var cell1 = newRow2.insertCell(0);
+//    var cell2 = newRow2.insertCell(1);
+//    var cell3 = newRow2.insertCell(2);
+//    cell1.innerHTML = 2;
+//    cell2.innerHTML = 2;
+//    cell3.innerHTML = 3;
+   
+//    var newRow3 = table.insertRow(table.rows.length);
+//    newRow3.id = "P" + 3;
+//    var cell1 = newRow3.insertCell(0);
+//    var cell2 = newRow3.insertCell(1);
+//    var cell3 = newRow3.insertCell(2);
+//    cell1.innerHTML = 3;
+//    cell2.innerHTML = 2;
+//    cell3.innerHTML = 3;
+   
+
+   
+//    numOfProcesses+= 3;
+// }
 
    /*
    //To remove a process, find the parent of
@@ -193,9 +227,9 @@ function getNumCompleted() {
    var completed = document.getElementById('completed');
    completed.textContent = "Completed: " + fQueue.length + " / " + numOfProcesses;
 
-   // if (fQueue.length == numOfProcesses) {
-   //    stopTimer();
-   // }
+   if (fQueue.length == numOfProcesses) {
+      stopTimer();
+   }
 }
 
    /*
@@ -260,15 +294,14 @@ function start() {
 function startTimer(algorithm) {
    clearInterval(timerInterval);
    timerInterval = setInterval(function () {
-       updateTimer(algorithm);
+      updateTimer(algorithm);
 
-       if (cpu.length != 0) {
-           updateCPU();
-       }
+      if (cpu.length == 1) {
+          updateCPU();
+      }
 
-      //  getNumCompleted();
+      if (algorithm == "fcfs" ){fcfs();}
 
-       if (algorithm == "fcfs" ){fcfs();}
    }, 1000);
 }
 
@@ -282,7 +315,7 @@ function updateTimer(algorithm) {
    timer.textContent = "Time: " + formatTime(seconds);
 
 
-    seconds++;
+   seconds++;
 }
 
 function formatTime(seconds) {
@@ -294,8 +327,8 @@ function formatTime(seconds) {
 }
 //============================================================================================================================================
 function fcfs() {
-   // console.log(fQueue.length);
    getNumCompleted();
+   
    var list = [];
 
    for (var i = 0; i < table.rows.length; i++) {
@@ -321,17 +354,15 @@ function fcfs() {
             removeProcess(processElement.textContent);
          }
       }
-
    });
-
-   console.log("wlen " + wQueue.length);
-   console.log("clen " + cpu.length);
 
    if ((wQueue.length != 0) && (cpu.length == 0)) {
       var process = wQueue[0];
       var processElement = document.getElementById("P" + process.processID);
       addToCPU(process, processElement);
-      }
+      wQueue.splice(0, 1);
+   }
+   
 }
 //============================================================================================================================================
 function sjf() {
