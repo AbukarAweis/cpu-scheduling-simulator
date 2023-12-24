@@ -1,52 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        #square {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            background-color: lightgray;
-            margin: 50px;
-        }
-
-        .circle {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: teal;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sort Div Container by ID</title>
+  <style>
+    /* Just some basic styling for clarity */
+    .sortable-div {
+      margin: 5px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
+  <div id="container">
+    <div class="sortable-div" id="div3">Div 3</div>
+    <div class="sortable-div" id="div1">Div 1</div>
+    <div class="sortable-div" id="div2">Div 2</div>
+  </div>
+  <button onclick="sortDivs()">Sort Divs</button>
 
-    <div id="square">
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <!-- Add more circles as needed -->
-    </div>
+  <script>
+    function sortDivs() {
+      const container = document.getElementById('container');
 
-    <button onclick="removeCircle()">Remove Circle</button>
+      // Get the child elements (divs) and convert them into an array
+      const divs = Array.from(container.getElementsByClassName('sortable-div'));
 
-    <script>
-        function removeCircle() {
-            var square = document.getElementById("square");
-            var circles = square.getElementsByClassName("circle");
+      // Sort the divs based on their id attribute
+      divs.sort((a, b) => {
+        const aId = a.id.toLowerCase();
+        const bId = b.id.toLowerCase();
+        return aId.localeCompare(bId);
+      });
 
-            // Check if there are circles to remove
-            if (circles.length > 0) {
-                // Remove the last circle
-                square.removeChild(circles[circles.length - 1]);
-            }
-        }
-    </script>
+      // Clear the container
+      container.innerHTML = '';
 
+      // Append the sorted divs back to the container
+      divs.forEach((div) => container.appendChild(div));
+    }
+  </script>
 </body>
 </html>

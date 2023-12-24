@@ -242,7 +242,11 @@ function getNumCompleted() {
    var completed = document.getElementById('completed');
    completed.textContent = "Completed: " + fQueue.length + " / " + numOfProcesses;
 
-   if (fQueue.length == numOfProcesses) {
+   // if (fQueue.length == numOfProcesses) {
+   //    stopTimer();
+   // }
+
+   if (wQueue.length == numOfProcesses) {
       stopTimer();
    }
 }
@@ -304,34 +308,38 @@ function start() {
    }
 }
 
-function sortDivsById() {
-   var container = waitingDisplay;
-   var divs = container.getElementsByClassName("process-element");
+// function sortDivsById() {
+//    var container = waitingDisplay;
+//    var divs = container.getElementsByClassName("new-process-element");
 
-   // Convert the HTMLCollection to an array for sorting
-   var divArray = Array.from(divs);
+//    // Convert the HTMLCollection to an array for sorting
+//    var divArray = Array.from(divs);
+//    console.log(divArray);
 
-   // Sort the array of divs based on their id attribute
-   divArray.sort(function (a, b) {
-       var idA = a.id.toLowerCase();
-       var idB = b.id.toLowerCase();
-       return idA.localeCompare(idB);
-   });
+//    // Sort the array of divs based on their id attribute
+//    divArray.sort(function (a, b) {
+//        var idA = a.id.toLowerCase();
+//        var idB = b.id.toLowerCase();
+//        return idA.localeCompare(idB);
+//    });
 
-   // Clear the container
-   container.innerHTML = "";
+   
+//    // Clear the container
+//    container.innerHTML = "";
 
-   // Append the sorted divs back to the container
-   divArray.forEach(function (div) {
-       container.appendChild(div);
-   });
+//    // Append the sorted divs back to the container
+//    divArray.forEach(function (div) {
+//       container.appendChild(div);
+//    });
+//    console.log(divArray);
+   
 
-   //sort waiting queue so it matches waiting display sorting
-   wQueue.sort(function(a, b) {
-      console.log("sorted - " + a.id + " & " + b.id);
-      return a.id - b.id;
-   });
-}
+//    //sort waiting queue so it matches waiting display sorting
+//    // wQueue.sort(function(a, b) {
+//    //    // console.log("sorted - " + a.id + " & " + b.id);
+//    //    return a.id - b.id;
+//    // });
+// }
 
 function startTimer(algorithm) {
    clearInterval(timerInterval);
@@ -356,7 +364,6 @@ function updateTimer(algorithm) {
    var timer = document.getElementById('time');
    timer.textContent = "Time: " + formatTime(seconds);
 
-
    seconds++;
 }
 
@@ -371,7 +378,8 @@ function formatTime(seconds) {
 function fcfs() {
    getNumCompleted();
    
-   var list = [];
+   var all = [];
+   var recent = [];
 
    for (var i = 0; i < table.rows.length; i++) {
       var process = {
@@ -381,55 +389,30 @@ function fcfs() {
       };
       process.id = process.processID;
 
-      list.push(process);
+      all.push(process);
    }
    
-   
-   // list.forEach(function (process) {
-   //    var processElement = createProcessElement(process);
-      
-   //    if (process.arrivalTime == seconds) {
-   //       if (cpu.length < 1) {
-   //          addToCPU(process, processElement);
-   //          removeProcess(processElement.textContent);
-   //       } else {
-   //             addToWaitingQueue(process, processElement);
-   //             removeProcess(processElement.textContent);
-   //       }
-   //    }
-   // });
+   all.forEach(function (process) {
+      if (process.arrivalTime == seconds) {
+         recent.push(process);
+         recent.sort(function (a, b) {
+            return a.id - b.id;
+         });
+      }  
+   });
 
+   recent.forEach(function (process) {
+      var processElement = createProcessElement(process);
+      addToWaitingQueue(process, processElement);
+   });
+   
    // if ((wQueue.length != 0) && (cpu.length == 0)) {
+   //    // console.log("0 - " + wQueue[0].processID);
    //    var process = wQueue[0];
    //    var processElement = document.getElementById("P" + process.processID);
    //    addToCPU(process, processElement);
    //    wQueue.splice(0, 1);
    // }
-   var count = 0;
-
-   list.forEach(function (process) {
-      var processElement = createProcessElement(process);
-      
-      if (process.arrivalTime == seconds) {
-         addToWaitingQueue(process, processElement);
-         removeProcess(processElement.textContent);
-         
-
-         count++;
-         if (wQueue.length <= (count + 1)) {
-            sortDivsById();
-         }
-         // sortDivsById();
-      } 
-   });
-   // console.log("0 - " + wQueue[0]);
-   
-   if ((wQueue.length != 0) && (cpu.length == 0)) {
-      var process = wQueue[0];
-      var processElement = document.getElementById("P" + process.processID);
-      addToCPU(process, processElement);
-      wQueue.splice(0, 1);
-   }
    
 }
 //============================================================================================================================================
