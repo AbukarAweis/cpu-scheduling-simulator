@@ -1,4 +1,3 @@
-
 var table = document.getElementById('process-table').getElementsByTagName('tbody')[0];
 var waitingDisplay = document.getElementById('waiting-queue');
 var finishedDisplay = document.getElementById('finished-queue');
@@ -56,7 +55,7 @@ function addToCPU(process, processElement) {
 
 
 function updateCPU() {
-   console.log("cpu - process:" + cpu[0].id + ", burst:" + cpu[0].burstTime);
+   // console.log("cpu - process:" + cpu[0].id + ", burst:" + cpu[0].burstTime);
    var process = cpu[0];
    var processElement = document.getElementById("P" + process.processID);
    if (cpu[0].burstTime <= 0) {
@@ -95,65 +94,81 @@ function updateCPU() {
 // }
 
 //automatic
-function addProcess() {
-   var id;
-
-   for (var i = 0; i < 10; i++) {
-      var randomIndex = Math.floor(Math.random() * availableID.length);
-      var selectedID = availableID.splice(randomIndex, 1)[0];
-      id = selectedID;
-
-      var newRow = table.insertRow(table.rows.length);
-
-      newRow.id = "P" + id;
-
-      var cell1 = newRow.insertCell(0);
-      var cell2 = newRow.insertCell(1);
-      var cell3 = newRow.insertCell(2);
-
-      cell1.innerHTML = id;
-      cell2.innerHTML = Math.floor(Math.random() * 10) + 1;
-      cell3.innerHTML = Math.floor(Math.random() * 10) + 1;
-
-      numOfProcesses++;
-   }
-}
-
-//test
 // function addProcess() {
 //    var id;
 
-//    var newRow1 = table.insertRow(table.rows.length);
-//    newRow1.id = "P" + 1;
-//    var cell1 = newRow1.insertCell(0);
-//    var cell2 = newRow1.insertCell(1);
-//    var cell3 = newRow1.insertCell(2);
-//    cell1.innerHTML = 1;
-//    cell2.innerHTML = 2;
-//    cell3.innerHTML = 3;
+//    for (var i = 0; i < 4; i++) {
+//       var randomIndex = Math.floor(Math.random() * availableID.length);
+//       var selectedID = availableID.splice(randomIndex, 1)[0];
+//       id = selectedID;
 
-//    var newRow2 = table.insertRow(table.rows.length);
-//    newRow2.id = "P" + 2;
-//    var cell1 = newRow2.insertCell(0);
-//    var cell2 = newRow2.insertCell(1);
-//    var cell3 = newRow2.insertCell(2);
-//    cell1.innerHTML = 2;
-//    cell2.innerHTML = 2;
-//    cell3.innerHTML = 3;
-   
-//    var newRow3 = table.insertRow(table.rows.length);
-//    newRow3.id = "P" + 3;
-//    var cell1 = newRow3.insertCell(0);
-//    var cell2 = newRow3.insertCell(1);
-//    var cell3 = newRow3.insertCell(2);
-//    cell1.innerHTML = 3;
-//    cell2.innerHTML = 2;
-//    cell3.innerHTML = 3;
-   
+//       var newRow = table.insertRow(table.rows.length);
 
-   
-//    numOfProcesses+= 3;
+//       newRow.id = "P" + id;
+
+//       var cell1 = newRow.insertCell(0);
+//       var cell2 = newRow.insertCell(1);
+//       var cell3 = newRow.insertCell(2);
+
+//       cell1.innerHTML = id;
+//       cell2.innerHTML = Math.floor(Math.random() * 10) + 1;
+//       cell3.innerHTML = Math.floor(Math.random() * 10) + 1;
+
+//       numOfProcesses++;
+//    }
 // }
+
+//test
+function addProcess() {
+   var id;
+
+   var newRow1 = table.insertRow(table.rows.length);
+   newRow1.id = "P" + 6;
+   var cell1 = newRow1.insertCell(0);
+   var cell2 = newRow1.insertCell(1);
+   var cell3 = newRow1.insertCell(2);
+   cell1.innerHTML = 6;
+   cell2.innerHTML = 6;
+   cell3.innerHTML = 2;
+
+   var newRow2 = table.insertRow(table.rows.length);
+   newRow2.id = "P" + 9;
+   var cell1 = newRow2.insertCell(0);
+   var cell2 = newRow2.insertCell(1);
+   var cell3 = newRow2.insertCell(2);
+   cell1.innerHTML = 9;
+   cell2.innerHTML = 4;
+   cell3.innerHTML = 2;
+   
+   var newRow3 = table.insertRow(table.rows.length);
+   newRow3.id = "P" + 5;
+   var cell1 = newRow3.insertCell(0);
+   var cell2 = newRow3.insertCell(1);
+   var cell3 = newRow3.insertCell(2);
+   cell1.innerHTML = 5;
+   cell2.innerHTML = 4;
+   cell3.innerHTML = 2;
+
+   var newRow3 = table.insertRow(table.rows.length);
+   newRow3.id = "P" + 10;
+   var cell1 = newRow3.insertCell(0);
+   var cell2 = newRow3.insertCell(1);
+   var cell3 = newRow3.insertCell(2);
+   cell1.innerHTML = 10;
+   cell2.innerHTML = 3;
+   cell3.innerHTML = 2;
+
+   var newRow3 = table.insertRow(table.rows.length);
+   newRow3.id = "P" + 4;
+   var cell1 = newRow3.insertCell(0);
+   var cell2 = newRow3.insertCell(1);
+   var cell3 = newRow3.insertCell(2);
+   cell1.innerHTML = 4;
+   cell2.innerHTML = 3;
+   cell3.innerHTML = 2;
+   
+   numOfProcesses+= 5;
+}
 
    /*
    //To remove a process, find the parent of
@@ -220,9 +235,9 @@ function validateInput(element, isID) {
    }
 }
 
- /*
- //Used to keep track of how many processes are finished and how many are waiting
- */
+   /*
+   //Used to keep track of how many processes are finished and how many are waiting
+   */
 function getNumCompleted() {
    var completed = document.getElementById('completed');
    completed.textContent = "Completed: " + fQueue.length + " / " + numOfProcesses;
@@ -269,8 +284,6 @@ function start() {
    var selectedAlgo = document.getElementById("algo-select");
    var algorithm = selectedAlgo.value;
 
-   // getNumCompleted();
-
    if (table.rows.length != 0) {
       switch (algorithm) {
          case "fcfs":
@@ -289,6 +302,35 @@ function start() {
    } else {
       alert("Add Process Before Starting");
    }
+}
+
+function sortDivsById() {
+   var container = waitingDisplay;
+   var divs = container.getElementsByClassName("process-element");
+
+   // Convert the HTMLCollection to an array for sorting
+   var divArray = Array.from(divs);
+
+   // Sort the array of divs based on their id attribute
+   divArray.sort(function (a, b) {
+       var idA = a.id.toLowerCase();
+       var idB = b.id.toLowerCase();
+       return idA.localeCompare(idB);
+   });
+
+   // Clear the container
+   container.innerHTML = "";
+
+   // Append the sorted divs back to the container
+   divArray.forEach(function (div) {
+       container.appendChild(div);
+   });
+
+   //sort waiting queue so it matches waiting display sorting
+   wQueue.sort(function(a, b) {
+      console.log("sorted - " + a.id + " & " + b.id);
+      return a.id - b.id;
+   });
 }
 
 function startTimer(algorithm) {
@@ -338,24 +380,50 @@ function fcfs() {
          burstTime: table.rows[i].cells[2].innerHTML
       };
       process.id = process.processID;
-      
+
       list.push(process);
    }
+   
+   
+   // list.forEach(function (process) {
+   //    var processElement = createProcessElement(process);
+      
+   //    if (process.arrivalTime == seconds) {
+   //       if (cpu.length < 1) {
+   //          addToCPU(process, processElement);
+   //          removeProcess(processElement.textContent);
+   //       } else {
+   //             addToWaitingQueue(process, processElement);
+   //             removeProcess(processElement.textContent);
+   //       }
+   //    }
+   // });
+
+   // if ((wQueue.length != 0) && (cpu.length == 0)) {
+   //    var process = wQueue[0];
+   //    var processElement = document.getElementById("P" + process.processID);
+   //    addToCPU(process, processElement);
+   //    wQueue.splice(0, 1);
+   // }
+   var count = 0;
 
    list.forEach(function (process) {
       var processElement = createProcessElement(process);
       
       if (process.arrivalTime == seconds) {
-         if (cpu.length < 1) {
-            addToCPU(process, processElement);
-            removeProcess(processElement.textContent);
-         } else {
-            addToWaitingQueue(process, processElement);
-            removeProcess(processElement.textContent);
-         }
-      }
-   });
+         addToWaitingQueue(process, processElement);
+         removeProcess(processElement.textContent);
+         
 
+         count++;
+         if (wQueue.length <= (count + 1)) {
+            sortDivsById();
+         }
+         // sortDivsById();
+      } 
+   });
+   // console.log("0 - " + wQueue[0]);
+   
    if ((wQueue.length != 0) && (cpu.length == 0)) {
       var process = wQueue[0];
       var processElement = document.getElementById("P" + process.processID);
