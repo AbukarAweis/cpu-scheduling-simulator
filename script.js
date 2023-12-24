@@ -314,6 +314,7 @@ function startTimer(algorithm) {
       
       if (algorithm == "fcfs" ){fcfs();}
       
+      getNumCompleted();
       updateTimer();
    }, 1000);
 }
@@ -338,12 +339,22 @@ function formatTime(seconds) {
             (remainingSeconds < 10 ? "0" : "") + remainingSeconds;
 }
 //============================================================================================================================================
+   /*
+   //The first come first serve algorithm takes the first process in the waiting queue and sends it
+   //to the cpu until it's finished processing (burst time equals zero), then sends it to the finished queue
+   */
 function fcfs() {
-   getNumCompleted();
    
+   /*
+   //all[] is used to store all the processes.
+   //filter[] is used to filter all processes.
+   //In this algorithm, if 2 more more process enter the waiting queue at the same time, the one with
+   //the higher priority is the one that has a lower id number.
+   */
    var all = [];
-   var recent = [];
+   var filter = [];
 
+   //a process is made for every entry in the table then pushed to all[]
    for (var i = 0; i < table.rows.length; i++) {
       var process = {
          processID: table.rows[i].cells[0].innerHTML,
@@ -355,21 +366,35 @@ function fcfs() {
       all.push(process);
    }
    
+   /*
+   //for each process in all[] if its arrival time matches the current time, push it to filter[]
+   //sort all processes in filter by their id in ascending order.
+   */
    all.forEach(function (process) {
       if (process.arrivalTime == seconds) {
-         recent.push(process);
-         recent.sort(function (a, b) {
+         filter.push(process);
+         filter.sort(function (a, b) {
             return a.id - b.id;
          }); 
       }  
    });
 
-   recent.forEach(function (process) {
+   /*
+   //for each process in filter[], create a processElement for it,
+   //add the process and its element to the waiting queue,
+   //and remove the entry for the process in the table
+   */
+   filter.forEach(function (process) {
          var processElement = createProcessElement(process);
          addToWaitingQueue(process, processElement);
          removeProcess(processElement.textContent);
    });
 
+   /*
+   //if there are processes waiting and the cpu is empty,
+   //add the first process in the waiting queue to the cpu
+   //and remove that process from teh waiting queue
+   */
    if ((wQueue.length != 0) && (cpu.length == 0)) {
       var process = wQueue[0];
       var processElement = document.getElementById("P" + process.processID);
