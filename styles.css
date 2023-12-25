@@ -123,11 +123,17 @@ header {
     
 }
 
-#simulation-summary {
+#summary-table {
     background-color: purple;
     height: 50%;
     width: 100%;
     margin-top: 1%;
+}
+
+#summary-table th, #summary-table td {
+    border: 1px solid green;
+    padding: 8px;
+    text-align: left;
 }
 
 #input {

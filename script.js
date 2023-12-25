@@ -1,4 +1,6 @@
 var table = document.getElementById('process-table').getElementsByTagName('tbody')[0];
+var summaryTable = document.getElementById('summary-table').getElementsByTagName('tbody')[0];
+
 var waitingDisplay = document.getElementById('waiting-queue');
 var finishedDisplay = document.getElementById('finished-queue');
 var cpuDisplay = document.getElementById('cpu');
@@ -13,6 +15,8 @@ var seconds = 0;
 var numOfProcesses = 0;
 
 var randomColor;
+var burstCopy;
+var exitTime;
 
 var availableID = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -39,6 +43,11 @@ function addToWaitingQueue(process, processElement) {
 function addToFinishedQueue(process, processElement) {
    fQueue.push(process);
    finishedDisplay.appendChild(processElement);
+
+   // console.log("p:" + process.processID + ", b:" + process.burstTime + ", e:" + exitTime, ", s:" + seconds);
+   exitTime = seconds;
+
+   addSummary(process);
 }
 
    /*
@@ -48,6 +57,12 @@ function addToFinishedQueue(process, processElement) {
    */
 function addToCPU(process, processElement) {
    if (cpu.length < 1) {
+
+      burstCopy = process.burstTime;
+      if (process.arrivalTime != 0) {
+         process.burstTime--;
+      }
+
       cpu.push(process);
       cpuDisplay.appendChild(processElement);
    }
@@ -55,14 +70,16 @@ function addToCPU(process, processElement) {
 
 
 function updateCPU() {
-   // console.log("cpu - process:" + cpu[0].id + ", burst:" + cpu[0].burstTime);
+   console.log("p:" + cpu[0].id + ", b:" + cpu[0].burstTime + ", s:" + seconds);
    var process = cpu[0];
    var processElement = document.getElementById("P" + process.processID);
-   if (cpu[0].burstTime <= 0) {
+
+
+   if (process.burstTime <= 0) {
       cpu.pop();
       addToFinishedQueue(process, processElement);
    } else {
-      cpu[0].burstTime--;
+      process.burstTime--;
    }
 }
 
@@ -94,81 +111,135 @@ function updateCPU() {
 // }
 
 //automatic
-function addProcess() {
-   var id;
-
-   for (var i = 0; i < 5; i++) {
-      var randomIndex = Math.floor(Math.random() * availableID.length);
-      var selectedID = availableID.splice(randomIndex, 1)[0];
-      id = selectedID;
-
-      var newRow = table.insertRow(table.rows.length);
-
-      newRow.id = "P" + id;
-
-      var cell1 = newRow.insertCell(0);
-      var cell2 = newRow.insertCell(1);
-      var cell3 = newRow.insertCell(2);
-
-      cell1.innerHTML = id;
-      cell2.innerHTML = Math.floor(Math.random() * 10) + 1;
-      cell3.innerHTML = Math.floor(Math.random() * 10) + 1;
-
-      numOfProcesses++;
-   }
-}
-
-//test
 // function addProcess() {
 //    var id;
 
-//    var newRow1 = table.insertRow(table.rows.length);
-//    newRow1.id = "P" + 6;
-//    var cell1 = newRow1.insertCell(0);
-//    var cell2 = newRow1.insertCell(1);
-//    var cell3 = newRow1.insertCell(2);
-//    cell1.innerHTML = 6;
-//    cell2.innerHTML = 6;
-//    cell3.innerHTML = 2;
+//    for (var i = 0; i < 5; i++) {
+//       var randomIndex = Math.floor(Math.random() * availableID.length);
+//       var selectedID = availableID.splice(randomIndex, 1)[0];
+//       id = selectedID;
 
-//    var newRow2 = table.insertRow(table.rows.length);
-//    newRow2.id = "P" + 9;
-//    var cell1 = newRow2.insertCell(0);
-//    var cell2 = newRow2.insertCell(1);
-//    var cell3 = newRow2.insertCell(2);
-//    cell1.innerHTML = 9;
-//    cell2.innerHTML = 4;
-//    cell3.innerHTML = 2;
-   
-//    var newRow3 = table.insertRow(table.rows.length);
-//    newRow3.id = "P" + 5;
-//    var cell1 = newRow3.insertCell(0);
-//    var cell2 = newRow3.insertCell(1);
-//    var cell3 = newRow3.insertCell(2);
-//    cell1.innerHTML = 5;
-//    cell2.innerHTML = 4;
-//    cell3.innerHTML = 2;
+//       var newRow = table.insertRow(table.rows.length);
 
-//    var newRow3 = table.insertRow(table.rows.length);
-//    newRow3.id = "P" + 10;
-//    var cell1 = newRow3.insertCell(0);
-//    var cell2 = newRow3.insertCell(1);
-//    var cell3 = newRow3.insertCell(2);
-//    cell1.innerHTML = 10;
-//    cell2.innerHTML = 3;
-//    cell3.innerHTML = 2;
+//       newRow.id = "P" + id;
 
-//    var newRow3 = table.insertRow(table.rows.length);
-//    newRow3.id = "P" + 4;
-//    var cell1 = newRow3.insertCell(0);
-//    var cell2 = newRow3.insertCell(1);
-//    var cell3 = newRow3.insertCell(2);
-//    cell1.innerHTML = 4;
-//    cell2.innerHTML = 3;
-//    cell3.innerHTML = 2;
-   
-//    numOfProcesses+= 5;
+//       var cell1 = newRow.insertCell(0);
+//       var cell2 = newRow.insertCell(1);
+//       var cell3 = newRow.insertCell(2);
+
+//       cell1.innerHTML = id;
+//       cell2.innerHTML = Math.floor(Math.random() * 10) + 1;
+//       cell3.innerHTML = Math.floor(Math.random() * 10) + 1;
+
+//       numOfProcesses++;
+//    }
 // }
+
+function addSummary(process) {
+   var newRow = summaryTable.insertRow(summaryTable.rows.length);
+   var turnAroundTime = exitTime - process.arrivalTime;
+   var waitingTime = turnAroundTime - burstCopy;
+   
+   newRow.id = "row" + process.processID;
+   
+   var cell1 = newRow.insertCell(0);
+   var cell2 = newRow.insertCell(1);
+   var cell3 = newRow.insertCell(2);
+   var cell4 = newRow.insertCell(3);
+   var cell5 = newRow.insertCell(4);
+   var cell6 = newRow.insertCell(5);
+   
+   cell1.innerHTML = process.processID;
+   cell2.innerHTML = process.arrivalTime;
+   cell3.innerHTML = burstCopy;
+   cell4.innerHTML = exitTime;
+   cell5.innerHTML = waitingTime;
+   cell6.innerHTML = turnAroundTime; 
+
+   sortTable();
+}
+
+function sortTable() {
+   var table = document.getElementById('summary-table');
+   var tbody = table.querySelector('tbody');
+   var rows = Array.from(tbody.getElementsByTagName('tr'));
+
+   // Sort the rows based on the id attribute
+   rows.sort(function (a, b) {
+     var aId = parseInt(a.id.substring(3)); // Assuming ids start with "row" followed by a number
+     var bId = parseInt(b.id.substring(3));
+     return aId - bId;
+   });
+
+   // Remove existing rows from the tbody
+   tbody.innerHTML = '';
+
+   // Append the sorted rows back to the tbody
+   rows.forEach(function (row) {
+     tbody.appendChild(row);
+   });
+ }
+
+//test
+function addProcess() {
+   var id;
+
+   var newRow1 = table.insertRow(table.rows.length);
+   newRow1.id = "P" + 1;
+   var cell1 = newRow1.insertCell(0);
+   var cell2 = newRow1.insertCell(1);
+   var cell3 = newRow1.insertCell(2);
+   cell1.innerHTML = 1;
+   cell2.innerHTML = 0;
+   cell3.innerHTML = 9;
+
+   var newRow2 = table.insertRow(table.rows.length);
+   newRow2.id = "P" + 2;
+   var cell1 = newRow2.insertCell(0);
+   var cell2 = newRow2.insertCell(1);
+   var cell3 = newRow2.insertCell(2);
+   cell1.innerHTML = 2;
+   cell2.innerHTML = 1;
+   cell3.innerHTML = 3;
+   
+   var newRow3 = table.insertRow(table.rows.length);
+   newRow3.id = "P" + 3;
+   var cell1 = newRow3.insertCell(0);
+   var cell2 = newRow3.insertCell(1);
+   var cell3 = newRow3.insertCell(2);
+   cell1.innerHTML = 3;
+   cell2.innerHTML = 1;
+   cell3.innerHTML = 2;
+
+   var newRow3 = table.insertRow(table.rows.length);
+   newRow3.id = "P" + 4;
+   var cell1 = newRow3.insertCell(0);
+   var cell2 = newRow3.insertCell(1);
+   var cell3 = newRow3.insertCell(2);
+   cell1.innerHTML = 4;
+   cell2.innerHTML = 1;
+   cell3.innerHTML = 4;
+
+   var newRow3 = table.insertRow(table.rows.length);
+   newRow3.id = "P" + 5;
+   var cell1 = newRow3.insertCell(0);
+   var cell2 = newRow3.insertCell(1);
+   var cell3 = newRow3.insertCell(2);
+   cell1.innerHTML = 5;
+   cell2.innerHTML = 2;
+   cell3.innerHTML = 3;
+
+   var newRow3 = table.insertRow(table.rows.length);
+   newRow3.id = "P" + 6;
+   var cell1 = newRow3.insertCell(0);
+   var cell2 = newRow3.insertCell(1);
+   var cell3 = newRow3.insertCell(2);
+   cell1.innerHTML = 6;
+   cell2.innerHTML = 3;
+   cell3.innerHTML = 2;
+   
+   numOfProcesses += 6;
+}
 
    /*
    //To remove a process, find the parent of
@@ -314,8 +385,8 @@ function startTimer(algorithm) {
       
       if (algorithm == "fcfs" ){fcfs();}
       
-      getNumCompleted();
       updateTimer();
+      getNumCompleted();
    }, 1000);
 }
 
@@ -340,6 +411,7 @@ function formatTime(seconds) {
 }
 //============================================================================================================================================
    /*
+   //NON PRE-EMPTIVE FCFS APPROACH
    //The first come first serve algorithm takes the first process in the waiting queue and sends it
    //to the cpu until it's finished processing (burst time equals zero), then sends it to the finished queue
    */
