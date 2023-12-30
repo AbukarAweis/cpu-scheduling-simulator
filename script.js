@@ -601,3 +601,8 @@ function sjf() {
 function rr() {
    alert("rr");
 }
+
+/*
+move timer and completed underneath finished. in status, print out the current burst status of whatever process
+the cpu is handling, or print 'idle'
+*/
