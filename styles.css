@@ -45,7 +45,7 @@ header {
 .right-div {
     flex:1;
     background-color: blue;
-    height:25%
+    height:100%
 }
 
 #text {
@@ -75,11 +75,11 @@ header {
 }
 
 #waiting-queue {
-    background-color: red;
+    background-color: #ff0000;
 }
 
 #finished-queue {
-    background-color: blue;
+    background-color: #0000ff;
 }
 
 #waiting-queue, #finished-queue {
@@ -102,7 +102,7 @@ header {
 #cpu {
     display: flex;
     justify-content: center;
-    background-color: orange;
+    background-color: #ffa500;
     height: 30%;
     margin-left: 10%;
     margin-right: 40%;
@@ -136,6 +136,14 @@ header {
     text-align: left;
 }
 
+#summary-log {
+    background-color: purple;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 1%;
+    overflow: auto;
+}
+
 #input {
     display: flex;
     justify-content: space-around;
@@ -164,8 +172,6 @@ header {
     border-radius: 100px;
 }
 
-
-/*Testing*/
 .process-element {
     display: flex;
     justify-content: center;

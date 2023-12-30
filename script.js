@@ -1,5 +1,6 @@
 var table = document.getElementById('process-table').getElementsByTagName('tbody')[0];
 var summaryTable = document.getElementById('summary-table').getElementsByTagName('tbody')[0];
+var summaryLog = document.getElementById('summary-log');
 
 var waitingDisplay = document.getElementById('waiting-queue');
 var finishedDisplay = document.getElementById('finished-queue');
@@ -33,7 +34,10 @@ var process = {
    */
 function addToWaitingQueue(process, processElement) {
    wQueue.push(process);
-   waitingDisplay.appendChild(processElement); 
+   waitingDisplay.appendChild(processElement);
+
+   updateSummaryLog(process.processID + " -- Waiting", "#ff0000");
+   // 
 }
 
    /*
@@ -47,7 +51,8 @@ function addToFinishedQueue(process, processElement) {
    // console.log("p:" + process.processID + ", b:" + process.burstTime + ", e:" + exitTime, ", s:" + seconds);
    exitTime = seconds;
 
-   addSummary(process);
+   addSummaryTable(process);
+   updateSummaryLog(process.processID + " -- Finished", "#0000ff");
 }
 
    /*
@@ -65,6 +70,8 @@ function addToCPU(process, processElement) {
 
       cpu.push(process);
       cpuDisplay.appendChild(processElement);
+
+      updateSummaryLog(process.processID + " > CPU", "#ffa500");
    }
 }
 
@@ -111,31 +118,130 @@ function updateCPU() {
 // }
 
 //automatic
+function addProcess() {
+   var id;
+
+   for (var i = 0; i < 10; i++) {
+      var randomIndex = Math.floor(Math.random() * availableID.length);
+      var selectedID = availableID.splice(randomIndex, 1)[0];
+      id = selectedID;
+
+      var newRow = table.insertRow(table.rows.length);
+
+      newRow.id = "P" + id;
+
+      var cell1 = newRow.insertCell(0);
+      var cell2 = newRow.insertCell(1);
+      var cell3 = newRow.insertCell(2);
+
+      cell1.innerHTML = id;
+      cell2.innerHTML = Math.floor(Math.random() * 10) + 1;
+      cell3.innerHTML = Math.floor(Math.random() * 10) + 1;
+
+      numOfProcesses++;
+   }
+}
+
+//test
 // function addProcess() {
 //    var id;
 
-//    for (var i = 0; i < 5; i++) {
-//       var randomIndex = Math.floor(Math.random() * availableID.length);
-//       var selectedID = availableID.splice(randomIndex, 1)[0];
-//       id = selectedID;
+//    var newRow1 = table.insertRow(table.rows.length);
+//    newRow1.id = "P" + 1;
+//    var cell1 = newRow1.insertCell(0);
+//    var cell2 = newRow1.insertCell(1);
+//    var cell3 = newRow1.insertCell(2);
+//    cell1.innerHTML = 1;
+//    cell2.innerHTML = 0;
+//    cell3.innerHTML = 9;
 
-//       var newRow = table.insertRow(table.rows.length);
+//    var newRow2 = table.insertRow(table.rows.length);
+//    newRow2.id = "P" + 2;
+//    var cell1 = newRow2.insertCell(0);
+//    var cell2 = newRow2.insertCell(1);
+//    var cell3 = newRow2.insertCell(2);
+//    cell1.innerHTML = 2;
+//    cell2.innerHTML = 1;
+//    cell3.innerHTML = 3;
+   
+//    var newRow3 = table.insertRow(table.rows.length);
+//    newRow3.id = "P" + 3;
+//    var cell1 = newRow3.insertCell(0);
+//    var cell2 = newRow3.insertCell(1);
+//    var cell3 = newRow3.insertCell(2);
+//    cell1.innerHTML = 3;
+//    cell2.innerHTML = 1;
+//    cell3.innerHTML = 2;
 
-//       newRow.id = "P" + id;
+//    var newRow3 = table.insertRow(table.rows.length);
+//    newRow3.id = "P" + 4;
+//    var cell1 = newRow3.insertCell(0);
+//    var cell2 = newRow3.insertCell(1);
+//    var cell3 = newRow3.insertCell(2);
+//    cell1.innerHTML = 4;
+//    cell2.innerHTML = 1;
+//    cell3.innerHTML = 4;
 
-//       var cell1 = newRow.insertCell(0);
-//       var cell2 = newRow.insertCell(1);
-//       var cell3 = newRow.insertCell(2);
+//    var newRow3 = table.insertRow(table.rows.length);
+//    newRow3.id = "P" + 5;
+//    var cell1 = newRow3.insertCell(0);
+//    var cell2 = newRow3.insertCell(1);
+//    var cell3 = newRow3.insertCell(2);
+//    cell1.innerHTML = 5;
+//    cell2.innerHTML = 2;
+//    cell3.innerHTML = 3;
 
-//       cell1.innerHTML = id;
-//       cell2.innerHTML = Math.floor(Math.random() * 10) + 1;
-//       cell3.innerHTML = Math.floor(Math.random() * 10) + 1;
-
-//       numOfProcesses++;
-//    }
+//    var newRow3 = table.insertRow(table.rows.length);
+//    newRow3.id = "P" + 6;
+//    var cell1 = newRow3.insertCell(0);
+//    var cell2 = newRow3.insertCell(1);
+//    var cell3 = newRow3.insertCell(2);
+//    cell1.innerHTML = 6;
+//    cell2.innerHTML = 3;
+//    cell3.innerHTML = 2;
+   
+//    numOfProcesses += 6;
 // }
 
-function addSummary(process) {
+   /*
+   //Used to output the results of the simulation in real time.
+   */
+function updateSummaryLog(content, color) {
+
+      //span elements used to change color of the text
+   var contentElement = document.createElement("p");
+   var first = document.createElement("span");
+   var second = document.createElement("span");
+   var third = document.createElement("span");
+
+      //the content is split into three parts using a whitespace
+      //each part is styled and colored if needed
+   const wordsArray = content.split(' ');
+
+   first.textContent = " P" + wordsArray[0] + " ";
+   first.style.fontWeight = "bold";
+
+   second.textContent = wordsArray[1] + " ";
+
+   third.textContent = wordsArray[2];
+   third.style.color = color;
+   third.style.fontWeight = "bold";
+
+      //each part is added to the paragraph element
+      //which is then appended to the summary log location
+   contentElement.textContent = "@ " + formatTime(seconds);
+   contentElement.appendChild(first);
+   contentElement.appendChild(second);
+   contentElement.appendChild(third);
+
+   summaryLog.appendChild(contentElement);
+   summaryLog.scrollTop = summaryLog.scrollHeight;
+}
+
+
+   //used to add a process and all of its simulation results
+   //to the summary table
+function addSummaryTable(process) {
    var newRow = summaryTable.insertRow(summaryTable.rows.length);
    var turnAroundTime = exitTime - process.arrivalTime;
    var waitingTime = turnAroundTime - burstCopy;
@@ -179,67 +285,6 @@ function sortTable() {
      tbody.appendChild(row);
    });
  }
-
-//test
-function addProcess() {
-   var id;
-
-   var newRow1 = table.insertRow(table.rows.length);
-   newRow1.id = "P" + 1;
-   var cell1 = newRow1.insertCell(0);
-   var cell2 = newRow1.insertCell(1);
-   var cell3 = newRow1.insertCell(2);
-   cell1.innerHTML = 1;
-   cell2.innerHTML = 0;
-   cell3.innerHTML = 9;
-
-   var newRow2 = table.insertRow(table.rows.length);
-   newRow2.id = "P" + 2;
-   var cell1 = newRow2.insertCell(0);
-   var cell2 = newRow2.insertCell(1);
-   var cell3 = newRow2.insertCell(2);
-   cell1.innerHTML = 2;
-   cell2.innerHTML = 1;
-   cell3.innerHTML = 3;
-   
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 3;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 3;
-   cell2.innerHTML = 1;
-   cell3.innerHTML = 2;
-
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 4;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 4;
-   cell2.innerHTML = 1;
-   cell3.innerHTML = 4;
-
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 5;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 5;
-   cell2.innerHTML = 2;
-   cell3.innerHTML = 3;
-
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 6;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 6;
-   cell2.innerHTML = 3;
-   cell3.innerHTML = 2;
-   
-   numOfProcesses += 6;
-}
 
    /*
    //To remove a process, find the parent of
@@ -440,7 +485,7 @@ function fcfs() {
    
    /*
    //for each process in all[] if its arrival time matches the current time, push it to filter[]
-   //sort all processes in filter by their id in ascending order.
+   //and sort all processes in filter by their id in ascending order.
    */
    all.forEach(function (process) {
       if (process.arrivalTime == seconds) {
