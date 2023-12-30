@@ -1,47 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sort Div Container by ID</title>
-  <style>
-    /* Just some basic styling for clarity */
-    .sortable-div {
-      margin: 5px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Validation with Tooltip</title>
+    <style>
+        /* Optional: Add some styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .tooltip {
+            display: none;
+            position: absolute;
+            background-color: #f44336;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+    </style>
 </head>
 <body>
-  <div id="container">
-    <div class="sortable-div" id="div3">Div 3</div>
-    <div class="sortable-div" id="div1">Div 1</div>
-    <div class="sortable-div" id="div2">Div 2</div>
-  </div>
-  <button onclick="sortDivs()">Sort Divs</button>
+    <label for="myInput">Enter a valid value:</label>
+    <input type="text" id="myInput">
+    <button onclick="validateInput()">Submit</button>
 
-  <script>
-    function sortDivs() {
-      const container = document.getElementById('container');
+    <!-- Tooltip element -->
+    <div class="tooltip" id="errorTooltip"></div>
 
-      // Get the child elements (divs) and convert them into an array
-      const divs = Array.from(container.getElementsByClassName('sortable-div'));
-
-      // Sort the divs based on their id attribute
-      divs.sort((a, b) => {
-        const aId = a.id.toLowerCase();
-        const bId = b.id.toLowerCase();
-        return aId.localeCompare(bId);
-      });
-
-      // Clear the container
-      container.innerHTML = '';
-
-      // Append the sorted divs back to the container
-      divs.forEach((div) => container.appendChild(div));
-    }
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>

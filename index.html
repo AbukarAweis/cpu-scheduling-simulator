@@ -25,20 +25,26 @@
                     <tbody>
         
                     </tbody>
-                    <!-- <table>
-                        
-                    </table> -->
+
                 </table>
             </div>
 
-            <div id="input">
+            <div id="input" style="margin-top: 2%">
                 <input type="number" min="0" id="process-id" placeholder="Process ID" pattern="[0-9]+"
                         style="width: 80px; padding: 4px; box-sizing: border-box; font-size: 11px;">
                 <input type="number" min="0" id="arrival-time" placeholder="Arrival Time" pattern="[0-9]+"
                         style="width: 85px; padding: 4px; box-sizing: border-box; font-size: 11px;">
                 <input type="number" min="0" id="burst-time" placeholder="Burst Time" pattern="[0-9]+"
                         style="width: 85px; padding: 6px; box-sizing: border-box; font-size: 11px;">
-                <button type="button" onclick="addProcess()">Add Process</button>
+                <button type="button" id="add-button" onclick="addProcess()">Add Process</button>
+            </div>
+
+            
+            <button type="button" id="gen-button" style="margin-top: 2%" onclick="generate()">Generate 10 Random Processes</button>
+
+            <div id="error-message">
+                <p id="id-error">Each Process ID Must Be Unique</p>
+                <p id="value-error">Every Value Must Be A Positive Integer</p>
             </div>
 
             <div id="algo-div">
@@ -48,7 +54,7 @@
                     <option value="sjf">Shortest Job First</option>
                     <option value="rr">Round Robin</option>
                 </select>
-                <button type="button" onclick="start()">Start Simulation</button>
+                <button type="button" id="start-button" onclick="start()">Start Simulation</button>
             </div>
 
         </div>
@@ -60,6 +66,7 @@
                     <div id="waiting-queue">
 
                     </div>
+                    
                     <p id="text">Finished</p>
                     <div id="finished-queue">
 

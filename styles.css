@@ -173,6 +173,14 @@ header {
     border-radius: 100px;
 }
 
+/*  */
+#error-message, #id-error, #value-error {
+    visibility: hidden;
+}
+
+
+
+/*  */
 .process-element {
     display: flex;
     justify-content: center;

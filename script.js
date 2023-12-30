@@ -6,6 +6,10 @@ var waitingDisplay = document.getElementById('waiting-queue');
 var finishedDisplay = document.getElementById('finished-queue');
 var cpuDisplay = document.getElementById('cpu');
 
+var genButton = document.getElementById("gen-button");
+var addButton = document.getElementById("add-button");
+var startButton = document.getElementById("start-button");
+
 var selectedAlgo = document.getElementById("algo-select");
 
 var algorithm = selectedAlgo.value;
@@ -109,29 +113,30 @@ function updateCPU() {
    //Then add the process to the waiting queue and updated the number
    //of processes that are completed
    */
-// function addProcess() {
-//   validateInput(process.processID, true);
-//   validateInput(process.arrivalTime, false);
-//   validateInput(process.burstTime, false);
+function addProcess() {
+  validateInput(process.processID, true);
+  validateInput(process.arrivalTime, false);
+  validateInput(process.burstTime, false);
 
-//    if (validateInput(process.processID, true) && validateInput(process.arrivalTime, false) && validateInput(process.burstTime, false)){
-//       var newRow = table.insertRow(table.rows.length);
-//       newRow.id = "P" + process.processID.value;
+   if (validateInput(process.processID, true) && validateInput(process.arrivalTime, false) && validateInput(process.burstTime, false)){
+      var newRow = table.insertRow(table.rows.length);
+      newRow.id = "P" + process.processID.value;
 
-//       var cell1 = newRow.insertCell(0);
-//       var cell2 = newRow.insertCell(1);
-//       var cell3 = newRow.insertCell(2);
+      var cell1 = newRow.insertCell(0);
+      var cell2 = newRow.insertCell(1);
+      var cell3 = newRow.insertCell(2);
 
-//       cell1.innerHTML = process.processID.value;
-//       cell2.innerHTML = process.arrivalTime.value;
-//       cell3.innerHTML = process.burstTime.value;
+      cell1.innerHTML = process.processID.value;
+      cell2.innerHTML = process.arrivalTime.value;
+      cell3.innerHTML = process.burstTime.value;
 
-//       numOfProcesses++;
-//    }
-// }
+      genButton.disabled = true;
+      numOfProcesses++;
+   }
+}
 
 //automatic
-function addProcess() {
+function generate() {
    var id;
 
    for (var i = 0; i < 10; i++) {
@@ -153,6 +158,8 @@ function addProcess() {
 
       numOfProcesses++;
    }
+
+   genButton.disabled = true;
 }
 
 //test
@@ -259,16 +266,6 @@ function endSummaryLog() {
    var aveWTElement = document.createElement("p");
    var aveTATElement = document.createElement("p");
    var cpuUtilElement = document.createElement("p");
-   var algo;
-
-   // switch (algorithm) {
-   //    case "fcfs": 
-   //       algo = "First-Come, First-Serve (Non-Preemptive)";
-   //       break;
-   //    default:
-   //       alert("Invalid Algorithm");
-
-   // }
 
    endSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION COMPLETE***";
    numProc.textContent = "# of Processes: " + numOfProcesses;
@@ -278,7 +275,6 @@ function endSummaryLog() {
    aveTATElement.textContent = "Average Turnaround Time: " + formatTime((totalTAT / numOfProcesses).toFixed(2));
    cpuUtilElement.textContent = "CPU Utilization = " + ((totalNIT / seconds) * 100).toFixed(2) + "%";
    
-   // endSummary.style.marginTop = "10%";
    endSummary.style.fontWeight = "bold";
    numProc.style.fontWeight = "bold";
    throughputElement.style.fontWeight = "bold";
@@ -473,6 +469,10 @@ function start() {
       startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
       startSummary.style.fontWeight = "bold";
       summaryLog.appendChild(startSummary);
+
+      genButton.disabled = true;
+      addButton.disabled = true;
+      startButton.disabled = true;
 
       switch (algorithm) {
          case "fcfs":
