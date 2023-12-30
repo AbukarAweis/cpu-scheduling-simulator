@@ -142,6 +142,7 @@ header {
     width: 100%;
     margin-bottom: 1%;
     overflow: auto;
+    padding-left: 2%;
 }
 
 #input {

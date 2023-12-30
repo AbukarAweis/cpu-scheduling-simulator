@@ -6,6 +6,10 @@ var waitingDisplay = document.getElementById('waiting-queue');
 var finishedDisplay = document.getElementById('finished-queue');
 var cpuDisplay = document.getElementById('cpu');
 
+var selectedAlgo = document.getElementById("algo-select");
+
+var algorithm = selectedAlgo.value;
+
    //waiting queue, finished queue, cpu queue
 var wQueue = [];
 var fQueue = [];
@@ -18,6 +22,13 @@ var numOfProcesses = 0;
 var randomColor;
 var burstCopy;
 var exitTime;
+
+var maxET = Number.MIN_SAFE_INTEGER;
+var minAT = Number.MAX_SAFE_INTEGER;
+
+var totalTAT = 0;
+var totalWT = 0;
+var totalNIT = 0;
 
 var availableID = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -88,6 +99,8 @@ function updateCPU() {
    } else {
       process.burstTime--;
    }
+
+   totalNIT++;
 }
 
    /*
@@ -153,7 +166,7 @@ function addProcess() {
 //    var cell3 = newRow1.insertCell(2);
 //    cell1.innerHTML = 1;
 //    cell2.innerHTML = 0;
-//    cell3.innerHTML = 9;
+//    cell3.innerHTML = 2;
 
 //    var newRow2 = table.insertRow(table.rows.length);
 //    newRow2.id = "P" + 2;
@@ -170,8 +183,8 @@ function addProcess() {
 //    var cell2 = newRow3.insertCell(1);
 //    var cell3 = newRow3.insertCell(2);
 //    cell1.innerHTML = 3;
-//    cell2.innerHTML = 1;
-//    cell3.innerHTML = 2;
+//    cell2.innerHTML = 2;
+//    cell3.innerHTML = 5;
 
 //    var newRow3 = table.insertRow(table.rows.length);
 //    newRow3.id = "P" + 4;
@@ -179,8 +192,8 @@ function addProcess() {
 //    var cell2 = newRow3.insertCell(1);
 //    var cell3 = newRow3.insertCell(2);
 //    cell1.innerHTML = 4;
-//    cell2.innerHTML = 1;
-//    cell3.innerHTML = 4;
+//    cell2.innerHTML = 3;
+//    cell3.innerHTML = 6;
 
 //    var newRow3 = table.insertRow(table.rows.length);
 //    newRow3.id = "P" + 5;
@@ -188,8 +201,8 @@ function addProcess() {
 //    var cell2 = newRow3.insertCell(1);
 //    var cell3 = newRow3.insertCell(2);
 //    cell1.innerHTML = 5;
-//    cell2.innerHTML = 2;
-//    cell3.innerHTML = 3;
+//    cell2.innerHTML = 4;
+//    cell3.innerHTML = 8;
 
 //    var newRow3 = table.insertRow(table.rows.length);
 //    newRow3.id = "P" + 6;
@@ -197,8 +210,8 @@ function addProcess() {
 //    var cell2 = newRow3.insertCell(1);
 //    var cell3 = newRow3.insertCell(2);
 //    cell1.innerHTML = 6;
-//    cell2.innerHTML = 3;
-//    cell3.innerHTML = 2;
+//    cell2.innerHTML = 5;
+//    cell3.innerHTML = 7;
    
 //    numOfProcesses += 6;
 // }
@@ -238,6 +251,52 @@ function updateSummaryLog(content, color) {
    summaryLog.scrollTop = summaryLog.scrollHeight;
 }
 
+function endSummaryLog() {
+   var endSummary = document.createElement("p");
+   var numProc = document.createElement("p");
+   var totalTime = document.createElement("p");
+   var throughputElement = document.createElement("p");
+   var aveWTElement = document.createElement("p");
+   var aveTATElement = document.createElement("p");
+   var cpuUtilElement = document.createElement("p");
+   var algo;
+
+   // switch (algorithm) {
+   //    case "fcfs": 
+   //       algo = "First-Come, First-Serve (Non-Preemptive)";
+   //       break;
+   //    default:
+   //       alert("Invalid Algorithm");
+
+   // }
+
+   endSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION COMPLETE***";
+   numProc.textContent = "# of Processes: " + numOfProcesses;
+   throughputElement.textContent = "Throughput: " + (numOfProcesses / (maxET - minAT)).toFixed(2);
+   totalTime.textContent = "Total Duration: " + (formatTime(seconds - 1));
+   aveWTElement.textContent = "Average Waiting Time: " + formatTime((totalWT / numOfProcesses).toFixed(2));
+   aveTATElement.textContent = "Average Turnaround Time: " + formatTime((totalTAT / numOfProcesses).toFixed(2));
+   cpuUtilElement.textContent = "CPU Utilization = " + ((totalNIT / seconds) * 100).toFixed(2) + "%";
+   
+   // endSummary.style.marginTop = "10%";
+   endSummary.style.fontWeight = "bold";
+   numProc.style.fontWeight = "bold";
+   throughputElement.style.fontWeight = "bold";
+   totalTime.style.fontWeight = "bold";
+   aveWTElement.style.fontWeight = "bold";
+   aveTATElement.style.fontWeight = "bold";
+   cpuUtilElement.style.fontWeight = "bold";
+
+   summaryLog.appendChild(endSummary);
+   summaryLog.appendChild(numProc);
+   summaryLog.appendChild(throughputElement);
+   summaryLog.appendChild(totalTime);
+   summaryLog.appendChild(aveWTElement);
+   summaryLog.appendChild(aveTATElement);
+   summaryLog.appendChild(cpuUtilElement);
+   summaryLog.scrollTop = summaryLog.scrollHeight;
+}
+
 
    //used to add a process and all of its simulation results
    //to the summary table
@@ -260,7 +319,18 @@ function addSummaryTable(process) {
    cell3.innerHTML = burstCopy;
    cell4.innerHTML = exitTime;
    cell5.innerHTML = waitingTime;
-   cell6.innerHTML = turnAroundTime; 
+   cell6.innerHTML = turnAroundTime;
+
+   totalWT += waitingTime;
+   totalTAT += turnAroundTime;
+
+   if (exitTime > maxET) {
+      maxET = exitTime;
+   }
+
+   if (process.arrivalTime < minAT) {
+      minAT = process.arrivalTime;
+   }
 
    sortTable();
 }
@@ -359,6 +429,7 @@ function getNumCompleted() {
    completed.textContent = "Completed: " + fQueue.length + " / " + numOfProcesses;
 
    if (fQueue.length == numOfProcesses) {
+      endSummaryLog();
       stopTimer();
    }
 }
@@ -396,11 +467,13 @@ function getTextColor(bgColor) {
    return brightness > 128 ? '#000' : '#fff';
 }
 
-function start() {
-   var selectedAlgo = document.getElementById("algo-select");
-   var algorithm = selectedAlgo.value;
-
+function start() { 
    if (table.rows.length != 0) {
+      var startSummary = document.createElement("p");
+      startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
+      startSummary.style.fontWeight = "bold";
+      summaryLog.appendChild(startSummary);
+
       switch (algorithm) {
          case "fcfs":
             startTimer(algorithm);
@@ -437,6 +510,7 @@ function startTimer(algorithm) {
 
 function stopTimer() {
    clearInterval(timerInterval);
+
 }
 
 function updateTimer() {
