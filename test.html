@@ -3,51 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checklist Selector</title>
+    <title>Progress Bar with Percentage</title>
     <style>
-        /* Optional: Reset some default styles */
         body {
-            margin: 0;
-            padding: 0;
             font-family: Arial, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            margin: 0;
         }
 
-        /* Stylish Checklist Styles */
-        .checklist {
-            list-style: none;
-            padding: 0;
+        .progress-container {
+            position: relative;
+            width: 300px;
+            height: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
-        .checklist-item {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: #4caf50;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
-        .checklist-item input {
-            margin-right: 10px;
+        .percentage-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #333;
         }
     </style>
 </head>
 <body>
-    <ul class="checklist">
-        <li class="checklist-item">
-            <input type="checkbox" id="item1" name="item1">
-            <label for="item1">Item 1</label>
-        </li>
-        <li class="checklist-item">
-            <input type="checkbox" id="item2" name="item2">
-            <label for="item2">Item 2</label>
-        </li>
-        <li class="checklist-item">
-            <input type="checkbox" id="item3" name="item3">
-            <label for="item3">Item 3</label>
-        </li>
-    </ul>
+    <!-- Progress bar container -->
+    <div class="progress-container">
+        <!-- Progress bar -->
+        <div class="progress-bar" id="myProgressBar"></div>
+
+        <!-- Percentage label -->
+        <div class="percentage-label" id="percentageLabel">0%</div>
+    </div>
+
+    <!-- Button to simulate progress -->
+    <button onclick="simulateProgress()">Simulate Progress</button>
+
+    <!-- JavaScript to update the progress bar and percentage label -->
+    <script>
+        function simulateProgress() {
+            var progressBar = document.getElementById('myProgressBar');
+            var percentageLabel = document.getElementById('percentageLabel');
+            var currentValue = parseFloat(getComputedStyle(progressBar).width);
+            var maxValue = parseFloat(getComputedStyle(progressBar.parentElement).width);
+
+            // Increase the progress value (simulating progress)
+            if (currentValue < maxValue) {
+                progressBar.style.width = (currentValue + 20) + 'px';
+            } else {
+                progressBar.style.width = '0'; // Reset when reaching maximum value
+            }
+            // Update the percentage label
+            var percentage = (currentValue / maxValue) * 100;
+            percentageLabel.textContent = Math.round(percentage) + '%';
+
+        }
+    </script>
 </body>
 </html>

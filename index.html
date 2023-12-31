@@ -61,7 +61,7 @@
                 <label id="algo-text">Select Scheduling Algorithm: </label>
                 <div id="algo-select">
                     <select id="select" onchange="toggleVisibility()">
-                        <option value="fcfs">First-Come, First-Served</option>
+                        <option value="fcfs">First-Come, First-Serve</option>
                         <option value="sjf">Shortest Job First</option>
                         <option value="rr">Round Robin</option>
                     </select>
@@ -86,14 +86,24 @@
         <div class="center-div">
             <div id="simulation">
                 <div id="queues">
-                    <p id="text">Waiting</p>
+                    <label id="waiting-label" style="margin: 1% 0% 1% 2%">Waiting</label>
                     <div id="waiting-queue">
 
                     </div>
                     
-                    <p id="text">Finished</p>
+                    <label id="finished-label" style="margin: 1% 0% 1% 2%">Finished</label>
                     <div id="finished-queue">
 
+                    </div>
+
+                    <div id="time-algorithm-div">
+                        
+                        <p id="algorithm">Algorithm: ----</p>
+                        <p id="time">Time: --:--</p>
+                    </div>
+                    <div id="progress-div">
+                        <div id="progress-percent">0%</div>
+                        <progress id="progress-bar"></progress>
                     </div>
                 </div>
 
@@ -105,8 +115,7 @@
     
                     <p id="text">Status</p>
                     <div id="status">
-                        <p id="time">Time: ---</p>
-                        <p id="completed">Completed: ---</p>
+                        
                     </div>
                 </div>
             </div>

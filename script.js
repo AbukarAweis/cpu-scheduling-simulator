@@ -6,6 +6,8 @@ var waitingDisplay = document.getElementById('waiting-queue');
 var finishedDisplay = document.getElementById('finished-queue');
 var cpuDisplay = document.getElementById('cpu');
 
+var timer = document.getElementById('time');
+
 var genButton = document.getElementById("gen-button");
 var addButton = document.getElementById("add-button");
 var startButton = document.getElementById("start-button");
@@ -18,7 +20,11 @@ var errorMessage2 = document.getElementById("error-message-2");
 var errorMessage3 = document.getElementById("error-message-3");
 
 var selectedAlgo = document.getElementById("select");
+var algoDiv = document.getElementById("algorithm");
 var quantumInput = document.getElementById("quantum-input");
+var progressBar = document.getElementById("progress-bar");
+var progressPercent = document.getElementById("progress-percent");
+var progressDiv = document.getElementById("progress-div");
 
 var algorithm;
 var running = false;
@@ -46,6 +52,22 @@ var totalWT = 0;
 var totalNIT = 0;
 
 var availableID = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+function updateProgress() {
+   var currentValue = parseFloat(getComputedStyle(progressBar).width);
+   var maxValue = parseFloat(getComputedStyle(progressBar.parentElement).width);
+   var value = (currentValue + (progressDiv.offsetWidth / numOfProcesses));
+   
+   // Increase the progress value (simulating progress)
+   if (currentValue < maxValue) {
+      progressBar.style.width = value + 'px';
+   } else {
+      progressBar.style.width = '0'; // Reset when reaching maximum value
+   }
+   
+   var percent = (value) / maxValue * 100;
+   progressPercent.textContent = Math.round(percent) + "%";
+}
 
    //process object
 var process = {
@@ -76,7 +98,6 @@ function addToWaitingQueue(process, processElement) {
    waitingDisplay.appendChild(processElement);
 
    updateSummaryLog(process.processID + " -- Waiting", "#ff0000");
-   // 
 }
 
    /*
@@ -91,6 +112,7 @@ function addToFinishedQueue(process, processElement) {
    exitTime = seconds;
 
    addSummaryTable(process);
+   updateProgress();
    updateSummaryLog(process.processID + " -- Finished", "#0000ff");
 }
 
@@ -487,13 +509,11 @@ function validateInput(element, isID) {
 }
 
    /*
-   //Used to keep track of how many processes are finished and how many are waiting
+   //Used to keep track of progress
+   //and update accordinly if progress is at 100%
    */
-function getNumCompleted() {
-   var completed = document.getElementById('completed');
-   completed.textContent = "Completed: " + fQueue.length + " / " + numOfProcesses;
-
-   if (fQueue.length == numOfProcesses) {
+function getPercentComplete() {
+   if (progressPercent.textContent == "100%") {
       resumeButton.disabled = true;
       pauseButton.disabled = true;
       endSummaryLog();
@@ -572,10 +592,14 @@ function start() {
          startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
          startSummary.style.fontWeight = "bold";
          summaryLog.appendChild(startSummary);
+
+            //Setting the algorithm to the text content of selected option
+         algoDiv.textContent = "Algorithm: " + selectedAlgo.options[(selectedAlgo.selectedIndex)].textContent;
    
          genButton.disabled = true;
          addButton.disabled = true;
          startButton.disabled = true;
+         selectedAlgo.disabled = true;
          startButton.style.visibility = "hidden";
          pauseButton.style.visibility = "visible";
       }
@@ -599,7 +623,7 @@ function startTimer(algorithm) {
       if (algorithm == "fcfs" ){fcfs();}
       
       updateTimer();
-      getNumCompleted();
+      getPercentComplete();
    }, 1000);
 }
 
@@ -610,10 +634,7 @@ function stopTimer() {
 }
 
 function updateTimer() {
-//    document.getElementById('time').textContext = formatTime(seconds);
-   var timer = document.getElementById('time');
    timer.textContent = "Time: " + formatTime(seconds);
-
    seconds++;
 }
 
