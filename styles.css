@@ -185,17 +185,9 @@ header {
     transition: border-color 0.3s;
 }
 
-
-/* #algo-div {
-    display:inline-block;
-    background-color: var(--primary);
-    padding: 8px;
-    height: 30%;
-} */
-
 #algo-div {
     display: inline-block;
-    background-color: purple;
+    background-color: var(--primary);
     padding: 8px;
     height: 30%;
 }
@@ -223,6 +215,10 @@ header {
 
 #quantum.show {
     visibility: visible;
+}
+
+#quantum-input {
+    border-radius: 5px;
 }
 
 #process-id, #arrival-time, #burst-time {
@@ -308,6 +304,8 @@ button:disabled {
 #algo-buttons {
     display: flex;
     justify-content: end;
+    position: relative;
+    top: -15px;
 }
 
 #start-button, #pause-button, #resume-button, #reset-button {
@@ -346,7 +344,6 @@ button:disabled {
 }
 
 #reset-button {
-    visibility: hidden;
     background-color: red;
     position: relative;
     right: 10px;
@@ -363,21 +360,12 @@ select {
     height: 50px;
     margin-top: 5%;
     font-size: 20px;
-    border: 2px solid #3498db; /* Border color */
+    border: 2px solid var(--btn-color);
     border-radius: 5px;
     background-color: var(--secondary);
     cursor: pointer;
     overflow: hidden;
 }
-
-/* select {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid blue;
-    outline: none;
-} */
-
 
 .process-element {
     display: flex;

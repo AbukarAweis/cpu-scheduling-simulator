@@ -308,13 +308,16 @@ function endSummaryLog() {
    var aveTATElement = document.createElement("p");
    var cpuUtilElement = document.createElement("p");
 
+   var throughput = (numOfProcesses / (maxET - minAT)).toFixed(2);
+   var cpuUtilization = ((totalNIT / seconds) * 100).toFixed(2);
+
    endSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION COMPLETE***";
    numProc.textContent = "# of Processes: " + numOfProcesses;
-   throughputElement.textContent = "Throughput: " + (numOfProcesses / (maxET - minAT)).toFixed(2);
+   throughputElement.textContent = "Throughput: " + (throughput != Infinity ? throughput : 0);
    totalTime.textContent = "Total Duration: " + (formatTime(seconds - 1));
    aveWTElement.textContent = "Average Waiting Time: " + formatTime((totalWT / numOfProcesses).toFixed(2));
    aveTATElement.textContent = "Average Turnaround Time: " + formatTime((totalTAT / numOfProcesses).toFixed(2));
-   cpuUtilElement.textContent = "CPU Utilization = " + ((totalNIT / seconds) * 100).toFixed(2) + "%";
+   cpuUtilElement.textContent = "CPU Utilization = " + (cpuUtilization <= 100 ? cpuUtilization : 100.00) + "%";
    
    endSummary.style.fontWeight = "bold";
    numProc.style.fontWeight = "bold";
@@ -542,7 +545,6 @@ function start() {
       startButton.disabled = true;
       startButton.style.visibility = "hidden";
       pauseButton.style.visibility = "visible";
-      resetButton.style.visibility = "visible";
 
       switch (algorithm) {
          case "fcfs":
