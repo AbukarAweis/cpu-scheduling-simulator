@@ -9,6 +9,8 @@ var cpuDisplay = document.getElementById('cpu');
 var genButton = document.getElementById("gen-button");
 var addButton = document.getElementById("add-button");
 var startButton = document.getElementById("start-button");
+var errorMessage = document.getElementById("error-message");
+var errorMessage2 = document.getElementById("error-message-2");
 
 var selectedAlgo = document.getElementById("algo-select");
 
@@ -27,9 +29,11 @@ var randomColor;
 var burstCopy;
 var exitTime;
 
+   //max exit time and min arrival time are used to calculate throughput
 var maxET = Number.MIN_SAFE_INTEGER;
 var minAT = Number.MAX_SAFE_INTEGER;
 
+   //keep track of turnaround time, wait time, and non-idle time to calculate cpu utilization
 var totalTAT = 0;
 var totalWT = 0;
 var totalNIT = 0;
@@ -46,6 +50,7 @@ var process = {
    /*
    //Push the given process to the wQueue to keep track of it
    //and append a process element child to waitingDisplay so it can be displayed.
+   //Update the summary log using waiting queue's color
    */
 function addToWaitingQueue(process, processElement) {
    wQueue.push(process);
@@ -58,12 +63,12 @@ function addToWaitingQueue(process, processElement) {
    /*
    //Push the given process to the fQueue to keep track of it
    //and append a process element child to finishedDisplay so it can be displayed.
+   //Update the summary log using finishing queue's color
    */
 function addToFinishedQueue(process, processElement) {
    fQueue.push(process);
    finishedDisplay.appendChild(processElement);
 
-   // console.log("p:" + process.processID + ", b:" + process.burstTime + ", e:" + exitTime, ", s:" + seconds);
    exitTime = seconds;
 
    addSummaryTable(process);
@@ -74,6 +79,7 @@ function addToFinishedQueue(process, processElement) {
    //If the CPU is empty, remove the process from waitingDisplay,
    //push the given process to the cpu to keep track of it
    //and append a process element child to cpuDisplay so it can be displayed.
+   //Update summary log using CPU's color
    */
 function addToCPU(process, processElement) {
    if (cpu.length < 1) {
@@ -90,7 +96,12 @@ function addToCPU(process, processElement) {
    }
 }
 
-
+   /*
+   //The burst time of the process in the CPU is decremented by 1 every second.
+   //If the burst time reaches zero, the process is taken out of the cpu and
+   //added to the finished queue. 
+   //Non-idle time is incremented whenever the cpu is updated.
+   */
 function updateCPU() {
    console.log("p:" + cpu[0].id + ", b:" + cpu[0].burstTime + ", s:" + seconds);
    var process = cpu[0];
@@ -130,12 +141,20 @@ function addProcess() {
       cell2.innerHTML = process.arrivalTime.value;
       cell3.innerHTML = process.burstTime.value;
 
+
+         //disable generate button and reset all values to placeholder
       genButton.disabled = true;
+      // console.log(typeof process.processID.placeholder);
+      process.processID.value = process.processID.placeholder;
+      process.arrivalTime.value = process.arrivalTime.placeholder;
+      process.burstTime.value = process.burstTime.placeholder;
       numOfProcesses++;
    }
 }
 
-//automatic
+   /*
+   //Automatically generate 10 processes that have a unique id from 1-10
+   */
 function generate() {
    var id;
 
@@ -159,6 +178,9 @@ function generate() {
       numOfProcesses++;
    }
 
+      //If there are any errors displayed, remove them
+      //disable the generate button
+   removeErrors();
    genButton.disabled = true;
 }
 
@@ -258,6 +280,11 @@ function updateSummaryLog(content, color) {
    summaryLog.scrollTop = summaryLog.scrollHeight;
 }
 
+   /*
+   //Create the ending message of the summary log by
+   //calculating all values listed and appending them
+   //to the summary log.
+   */
 function endSummaryLog() {
    var endSummary = document.createElement("p");
    var numProc = document.createElement("p");
@@ -320,10 +347,12 @@ function addSummaryTable(process) {
    totalWT += waitingTime;
    totalTAT += turnAroundTime;
 
+      //used to keep track of the maximum exit time
    if (exitTime > maxET) {
       maxET = exitTime;
    }
 
+      //used to keep track of the minimum arrival time
    if (process.arrivalTime < minAT) {
       minAT = process.arrivalTime;
    }
@@ -362,6 +391,18 @@ function removeProcess(childID) {
    child.parentNode.removeChild(child);
 }
 
+function removeErrors() {
+   errorMessage.classList.remove("show");
+   errorMessage2.classList.remove("show");
+   process.processID.classList.remove("error");
+   process.arrivalTime.classList.remove("error");
+   process.burstTime.classList.remove("error");
+
+   process.processID.value = process.processID.placeholder;
+   process.arrivalTime.value = process.arrivalTime.placeholder;
+   process.burstTime.value = process.burstTime.placeholder;
+}
+
    /*
    //Create a new div with the class name of process-element.
    //Give it a text that matches the id found on the given process
@@ -394,6 +435,8 @@ function validateInput(element, isID) {
    if ((table.rows.length > 0 && isID) || isID) {
       if ((element.value === "" || parseFloat(element.value) < 0 || !/^[0-9]+$/.test(element.value))) {
          element.classList.add("error");
+         errorMessage.classList.add("show");
+         errorMessage2.classList.remove("show");
          return false;
       }
 
@@ -402,6 +445,7 @@ function validateInput(element, isID) {
 
          if (existingID === element.value) {
             element.classList.add("error");
+            errorMessage.classList.add("show");
             return false;
          } 
       }
@@ -410,9 +454,12 @@ function validateInput(element, isID) {
    //when validating any input other than id.
    if ((element.value === "" || parseFloat(element.value) < 0 || !/^[0-9]+$/.test(element.value)) && !isID) {
       element.classList.add("error");
+      errorMessage.classList.add("show");
+      errorMessage2.classList.remove("show");
       return false;
    } else {
       element.classList.remove("error");
+      errorMessage.classList.remove("show");
       return true;
    }
 }
@@ -488,8 +535,12 @@ function start() {
          default:
             alert("invalid algorithm");
       }
+      
+      removeErrors();
    } else {
-      alert("Add Process Before Starting");
+      removeErrors();
+      errorMessage.classList.remove("show");
+      errorMessage2.classList.add("show");
    }
 }
 

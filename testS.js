@@ -1,37 +1,29 @@
-function validateInput() {
-    const inputElement = document.getElementById("myInput");
-    const errorTooltip = document.getElementById("errorTooltip");
-    const inputValue = inputElement.value.trim();
+function validateForm() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const errorContainer = document.getElementById("errorContainer");
+
+    // Reset the error container
+    errorContainer.style.display = "none";
+    errorContainer.textContent = "";
 
     // Your validation logic here
-    if (inputValue === "") {
-        // Show error tooltip
-        showErrorTooltip(inputElement, "Please enter a valid value.");
-    } else {
-        // Hide the tooltip if the input is valid
-        hideErrorTooltip(errorTooltip);
-        
-        // Continue with your logic for valid input
-        alert("Input is valid: " + inputValue);
+    if (username.trim() === "") {
+        showError("Please enter a username.", errorContainer);
+        return false;
     }
+
+    if (password.trim() === "") {
+        showError("Please enter a password.", errorContainer);
+        return false;
+    }
+
+    // If the form is valid, you can proceed with other actions
+    return true;
 }
 
-function showErrorTooltip(element, message) {
-    const errorTooltip = document.getElementById("errorTooltip");
-
-    // Set tooltip content
-    errorTooltip.textContent = message;
-
-    // Position the tooltip near the input field
-    const rect = element.getBoundingClientRect();
-    errorTooltip.style.top = rect.top + window.scrollY - errorTooltip.offsetHeight - 5 + "px";
-    errorTooltip.style.left = rect.left + window.scrollX + "px";
-
-    // Show the tooltip
-    errorTooltip.style.display = "block";
-}
-
-function hideErrorTooltip(errorTooltip) {
-    // Hide the tooltip
-    errorTooltip.style.display = "none";
+function showError(message, container) {
+    // Display the error message in the container
+    container.textContent = message;
+    container.style.display = "block";
 }

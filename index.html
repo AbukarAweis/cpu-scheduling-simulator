@@ -38,17 +38,21 @@
                         style="width: 85px; padding: 6px; box-sizing: border-box; font-size: 11px;">
                 <button type="button" id="add-button" onclick="addProcess()">Add Process</button>
             </div>
-
-            
             <button type="button" id="gen-button" style="margin-top: 2%" onclick="generate()">Generate 10 Random Processes</button>
 
             <div id="error-message">
-                <p id="id-error">Each Process ID Must Be Unique</p>
-                <p id="value-error">Every Value Must Be A Positive Integer</p>
+                <p id="value-error">Please Ensure That: </p>
+                <p id="value-error">(1) All Inputs Are Positive Integers</p>
+                <p id="value-error">(2) Each Process Has A Unique ID</p>
+                
             </div>
-
+            
+            <div id="error-message-2">
+                <p id="sim-error">There Must Be At Least One Valid Process Before The Simulation Can Begin</p>
+            </div>
+            
+            <label>Select Scheduling Algorithm: </label>
             <div id="algo-div">
-                <label>Select Scheduling Algorithm: </label>
                 <select id="algo-select">
                     <option value="fcfs">First-Come, First-Served</option>
                     <option value="sjf">Shortest Job First</option>

@@ -1,3 +1,7 @@
+:root {
+    --error: #e7195a;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
@@ -159,7 +163,7 @@ header {
     background-color: purple;
     margin: 8px;
     padding: 8px;
-    height: 25%;
+    height: 10%;
     align-items: center;
 }
 
@@ -169,18 +173,43 @@ header {
 }
 
 #process-id.error, #arrival-time.error, #burst-time.error {
-    border-color: red;
+    border-color: var(--error);
     border-radius: 100px;
 }
 
 /*  */
-#error-message, #id-error, #value-error {
+#error-message{
     visibility: hidden;
+    background: #ffefef;
+    text-align: center;
+    line-height: 10px;
+    border: 1px solid var(--error);
+    color: var(--error);
+    border-radius: 4px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    max-height:25%;
 }
 
+#error-message-2 {
+    visibility: hidden;
+    position:relative;
+    top:-100px;
+    background: #ffefef;
+    text-align: center;
+    border: 1px solid var(--error);
+    color: var(--error);
+    border-radius: 4px;
+}
 
+#error-message.show {
+    visibility: visible;
+} 
 
-/*  */
+#error-message-2.show {
+    visibility: visible;
+}
+
 .process-element {
     display: flex;
     justify-content: center;

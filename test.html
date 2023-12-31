@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input Validation with Tooltip</title>
+    <title>Two Divs on Top of Each Other</title>
     <style>
         /* Optional: Add some styling */
         body {
@@ -11,25 +11,26 @@
             margin: 20px;
         }
 
-        .tooltip {
-            display: none;
-            position: absolute;
-            background-color: #f44336;
-            color: #fff;
-            padding: 5px;
-            border-radius: 5px;
-            white-space: nowrap;
+        .div {
+            width: 200px;
+            height: 100px;
+            background-color: lightblue;
+            margin: 10px; /* Optional: Add margin for spacing */
+        }
+
+        .div1 {
+            /* Default positioning: stacked on top of each other */
+        }
+
+        .div2 {
+            position: relative;
+            top: -100px; /* Adjust the top value to control the overlap */
+            background-color: lightgreen;
         }
     </style>
 </head>
 <body>
-    <label for="myInput">Enter a valid value:</label>
-    <input type="text" id="myInput">
-    <button onclick="validateInput()">Submit</button>
-
-    <!-- Tooltip element -->
-    <div class="tooltip" id="errorTooltip"></div>
-
-    <script src="script.js"></script>
+    <div class="div div1">Div 1</div>
+    <div class="div div2">Div 2</div>
 </body>
 </html>
