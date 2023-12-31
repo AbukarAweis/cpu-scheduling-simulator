@@ -2,6 +2,7 @@
     --error: #e7195a;
     --primary: white;
     --secondary: #ccc;
+    --btn-color: #3498db;
 }
 
 body {
@@ -70,14 +71,8 @@ header {
     max-height: 70%;
 }
 
-/* #process-table {
-    background-color: purple;
-    height: 50%;
-    overflow-y: auto;
-} */
-
 #process-table {
-    background-color: white;
+    background-color: var(--secondary);
     min-height: 50%;
     max-height: 100%;
     overflow-y: auto;
@@ -93,8 +88,9 @@ header {
 
 #process-table th {
     position: sticky;
-    background-color: #ccc;
     top: 0;
+    background-color: darkgray;
+    font-size: larger;
 }
 
 #process-table tr {
@@ -180,35 +176,35 @@ header {
 
 #input {
     display: flex;
-    /* flex-direction: row; */
     justify-content: space-around;
     padding: 5px;
     height: 10%;
-    border: 1px solid #cccccc;
+    width: 97%;
+    border: 1px solid var(--primary);
     border-radius: 100px;
     transition: border-color 0.3s;
 }
 
 
-#algo-div {
+/* #algo-div {
     display:inline-block;
-    /* flex-direction: column; */
     background-color: var(--primary);
-    /* margin: 8px; */
     padding: 8px;
     height: 30%;
-    /* align-items: center; */
-}
-/* 
-#algo-button {
-    margin-top: 5%;
 } */
+
+#algo-div {
+    display: inline-block;
+    background-color: purple;
+    padding: 8px;
+    height: 30%;
+}
 
 #algo-text {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: bolder;
+    font-weight: bold;
     font-size:x-large;
 }
 
@@ -221,7 +217,7 @@ header {
     height: 50px;
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: bolder;
+    font-weight: bold;
     font-size:x-large;
 }
 
@@ -231,13 +227,13 @@ header {
 
 #process-id, #arrival-time, #burst-time {
     border-radius: 50px;
-    border-color:blue;
+    border: 3px solid var(--btn-color);
 }
 
 /* ERRORS */
 #process-id.error, #arrival-time.error, #burst-time.error {
-    border-color: var(--error);
-    border-radius: 100px;
+    border-radius: 50px;
+    border: 3px solid var(--error);
 }
 
 #error-message{
@@ -248,7 +244,7 @@ header {
     font-weight: bold;
     font-size: large;
     line-height: 10px;
-    border: 1px solid var(--error);
+    border: 3px solid var(--error);
     color: var(--error);
     border-radius: 4px;
     margin-top: 5%;
@@ -264,7 +260,7 @@ header {
     text-align: center;
     font-weight: bold;
     font-size: large;
-    border: 1px solid var(--error);
+    border: 3px solid var(--error);
     color: var(--error);
     border-radius: 4px;
 }
@@ -283,7 +279,7 @@ button {
     display: inline-block;
     margin-top:5%;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: larger;
     font-weight: bold;
     text-align: center;
     text-decoration: none;
@@ -291,16 +287,17 @@ button {
     border: none;
     border-radius: 5px;
     color: #fff;
-    background-color: #3498db;
+    background-color: var(--btn-color);
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #2980b9;
+    background-color: #236c9c;
 }
 
 button:disabled {
-    background-color: #ccc;
+    background-color: var(--secondary);
+    cursor: default;
 }
 
 #add-button {
@@ -308,23 +305,55 @@ button:disabled {
     margin-top: -1px;
 }
 
+#algo-buttons {
+    display: flex;
+    justify-content: end;
+}
+
+#start-button, #pause-button, #resume-button, #reset-button {
+    margin-left:5%;
+}
+
+#start-button:disabled, #pause-button:disabled, #resume-button:disabled, #reset-button:disabled {
+    background-color: var(--secondary);
+    cursor: default;
+}
+
 #start-button {
     background-color: green;
+    width: 100%;
 }
 
 #start-button:hover {
-    background-color: #2980b9;
+    background-color: darkgreen;
 }
 
+#pause-button {
+    visibility: hidden;
+    background-color: orange;
+    position:relative;
+    right:-400px;
+}
+
+#pause-button:hover {
+    background-color: rgb(180, 100, 3);
+}
+
+#resume-button {
+    visibility: hidden;
+    position:relative;
+    right:-253px;
+}
 
 #reset-button {
+    visibility: hidden;
     background-color: red;
+    position: relative;
+    right: 10px;
 }
 
-#algo-button {
-    display: flex;
-    /* justify-content: space-around; */
-    align-content: flex-end;
+#reset-button:hover {
+    background-color: darkred;
 }
 
 select {

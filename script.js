@@ -9,6 +9,10 @@ var cpuDisplay = document.getElementById('cpu');
 var genButton = document.getElementById("gen-button");
 var addButton = document.getElementById("add-button");
 var startButton = document.getElementById("start-button");
+var pauseButton = document.getElementById("pause-button");
+var resumeButton = document.getElementById("resume-button");
+var resetButton = document.getElementById("reset-button");
+
 var errorMessage = document.getElementById("error-message");
 var errorMessage2 = document.getElementById("error-message-2");
 
@@ -482,6 +486,8 @@ function getNumCompleted() {
    completed.textContent = "Completed: " + fQueue.length + " / " + numOfProcesses;
 
    if (fQueue.length == numOfProcesses) {
+      resumeButton.disabled = true;
+      pauseButton.disabled = true;
       endSummaryLog();
       stopTimer();
    }
@@ -534,6 +540,9 @@ function start() {
       genButton.disabled = true;
       addButton.disabled = true;
       startButton.disabled = true;
+      startButton.style.visibility = "hidden";
+      pauseButton.style.visibility = "visible";
+      resetButton.style.visibility = "visible";
 
       switch (algorithm) {
          case "fcfs":
@@ -574,6 +583,8 @@ function startTimer(algorithm) {
 }
 
 function stopTimer() {
+   pauseButton.style.visibility = "hidden";
+   resumeButton.style.visibility = "visible";
    clearInterval(timerInterval);
 }
 
@@ -583,6 +594,12 @@ function updateTimer() {
    timer.textContent = "Time: " + formatTime(seconds);
 
    seconds++;
+}
+
+function resumeTimer() {
+   resumeButton.style.visibility = "hidden";
+   pauseButton.style.visibility = "visible";
+   startTimer(algorithm);
 }
 
 function formatTime(seconds) {
@@ -670,5 +687,5 @@ function rr() {
 move timer and completed underneath finished. in status, print out the current burst status of whatever process
 the cpu is handling, or print 'idle'
 
-implement a pause feature, fix styling on left div
+fix styling for bottom left div
 */

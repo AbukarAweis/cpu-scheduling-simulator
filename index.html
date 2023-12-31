@@ -14,7 +14,7 @@
 
         <div class="left-div">
             <div id="process-div">
-                <div id="process-table" style="">
+                <div id="process-table" style="overflow-y: scroll;">
                     <table>
                         <thead>
                             <tr>
@@ -34,7 +34,7 @@
                     <input type="number" min="0" id="process-id" placeholder="Process ID" pattern="[0-9]+"
                             style="width: 100px; padding: 4px; box-sizing: border-box; font-size: 14px; font-weight: bold;">
                     <input type="number" min="0" id="arrival-time" placeholder="Arrival Time" pattern="[0-9]+"
-                            style="width: 100px; padding: 4px; box-sizing: border-box; font-size: 13px; font-weight: bold;">
+                            style="width: 108px; padding: 4px; box-sizing: border-box; font-size: 14px; font-weight: bold;">
                     <input type="number" min="0" id="burst-time" placeholder="Burst Time" pattern="[0-9]+"
                             style="width: 100px; padding: 4px; box-sizing: border-box; font-size: 14px; font-weight: bold;">
                     <button type="button" id="add-button" onclick="addProcess()">Add Process</button>
@@ -69,9 +69,11 @@
                         style="width: 100px; margin-left: 10px; padding: 4px; box-sizing: border-box; font-size: 20px;">
                 </div>
 
-                <div id="algo-button">
-                    <button type="button" id="start-button" onclick="start()">START</button>
+                <div id="algo-buttons">
+                    <button type="button" id="pause-button" onclick="stopTimer()">PAUSE</button>
+                    <button type="button" id="resume-button" onclick="resumeTimer()">RESUME</button>
                     <button type="button" id="reset-button" onclick="reset()">RESET</button>
+                    <button type="button" id="start-button" onclick="start()">START</button>
                 </div>
             </div>
 
