@@ -1,5 +1,7 @@
 :root {
     --error: #e7195a;
+    --primary: white;
+    --secondary: #ccc;
 }
 
 body {
@@ -59,25 +61,44 @@ header {
     font-weight: bolder;
 }
 
-#algo-text {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bolder;
-    font-size:x-large;
+
+#process-div {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary);
+    min-height: 70%;
+    max-height: 70%;
 }
 
-#process-table {
+/* #process-table {
     background-color: purple;
     height: 50%;
     overflow-y: auto;
+} */
+
+#process-table {
+    background-color: white;
+    min-height: 50%;
+    max-height: 100%;
+    overflow-y: auto;
+    border-collapse: collapse;
 }
 
 #process-table th, #process-table td {
-    border: 1px solid green;
+    border: 1px solid gray;
     padding: 8px;
-    width: 25%;
+    width: 20%;
     text-align: left;
+}
+
+#process-table th {
+    position: sticky;
+    background-color: #ccc;
+    top: 0;
+}
+
+#process-table tr {
+    height: 40px;
 }
 
 #queues {
@@ -159,26 +180,37 @@ header {
 
 #input {
     display: flex;
+    /* flex-direction: row; */
     justify-content: space-around;
     padding: 5px;
-    border: 1px solid #ccc;
+    height: 10%;
+    border: 1px solid #cccccc;
     border-radius: 100px;
     transition: border-color 0.3s;
 }
 
+
 #algo-div {
     display:inline-block;
     /* flex-direction: column; */
-    background-color: purple;
-    margin: 8px;
+    background-color: var(--primary);
+    /* margin: 8px; */
     padding: 8px;
-    height: 70%;
+    height: 30%;
     /* align-items: center; */
 }
 /* 
 #algo-button {
     margin-top: 5%;
 } */
+
+#algo-text {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    font-size:x-large;
+}
 
 #quantum {
     visibility: hidden;
@@ -199,7 +231,7 @@ header {
 
 #process-id, #arrival-time, #burst-time {
     border-radius: 50px;
-    border-color:green;
+    border-color:blue;
 }
 
 /* ERRORS */
@@ -210,23 +242,28 @@ header {
 
 #error-message{
     visibility: hidden;
+    position:relative;
     background: #ffefef;
     text-align: center;
+    font-weight: bold;
+    font-size: large;
     line-height: 10px;
     border: 1px solid var(--error);
     color: var(--error);
     border-radius: 4px;
     margin-top: 5%;
-    /* margin-bottom: 5%; */
+    margin-bottom: 5%;
     max-height:25%;
 }
 
 #error-message-2 {
     visibility: hidden;
     position:relative;
-    top:-100px;
+    top:-116px;
     background: #ffefef;
     text-align: center;
+    font-weight: bold;
+    font-size: large;
     border: 1px solid var(--error);
     color: var(--error);
     border-radius: 4px;
@@ -262,6 +299,15 @@ button:hover {
     background-color: #2980b9;
 }
 
+button:disabled {
+    background-color: #ccc;
+}
+
+#add-button {
+    height: 100%;
+    margin-top: -1px;
+}
+
 #start-button {
     background-color: green;
 }
@@ -290,7 +336,7 @@ select {
     font-size: 20px;
     border: 2px solid #3498db; /* Border color */
     border-radius: 5px;
-    background-color: gray;
+    background-color: var(--secondary);
     cursor: pointer;
     overflow: hidden;
 }

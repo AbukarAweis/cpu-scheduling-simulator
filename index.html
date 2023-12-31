@@ -13,41 +13,44 @@
     <div class="container">
 
         <div class="left-div">
-            <div id="process-table" style="overflow-y:scroll">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Process ID</th>
-                            <th>Arrival Time</th>
-                            <th>Burst Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        
-                    </tbody>
-
-                </table>
-            </div>
-
-            <div id="input" style="margin-top: 2%">
-                <input type="number" min="0" id="process-id" placeholder="Process ID" pattern="[0-9]+"
-                        style="width: 80px; padding: 4px; box-sizing: border-box; font-size: 11px;">
-                <input type="number" min="0" id="arrival-time" placeholder="Arrival Time" pattern="[0-9]+"
-                        style="width: 85px; padding: 4px; box-sizing: border-box; font-size: 11px;">
-                <input type="number" min="0" id="burst-time" placeholder="Burst Time" pattern="[0-9]+"
-                        style="width: 85px; padding: 6px; box-sizing: border-box; font-size: 11px;">
-                    </div>
-                    <button type="button" id="add-button" onclick="addProcess()">Add Process</button>
-            <button type="button" id="gen-button" style="margin-top: 2%" onclick="generate()">Generate 10 Random Processes</button>
-
-            <div id="error-message">
-                <p id="value-error">Please Ensure That: </p>
-                <p id="value-error">(1) All Inputs Are Positive Integers</p>
-                <p id="value-error">(2) Each Process Has A Unique ID</p>
-            </div>
+            <div id="process-div">
+                <div id="process-table" style="">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Process ID</th>
+                                <th>Arrival Time</th>
+                                <th>Burst Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
             
-            <div id="error-message-2">
-                <p id="sim-error">There Must Be At Least One Valid Process Before The Simulation Can Begin</p>
+                        </tbody>
+    
+                    </table>
+                </div>
+    
+                <div id="input" style="margin-top: 2%">
+                    <input type="number" min="0" id="process-id" placeholder="Process ID" pattern="[0-9]+"
+                            style="width: 100px; padding: 4px; box-sizing: border-box; font-size: 14px; font-weight: bold;">
+                    <input type="number" min="0" id="arrival-time" placeholder="Arrival Time" pattern="[0-9]+"
+                            style="width: 100px; padding: 4px; box-sizing: border-box; font-size: 13px; font-weight: bold;">
+                    <input type="number" min="0" id="burst-time" placeholder="Burst Time" pattern="[0-9]+"
+                            style="width: 100px; padding: 4px; box-sizing: border-box; font-size: 14px; font-weight: bold;">
+                    <button type="button" id="add-button" onclick="addProcess()">Add Process</button>
+                </div>
+
+                <button type="button" id="gen-button" style="margin-top: 2%" onclick="generate()">Generate 10 Random Processes</button>
+    
+                <div id="error-message">
+                    <p id="value-error">Please Ensure That: </p>
+                    <p id="value-error">(1) All Inputs Are Positive Integers</p>
+                    <p id="value-error">(2) Each Process Has A Unique ID</p>
+                </div>
+                
+                <div id="error-message-2">
+                    <p id="sim-error">There Must Be At Least One Valid Process Before The Simulation Can Begin</p>
+                </div>
             </div>
             
             <div id="algo-div">
