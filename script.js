@@ -563,6 +563,11 @@ function start() {
 
    if (table.rows.length != 0) {
 
+      var startSummary = document.createElement("p");
+      startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
+      startSummary.style.fontWeight = "bold";
+      summaryLog.appendChild(startSummary);
+
       switch (algorithm) {
          case "fcfs":
             startTimer(algorithm);
@@ -586,13 +591,7 @@ function start() {
             alert("invalid algorithm");
       }
 
-
       if (running) {
-         var startSummary = document.createElement("p");
-         startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
-         startSummary.style.fontWeight = "bold";
-         summaryLog.appendChild(startSummary);
-
             //Setting the algorithm to the text content of selected option
          algoDiv.textContent = "Algorithm: " + selectedAlgo.options[(selectedAlgo.selectedIndex)].textContent;
    
@@ -603,6 +602,7 @@ function start() {
          startButton.style.visibility = "hidden";
          pauseButton.style.visibility = "visible";
       }
+
 
       removeErrors();
    } else {
