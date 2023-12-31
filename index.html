@@ -36,29 +36,40 @@
                         style="width: 85px; padding: 4px; box-sizing: border-box; font-size: 11px;">
                 <input type="number" min="0" id="burst-time" placeholder="Burst Time" pattern="[0-9]+"
                         style="width: 85px; padding: 6px; box-sizing: border-box; font-size: 11px;">
-                <button type="button" id="add-button" onclick="addProcess()">Add Process</button>
-            </div>
+                    </div>
+                    <button type="button" id="add-button" onclick="addProcess()">Add Process</button>
             <button type="button" id="gen-button" style="margin-top: 2%" onclick="generate()">Generate 10 Random Processes</button>
 
             <div id="error-message">
                 <p id="value-error">Please Ensure That: </p>
                 <p id="value-error">(1) All Inputs Are Positive Integers</p>
                 <p id="value-error">(2) Each Process Has A Unique ID</p>
-                
             </div>
             
             <div id="error-message-2">
                 <p id="sim-error">There Must Be At Least One Valid Process Before The Simulation Can Begin</p>
             </div>
             
-            <label>Select Scheduling Algorithm: </label>
             <div id="algo-div">
-                <select id="algo-select">
-                    <option value="fcfs">First-Come, First-Served</option>
-                    <option value="sjf">Shortest Job First</option>
-                    <option value="rr">Round Robin</option>
-                </select>
-                <button type="button" id="start-button" onclick="start()">Start Simulation</button>
+                <label id="algo-text">Select Scheduling Algorithm: </label>
+                <div id="algo-select">
+                    <select id="select" onchange="toggleVisibility()">
+                        <option value="fcfs">First-Come, First-Served</option>
+                        <option value="sjf">Shortest Job First</option>
+                        <option value="rr">Round Robin</option>
+                    </select>
+                </div>
+
+                <div id="quantum">
+                    <label>Time Quantum:</label>
+                    <input type="number" min="0" id="quantum-input" placeholder="seconds" pattern="[0-9]+"
+                        style="width: 100px; margin-left: 10px; padding: 4px; box-sizing: border-box; font-size: 20px;">
+                </div>
+
+                <div id="algo-button">
+                    <button type="button" id="start-button" onclick="start()">START</button>
+                    <button type="button" id="reset-button" onclick="reset()">RESET</button>
+                </div>
             </div>
 
         </div>

@@ -3,34 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two Divs on Top of Each Other</title>
+    <title>Checklist Selector</title>
     <style>
-        /* Optional: Add some styling */
+        /* Optional: Reset some default styles */
         body {
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            margin: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
         }
 
-        .div {
-            width: 200px;
-            height: 100px;
-            background-color: lightblue;
-            margin: 10px; /* Optional: Add margin for spacing */
+        /* Stylish Checklist Styles */
+        .checklist {
+            list-style: none;
+            padding: 0;
         }
 
-        .div1 {
-            /* Default positioning: stacked on top of each other */
+        .checklist-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
         }
 
-        .div2 {
-            position: relative;
-            top: -100px; /* Adjust the top value to control the overlap */
-            background-color: lightgreen;
+        .checklist-item input {
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="div div1">Div 1</div>
-    <div class="div div2">Div 2</div>
+    <ul class="checklist">
+        <li class="checklist-item">
+            <input type="checkbox" id="item1" name="item1">
+            <label for="item1">Item 1</label>
+        </li>
+        <li class="checklist-item">
+            <input type="checkbox" id="item2" name="item2">
+            <label for="item2">Item 2</label>
+        </li>
+        <li class="checklist-item">
+            <input type="checkbox" id="item3" name="item3">
+            <label for="item3">Item 3</label>
+        </li>
+    </ul>
 </body>
 </html>

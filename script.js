@@ -12,7 +12,7 @@ var startButton = document.getElementById("start-button");
 var errorMessage = document.getElementById("error-message");
 var errorMessage2 = document.getElementById("error-message-2");
 
-var selectedAlgo = document.getElementById("algo-select");
+var selectedAlgo = document.getElementById("select");
 
 var algorithm = selectedAlgo.value;
 
@@ -46,6 +46,16 @@ var process = {
     arrivalTime: document.getElementById('arrival-time'),
     burstTime: document.getElementById('burst-time'),
 };
+
+function toggleVisibility() {
+   var qTime = document.getElementById("quantum");
+
+   if (selectedAlgo.value === "rr") {
+      qTime.classList.add("show");
+   } else {
+      qTime.classList.remove("show");
+   }
+}
 
    /*
    //Push the given process to the wQueue to keep track of it
@@ -510,6 +520,10 @@ function getTextColor(bgColor) {
    return brightness > 128 ? '#000' : '#fff';
 }
 
+function reset() {
+   location.reload();
+}
+
 function start() { 
    if (table.rows.length != 0) {
       var startSummary = document.createElement("p");
@@ -561,7 +575,6 @@ function startTimer(algorithm) {
 
 function stopTimer() {
    clearInterval(timerInterval);
-
 }
 
 function updateTimer() {
@@ -656,4 +669,6 @@ function rr() {
 /*
 move timer and completed underneath finished. in status, print out the current burst status of whatever process
 the cpu is handling, or print 'idle'
+
+implement a pause feature, fix styling on left div
 */
