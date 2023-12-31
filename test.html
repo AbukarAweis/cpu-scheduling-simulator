@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progress Bar with Percentage</title>
+    <title>Shrinking Animation</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -14,67 +13,24 @@
             margin: 0;
         }
 
-        .progress-container {
-            position: relative;
-            width: 300px;
-            height: 20px;
-            background-color: #eee;
-            border-radius: 10px;
-            overflow: hidden;
+        .shrink-div {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            animation: shrinkAnimation 2s ease-in-out infinite alternate;
         }
 
-        .progress-bar {
-            height: 100%;
-            width: 0;
-            background-color: #4caf50;
-            border-radius: 10px;
-            transition: width 0.3s ease-in-out;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .percentage-label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #333;
+        @keyframes shrinkAnimation {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0.5);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Progress bar container -->
-    <div class="progress-container">
-        <!-- Progress bar -->
-        <div class="progress-bar" id="myProgressBar"></div>
-
-        <!-- Percentage label -->
-        <div class="percentage-label" id="percentageLabel">0%</div>
-    </div>
-
-    <!-- Button to simulate progress -->
-    <button onclick="simulateProgress()">Simulate Progress</button>
-
-    <!-- JavaScript to update the progress bar and percentage label -->
-    <script>
-        function simulateProgress() {
-            var progressBar = document.getElementById('myProgressBar');
-            var percentageLabel = document.getElementById('percentageLabel');
-            var currentValue = parseFloat(getComputedStyle(progressBar).width);
-            var maxValue = parseFloat(getComputedStyle(progressBar.parentElement).width);
-
-            // Increase the progress value (simulating progress)
-            if (currentValue < maxValue) {
-                progressBar.style.width = (currentValue + 20) + 'px';
-            } else {
-                progressBar.style.width = '0'; // Reset when reaching maximum value
-            }
-            // Update the percentage label
-            var percentage = (currentValue / maxValue) * 100;
-            percentageLabel.textContent = Math.round(percentage) + '%';
-
-        }
-    </script>
+    <div class="shrink-div"></div>
 </body>
 </html>

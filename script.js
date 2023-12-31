@@ -7,6 +7,8 @@ var finishedDisplay = document.getElementById('finished-queue');
 var cpuDisplay = document.getElementById('cpu');
 
 var timer = document.getElementById('time');
+var statusDiv = document.getElementById("status");
+var workingOn = document.getElementById("working-on");
 
 var genButton = document.getElementById("gen-button");
 var addButton = document.getElementById("add-button");
@@ -125,13 +127,22 @@ function addToFinishedQueue(process, processElement) {
 function addToCPU(process, processElement) {
    if (cpu.length < 1) {
 
+      
       burstCopy = process.burstTime;
       if (process.arrivalTime != 0) {
          process.burstTime--;
       }
-
+      
       cpu.push(process);
       cpuDisplay.appendChild(processElement);
+      
+      statusDiv.style.backgroundColor = "red";
+
+      if (process.burstTime != 0 && process.arrivalTime != 0) {
+         workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime + 1) + "/" + burstCopy;
+      } else {
+         workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime) + "/" + burstCopy;
+      }
 
       updateSummaryLog(process.processID + " > CPU", "#ffa500");
    }
@@ -148,11 +159,14 @@ function updateCPU() {
    var process = cpu[0];
    var processElement = document.getElementById("P" + process.processID);
 
-
+   
    if (process.burstTime <= 0) {
       cpu.pop();
       addToFinishedQueue(process, processElement);
+      statusDiv.style.backgroundColor = "gray";
+      workingOn.textContent = "< IDLE >";
    } else {
+      workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + burstCopy;
       process.burstTime--;
    }
 
@@ -185,7 +199,6 @@ function addProcess() {
 
          //disable generate button and reset all values to placeholder
       genButton.disabled = true;
-      // console.log(typeof process.processID.placeholder);
       process.processID.value = process.processID.placeholder;
       process.arrivalTime.value = process.arrivalTime.placeholder;
       process.burstTime.value = process.burstTime.placeholder;
@@ -599,6 +612,10 @@ function start() {
          addButton.disabled = true;
          startButton.disabled = true;
          selectedAlgo.disabled = true;
+         process.processID.disabled = true;
+         process.arrivalTime.disabled = true;
+         process.burstTime.disabled = true;
+
          startButton.style.visibility = "hidden";
          pauseButton.style.visibility = "visible";
       }
@@ -726,8 +743,9 @@ function rr() {
 }
 
 /*
-move timer and completed underneath finished. in status, print out the current burst status of whatever process
-the cpu is handling, or print 'idle'
+-small but when theres a process with zero arrival time, theres a lag before the timer starts incrementing
 
-fix styling for bottom left div
+-finish styling middle div
+
+-style progress bar, cpu and status areas
 */
