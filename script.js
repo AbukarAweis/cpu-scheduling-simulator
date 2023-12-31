@@ -384,9 +384,9 @@ function addSummaryTable(process) {
    cell1.innerHTML = process.processID;
    cell2.innerHTML = process.arrivalTime;
    cell3.innerHTML = burstCopy;
-   cell4.innerHTML = exitTime;
-   cell5.innerHTML = waitingTime;
-   cell6.innerHTML = turnAroundTime;
+   cell4.innerHTML = formatTime(exitTime);
+   cell5.innerHTML = formatTime(waitingTime);
+   cell6.innerHTML = formatTime(turnAroundTime);
 
    totalWT += waitingTime;
    totalTAT += turnAroundTime;
