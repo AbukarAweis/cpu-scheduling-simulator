@@ -32,11 +32,11 @@
     
                 <div id="input" style="margin-top: 2%">
                     <input type="number" min="0" id="process-id" placeholder="Process ID" pattern="[0-9]+"
-                            style="width: 100px; padding: 4px; box-sizing: border-box; font-size: 14px; font-weight: bold;">
+                            style="width: 75px; padding: 4px; margin: 3px 3px 3px 0px; font-size: 10px; font-style:italic; font-weight: bold;">
                     <input type="number" min="0" id="arrival-time" placeholder="Arrival Time" pattern="[0-9]+"
-                            style="width: 108px; padding: 4px; box-sizing: border-box; font-size: 14px; font-weight: bold;">
+                            style="width: 75px; padding: 4px; margin: 3px;  font-size: 10px; font-style:italic; font-weight: bold;">
                     <input type="number" min="0" id="burst-time" placeholder="Burst Time" pattern="[0-9]+"
-                            style="width: 100px; padding: 4px; box-sizing: border-box; font-size: 14px; font-weight: bold;">
+                            style="width: 75px; padding: 4px; margin: 3px; font-size: 10px; font-style:italic; font-weight: bold;">
                     <button type="button" id="add-button" onclick="addProcess()">Add Process</button>
                 </div>
 
@@ -50,6 +50,10 @@
                 
                 <div id="error-message-2">
                     <p id="sim-error">There Must Be At Least One Valid Process Before The Simulation Can Begin</p>
+                </div>
+
+                <div id="error-message-3">
+                    <p id="sim-error">The Time Quantum Must Be A Positive Integer</p>
                 </div>
             </div>
             

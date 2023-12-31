@@ -15,10 +15,13 @@ var resetButton = document.getElementById("reset-button");
 
 var errorMessage = document.getElementById("error-message");
 var errorMessage2 = document.getElementById("error-message-2");
+var errorMessage3 = document.getElementById("error-message-3");
 
 var selectedAlgo = document.getElementById("select");
+var quantumInput = document.getElementById("quantum-input");
 
-var algorithm = selectedAlgo.value;
+var algorithm;
+var running = false;
 
    //waiting queue, finished queue, cpu queue
 var wQueue = [];
@@ -58,6 +61,8 @@ function toggleVisibility() {
       qTime.classList.add("show");
    } else {
       qTime.classList.remove("show");
+      errorMessage3.classList.remove("show");
+      quantumInput.classList.remove("error");
    }
 }
 
@@ -534,33 +539,47 @@ function reset() {
 }
 
 function start() { 
-   if (table.rows.length != 0) {
-      var startSummary = document.createElement("p");
-      startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
-      startSummary.style.fontWeight = "bold";
-      summaryLog.appendChild(startSummary);
+   algorithm = selectedAlgo.value;
 
-      genButton.disabled = true;
-      addButton.disabled = true;
-      startButton.disabled = true;
-      startButton.style.visibility = "hidden";
-      pauseButton.style.visibility = "visible";
+   if (table.rows.length != 0) {
 
       switch (algorithm) {
          case "fcfs":
             startTimer(algorithm);
+            running = true;
             fcfs();
             break;
          case "sjf":
             sjf();
             break;
          case "rr":
-            rr();
+            if ((validateInput(quantumInput, false))) {
+               running = true;
+               errorMessage3.classList.remove("show");
+               rr();
+            } else {
+               errorMessage3.classList.add("show");
+               quantumInput.classList.add("error");
+            }
             break;
          default:
             alert("invalid algorithm");
       }
-      
+
+
+      if (running) {
+         var startSummary = document.createElement("p");
+         startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
+         startSummary.style.fontWeight = "bold";
+         summaryLog.appendChild(startSummary);
+   
+         genButton.disabled = true;
+         addButton.disabled = true;
+         startButton.disabled = true;
+         startButton.style.visibility = "hidden";
+         pauseButton.style.visibility = "visible";
+      }
+
       removeErrors();
    } else {
       removeErrors();

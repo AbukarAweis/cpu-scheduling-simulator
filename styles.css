@@ -38,6 +38,7 @@ header {
     flex: 1;
     background-color: white;
     height: 100%;
+    width: 20%;
 }
 
 .center-div {
@@ -52,7 +53,8 @@ header {
 .right-div {
     flex:1;
     background-color: blue;
-    height:100%
+    height:100%;
+    width:20%;
 }
 
 #text {
@@ -82,7 +84,7 @@ header {
 #process-table th, #process-table td {
     border: 1px solid gray;
     padding: 8px;
-    width: 20%;
+    width: 30%;
     text-align: left;
 }
 
@@ -90,11 +92,11 @@ header {
     position: sticky;
     top: 0;
     background-color: darkgray;
-    font-size: larger;
+    font-size: medium;
 }
 
 #process-table tr {
-    height: 40px;
+    height: 43px;
 }
 
 #queues {
@@ -189,7 +191,8 @@ header {
     display: inline-block;
     background-color: var(--primary);
     padding: 8px;
-    height: 30%;
+    height: 27%;
+    margin-top: 4%;
 }
 
 #algo-text {
@@ -197,11 +200,11 @@ header {
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    font-size:x-large;
+    font-size:large;
 }
 
 #quantum {
-    visibility: hidden;
+    visibility: visible;
     display: flex;
     flex-direction: row;
     justify-content: right;
@@ -210,7 +213,7 @@ header {
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    font-size:x-large;
+    font-size: large;
 }
 
 #quantum.show {
@@ -219,6 +222,8 @@ header {
 
 #quantum-input {
     border-radius: 5px;
+    font-style: italic;
+    border: 2px solid black;
 }
 
 #process-id, #arrival-time, #burst-time {
@@ -232,30 +237,47 @@ header {
     border: 3px solid var(--error);
 }
 
+#quantum-input.error {
+    border-radius: 5px;
+    border: 2px solid var(--error);
+}
+
 #error-message{
     visibility: hidden;
     position:relative;
     background: #ffefef;
     text-align: center;
     font-weight: bold;
-    font-size: large;
+    font-size: medium;
     line-height: 10px;
     border: 3px solid var(--error);
     color: var(--error);
     border-radius: 4px;
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 1%;
     max-height:25%;
 }
 
 #error-message-2 {
     visibility: hidden;
     position:relative;
-    top:-116px;
+    top:-85px;
     background: #ffefef;
     text-align: center;
     font-weight: bold;
-    font-size: large;
+    font-size: medium;
+    border: 3px solid var(--error);
+    color: var(--error);
+    border-radius: 4px;
+}
+
+#error-message-3 {
+    visibility: hidden;
+    position:relative;
+    top:-158px;
+    background: #ffefef;
+    text-align: center;
+    font-weight: bold;
+    font-size: medium;
     border: 3px solid var(--error);
     color: var(--error);
     border-radius: 4px;
@@ -266,6 +288,10 @@ header {
 } 
 
 #error-message-2.show {
+    visibility: visible;
+}
+
+#error-message-3.show {
     visibility: visible;
 }
 
@@ -298,18 +324,32 @@ button:disabled {
 
 #add-button {
     height: 100%;
+    width: 90px;
+    font-size: small;
+    padding: 2px 4px 4px 4px;
     margin-top: -1px;
+}
+
+#gen-button {
+    margin-top: 0;
+    margin-bottom: 1px;
+    font-size: medium;
+    padding: 5px 5px;
 }
 
 #algo-buttons {
     display: flex;
     justify-content: end;
     position: relative;
+    height: 50px;
     top: -15px;
+    /* margin-left: 5%; */
 }
 
 #start-button, #pause-button, #resume-button, #reset-button {
     margin-left:5%;
+    /* width: 50px; */
+    padding: 5px 5px 5px 5px;
 }
 
 #start-button:disabled, #pause-button:disabled, #resume-button:disabled, #reset-button:disabled {
@@ -319,7 +359,7 @@ button:disabled {
 
 #start-button {
     background-color: green;
-    width: 100%;
+    width: 100px;
 }
 
 #start-button:hover {
@@ -330,7 +370,7 @@ button:disabled {
     visibility: hidden;
     background-color: orange;
     position:relative;
-    right:-400px;
+    right: -290px;
 }
 
 #pause-button:hover {
@@ -340,12 +380,13 @@ button:disabled {
 #resume-button {
     visibility: hidden;
     position:relative;
-    right:-253px;
+    right: -180px;
 }
 
 #reset-button {
     background-color: red;
     position: relative;
+    width: 100%;
     right: 10px;
 }
 
@@ -357,10 +398,10 @@ select {
     position: relative;
     display: inline-block;
     width: 100%;
-    height: 50px;
-    margin-top: 5%;
+    height: 30px;
+    margin-top: 2%;
     font-size: 20px;
-    border: 2px solid var(--btn-color);
+    border: 2px solid black;
     border-radius: 5px;
     background-color: var(--secondary);
     cursor: pointer;
