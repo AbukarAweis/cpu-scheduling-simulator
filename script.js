@@ -119,25 +119,27 @@ function addToFinishedQueue(process, processElement) {
 }
 
    /*
+   //If the burstTime is zero, add to the finishedQueue instead of adding to CPU.
    //If the CPU is empty, remove the process from waitingDisplay,
    //push the given process to the cpu to keep track of it
    //and append a process element child to cpuDisplay so it can be displayed.
    //Update summary log using CPU's color
    */
 function addToCPU(process, processElement) {
-   if (cpu.length < 1) {
-
-      
+   if (process.burstTime == 0) {
+      burstCopy = 0;
+      addToFinishedQueue(process, processElement);
+   } else if (cpu.length < 1) {
       burstCopy = process.burstTime;
       if (process.arrivalTime != 0) {
          process.burstTime--;
       }
-      
+
       cpu.push(process);
       cpuDisplay.appendChild(processElement);
       
+         //update the status of what the CPU is working on
       statusDiv.style.backgroundColor = "red";
-
       if (process.burstTime != 0 && process.arrivalTime != 0) {
          workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime + 1) + "/" + burstCopy;
       } else {
@@ -340,6 +342,8 @@ function updateSummaryLog(content, color) {
    //to the summary log.
    */
 function endSummaryLog() {
+
+   
    var endSummary = document.createElement("p");
    var numProc = document.createElement("p");
    var totalTime = document.createElement("p");
@@ -347,17 +351,18 @@ function endSummaryLog() {
    var aveWTElement = document.createElement("p");
    var aveTATElement = document.createElement("p");
    var cpuUtilElement = document.createElement("p");
-
+   
+   if (seconds > 1) {seconds -= 1};
    var throughput = (numOfProcesses / (maxET - minAT)).toFixed(2);
-   var cpuUtilization = ((totalNIT / seconds) * 100).toFixed(2);
+   var cpuUtilization = ((totalNIT / (seconds)) * 100).toFixed(2);
 
    endSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION COMPLETE***";
    numProc.textContent = "# of Processes: " + numOfProcesses;
    throughputElement.textContent = "Throughput: " + (throughput != Infinity ? throughput : 0);
-   totalTime.textContent = "Total Duration: " + (formatTime(seconds - 1));
+   totalTime.textContent = "Total Duration: " + (formatTime(seconds));
    aveWTElement.textContent = "Average Waiting Time: " + formatTime((totalWT / numOfProcesses).toFixed(2));
    aveTATElement.textContent = "Average Turnaround Time: " + formatTime((totalTAT / numOfProcesses).toFixed(2));
-   cpuUtilElement.textContent = "CPU Utilization = " + (cpuUtilization <= 100 ? cpuUtilization : 100.00) + "%";
+   cpuUtilElement.textContent = "CPU Utilization = " + cpuUtilization + "%";
    
    endSummary.style.fontWeight = "bold";
    numProc.style.fontWeight = "bold";
@@ -743,7 +748,7 @@ function rr() {
 }
 
 /*
--small but when theres a process with zero arrival time, theres a lag before the timer starts incrementing
+-bug when arrival = 0 and burst = 0, time doesn't update right away.
 
 -finish styling middle div
 

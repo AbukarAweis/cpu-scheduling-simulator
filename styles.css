@@ -139,7 +139,7 @@ header {
 
 #time {
     position: fixed;
-    margin-left: 340px;
+    margin-left: 345px;
 }
 
 #progress-div {
@@ -482,6 +482,10 @@ select {
     background-color: var(--secondary);
     cursor: pointer;
     overflow: hidden;
+}
+
+select:disabled {
+    cursor: default;
 }
 
 .process-element {
