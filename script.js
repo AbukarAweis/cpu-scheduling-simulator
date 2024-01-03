@@ -532,10 +532,10 @@ function validateInput(element, isID) {
    */
 function getPercentComplete() {
    if (progressPercent.textContent == "100%") {
-      resumeButton.disabled = true;
       pauseButton.disabled = true;
-      endSummaryLog();
+      resumeButton.disabled = true;
       stopTimer();
+      endSummaryLog();
    }
 }
 
