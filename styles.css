@@ -83,7 +83,6 @@ header {
 
 #process-table th, #process-table td {
     border: 1px solid gray;
-    padding: 8px;
     width: 30%;
     text-align: left;
 }
@@ -92,7 +91,7 @@ header {
     position: sticky;
     top: 0;
     background-color: darkgray;
-    font-size: medium;
+    font-size: 14px;
 }
 
 #process-table tr {
@@ -139,7 +138,7 @@ header {
 
 #time {
     position: fixed;
-    margin-left: 345px;
+    margin-left: 350px;
 }
 
 #progress-div {

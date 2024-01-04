@@ -251,7 +251,7 @@ function generate() {
 //    var cell3 = newRow1.insertCell(2);
 //    cell1.innerHTML = 1;
 //    cell2.innerHTML = 0;
-//    cell3.innerHTML = 2;
+//    cell3.innerHTML = 9;
 
 //    var newRow2 = table.insertRow(table.rows.length);
 //    newRow2.id = "P" + 2;
@@ -268,8 +268,8 @@ function generate() {
 //    var cell2 = newRow3.insertCell(1);
 //    var cell3 = newRow3.insertCell(2);
 //    cell1.innerHTML = 3;
-//    cell2.innerHTML = 2;
-//    cell3.innerHTML = 5;
+//    cell2.innerHTML = 1;
+//    cell3.innerHTML = 2;
 
 //    var newRow3 = table.insertRow(table.rows.length);
 //    newRow3.id = "P" + 4;
@@ -277,8 +277,8 @@ function generate() {
 //    var cell2 = newRow3.insertCell(1);
 //    var cell3 = newRow3.insertCell(2);
 //    cell1.innerHTML = 4;
-//    cell2.innerHTML = 3;
-//    cell3.innerHTML = 6;
+//    cell2.innerHTML = 1;
+//    cell3.innerHTML = 4;
 
 //    var newRow3 = table.insertRow(table.rows.length);
 //    newRow3.id = "P" + 5;
@@ -286,8 +286,8 @@ function generate() {
 //    var cell2 = newRow3.insertCell(1);
 //    var cell3 = newRow3.insertCell(2);
 //    cell1.innerHTML = 5;
-//    cell2.innerHTML = 4;
-//    cell3.innerHTML = 8;
+//    cell2.innerHTML = 2;
+//    cell3.innerHTML = 3;
 
 //    var newRow3 = table.insertRow(table.rows.length);
 //    newRow3.id = "P" + 6;
@@ -295,8 +295,8 @@ function generate() {
 //    var cell2 = newRow3.insertCell(1);
 //    var cell3 = newRow3.insertCell(2);
 //    cell1.innerHTML = 6;
-//    cell2.innerHTML = 5;
-//    cell3.innerHTML = 7;
+//    cell2.innerHTML = 3;
+//    cell3.innerHTML = 2;
    
 //    numOfProcesses += 6;
 // }
@@ -342,14 +342,12 @@ function updateSummaryLog(content, color) {
    //to the summary log.
    */
 function endSummaryLog() {
-
-   
    var endSummary = document.createElement("p");
    var numProc = document.createElement("p");
    var totalTime = document.createElement("p");
    var throughputElement = document.createElement("p");
-   var aveWTElement = document.createElement("p");
-   var aveTATElement = document.createElement("p");
+   var avgWTElement = document.createElement("p");
+   var avgTATElement = document.createElement("p");
    var cpuUtilElement = document.createElement("p");
    
    if (seconds > 1) {seconds -= 1};
@@ -358,26 +356,26 @@ function endSummaryLog() {
 
    endSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION COMPLETE***";
    numProc.textContent = "# of Processes: " + numOfProcesses;
-   throughputElement.textContent = "Throughput: " + (throughput != Infinity ? throughput : 0);
    totalTime.textContent = "Total Duration: " + (formatTime(seconds));
-   aveWTElement.textContent = "Average Waiting Time: " + formatTime((totalWT / numOfProcesses).toFixed(2));
-   aveTATElement.textContent = "Average Turnaround Time: " + formatTime((totalTAT / numOfProcesses).toFixed(2));
-   cpuUtilElement.textContent = "CPU Utilization = " + cpuUtilization + "%";
+   avgWTElement.textContent = "Avg. Waiting Time: " + formatTime((totalWT / numOfProcesses).toFixed(2));
+   avgTATElement.textContent = "Avg. Turnaround Time: " + formatTime((totalTAT / numOfProcesses).toFixed(2));
+   throughputElement.textContent = "Throughput: " + ((throughput != Infinity) ? throughput : 0);
+   cpuUtilElement.textContent = "CPU Utilization: " + ((cpuUtilization > 100) ? 100 : cpuUtilization) + "%";
    
    endSummary.style.fontWeight = "bold";
    numProc.style.fontWeight = "bold";
-   throughputElement.style.fontWeight = "bold";
    totalTime.style.fontWeight = "bold";
-   aveWTElement.style.fontWeight = "bold";
-   aveTATElement.style.fontWeight = "bold";
+   avgWTElement.style.fontWeight = "bold";
+   avgTATElement.style.fontWeight = "bold";
+   throughputElement.style.fontWeight = "bold";
    cpuUtilElement.style.fontWeight = "bold";
 
    summaryLog.appendChild(endSummary);
    summaryLog.appendChild(numProc);
-   summaryLog.appendChild(throughputElement);
    summaryLog.appendChild(totalTime);
-   summaryLog.appendChild(aveWTElement);
-   summaryLog.appendChild(aveTATElement);
+   summaryLog.appendChild(avgWTElement);
+   summaryLog.appendChild(avgTATElement);
+   summaryLog.appendChild(throughputElement);
    summaryLog.appendChild(cpuUtilElement);
    summaryLog.scrollTop = summaryLog.scrollHeight;
 }
@@ -612,6 +610,7 @@ function start() {
       if (running) {
             //Setting the algorithm to the text content of selected option
          algoDiv.textContent = "Algorithm: " + selectedAlgo.options[(selectedAlgo.selectedIndex)].textContent;
+         timer.textContent = "Time: " + formatTime(seconds);
    
          genButton.disabled = true;
          addButton.disabled = true;
@@ -637,7 +636,7 @@ function start() {
 function startTimer(algorithm) {
    clearInterval(timerInterval);
    timerInterval = setInterval(function () {
-      
+
       if (cpu.length == 1) {
          updateCPU();
       }
@@ -670,7 +669,7 @@ function formatTime(seconds) {
    var minutes = Math.floor(seconds / 60);
    var remainingSeconds = seconds % 60;
 
-   return (minutes < 10 ? "0" : "") + minutes + ":" + 
+   return minutes + ":" + 
             (remainingSeconds < 10 ? "0" : "") + remainingSeconds;
 }
 //============================================================================================================================================
@@ -748,9 +747,19 @@ function rr() {
 }
 
 /*
--bug when arrival = 0 and burst = 0, time doesn't update right away.
+-bug when arrival = 0 and burst = 0, reason is that time doesn't update right as start is pressed.
+   -p1 a0, b0 -> ct 0, wt 0, tat 0
+   -p2 a0, b0 -> ct 0, wt 0, tat 0
+   -p3 a0, b0 -> ct 1, wt 1, tat 0
+
+   should be, but incrementing timer by 1 when the sim starts results in off by 1 errors for real cases
+   -p1 a0, b0 -> ct 0, wt 0, tat 0
+   -p2 a0, b0 -> ct 1, wt 1, tat 1
+   -p3 a0, b0 -> ct 2, wt 2, tat 2
 
 -finish styling middle div
 
 -style progress bar, cpu and status areas
+
+-bug when you start rr without valid qt. summary log prints a message
 */
