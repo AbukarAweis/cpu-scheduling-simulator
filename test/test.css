@@ -1,0 +1,499 @@
+:root {
+    --error: #e7195a;
+    --primary: white;
+    --secondary: #ccc;
+    --btn-color: #3498db;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: green;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0f0f0f;
+    color: #fff;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    height: 80vh;
+}
+
+.left-div, .center-div, .right-div {
+    padding:20px;
+    box-sizing: border-box;
+}
+
+.left-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    background-color: white;
+    height: 100%;
+    width: 20%;
+}
+
+.center-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 2;
+    background-color: gray;
+    height:100%;
+}
+
+.right-div {
+    flex:1;
+    background-color: blue;
+    height:100%;
+    width:20%;
+}
+
+#text {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+}
+
+
+#process-div {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary);
+    min-height: 70%;
+    max-height: 70%;
+}
+
+#process-table {
+    background-color: var(--secondary);
+    min-height: 50%;
+    max-height: 100%;
+    overflow-y: auto;
+    border-collapse: collapse;
+}
+
+#process-table th, #process-table td {
+    border: 1px solid gray;
+    width: 30%;
+    text-align: left;
+}
+
+#process-table th {
+    position: sticky;
+    top: 0;
+    background-color: darkgray;
+    font-size: 14px;
+}
+
+#process-table tr {
+    height: 43px;
+}
+
+
+/* QUEUES & SUMMARY */
+#queues {
+    display:flex;
+    flex-direction: column;
+    width: 75%;
+    font-size: large;
+    font-weight: bold;
+}
+
+#waiting-queue {
+    position: relative;
+    background-color: #ff0000;
+    max-height: 60px;
+}
+
+#finished-queue {
+    position: relative;
+    background-color: #0000ff;
+    max-height: 60px;
+}
+
+#waiting-queue, #finished-queue {
+    display: flex;
+    flex-wrap: wrap;
+    height: 30%;
+    width: 82%;
+    overflow:auto;
+    margin-left: 5%;
+}
+
+#time-algorithm-div {
+    display: flex;
+    flex-direction: row;
+    font-size: medium;
+    margin-left: 5%;
+}
+
+#time {
+    position: fixed;
+    margin-left: 350px;
+}
+
+#progress-div {
+    position: relative;
+    right: -15px;
+    bottom: 5px;
+    width: 87%;
+    height: 20px;
+    background-color: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: #4caf50;
+    border-radius: 10px;
+    transition: width 0.3s ease-in-out;
+}
+
+#progress-percent {
+    position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: medium;
+            transform: translate(-50%, -50%);
+            color: black;
+}
+
+#control {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    font-size: large;
+    font-weight: bold;
+    background-color: blue;
+}
+
+
+#cpu, #status {
+    display: flex;
+    justify-content: center;
+    margin-left: 10%;
+    border-radius: 15px;
+}
+
+#cpu {
+    background-color: #ffa500;
+    height: 30%;
+    margin-right: 40%;
+    align-items: center;
+}
+
+#status {
+    background-color: gray;
+    height: 45%;
+    margin-right: 10%;
+}
+
+#working-on {
+    text-align: center;
+    margin-top: 35%;
+}
+
+#simulation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color: green;
+    height: 50%;
+    
+}
+
+#summary-table {
+    background-color: var(--secondary);
+    min-height: 50%;
+    max-height: 50%;
+    width: 100%;
+    overflow-y: auto;
+    border-collapse: collapse;
+}
+
+#summary-table th, #summary-table td {
+    border: 1px solid gray;
+    width: 16%;
+    text-align: left;
+}
+
+#summary-table th {
+    position: sticky;
+    top: 0;
+    background-color: darkgray;
+    font-size: 14px;
+}
+
+#summary-table tr {
+    height: 41px;
+}
+
+#summary-log {
+    background-color: purple;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 1%;
+    overflow: auto;
+    padding-left: 2%;
+}
+
+#input {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+    height: 10%;
+    width: 97%;
+    border: 1px solid var(--primary);
+    border-radius: 100px;
+    transition: border-color 0.3s;
+}
+
+#algo-div {
+    display: inline-block;
+    background-color: var(--primary);
+    padding: 8px;
+    height: 27%;
+    margin-top: 4%;
+}
+
+#algo-text {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size:large;
+}
+
+#quantum {
+    visibility: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: large;
+}
+
+#quantum.show {
+    visibility: visible;
+}
+
+#quantum-input {
+    border-radius: 5px;
+    font-style: italic;
+    border: 2px solid black;
+}
+
+#process-id, #arrival-time, #burst-time {
+    border-radius: 50px;
+    border: 3px solid var(--btn-color);
+}
+
+#process-id:disabled, #arrival-time:disabled, #burst-time:disabled {
+    border: 3px solid var(--secondary);
+}
+
+/* ERRORS */
+#process-id.error, #arrival-time.error, #burst-time.error {
+    border: 3px solid var(--error);
+}
+
+#quantum-input.error {
+    border-radius: 5px;
+    border: 2px solid var(--error);
+}
+
+#error-message{
+    visibility: hidden;
+    position:relative;
+    background: #ffefef;
+    text-align: center;
+    font-weight: bold;
+    font-size: medium;
+    line-height: 10px;
+    border: 3px solid var(--error);
+    color: var(--error);
+    border-radius: 4px;
+    margin-top: 1%;
+    max-height:25%;
+}
+
+#error-message-2 {
+    visibility: hidden;
+    position:relative;
+    top:-85px;
+    background: #ffefef;
+    text-align: center;
+    font-weight: bold;
+    font-size: medium;
+    border: 3px solid var(--error);
+    color: var(--error);
+    border-radius: 4px;
+}
+
+#error-message-3 {
+    visibility: hidden;
+    position:relative;
+    top:-158px;
+    background: #ffefef;
+    text-align: center;
+    font-weight: bold;
+    font-size: medium;
+    border: 3px solid var(--error);
+    color: var(--error);
+    border-radius: 4px;
+}
+
+#error-message.show {
+    visibility: visible;
+} 
+
+#error-message-2.show {
+    visibility: visible;
+}
+
+#error-message-3.show {
+    visibility: visible;
+}
+
+
+/* BUTTONS */
+button {
+    display: inline-block;
+    margin-top:5%;
+    padding: 10px 20px;
+    font-size: larger;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: var(--btn-color);
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #236c9c;
+}
+
+button:disabled {
+    background-color: var(--secondary);
+    cursor: default;
+}
+
+#add-button {
+    height: 100%;
+    width: 90px;
+    font-size: small;
+    padding: 2px 4px 4px 4px;
+    margin-top: -1px;
+}
+
+#gen-button {
+    margin-top: 0;
+    margin-bottom: 1px;
+    font-size: medium;
+    padding: 5px 5px;
+}
+
+#algo-buttons {
+    display: flex;
+    justify-content: end;
+    position: relative;
+    height: 50px;
+    top: -15px;
+    /* margin-left: 5%; */
+}
+
+#start-button, #pause-button, #resume-button, #reset-button {
+    margin-left:5%;
+    /* width: 50px; */
+    padding: 5px 5px 5px 5px;
+}
+
+#start-button:disabled, #pause-button:disabled, #resume-button:disabled, #reset-button:disabled {
+    background-color: var(--secondary);
+    cursor: default;
+}
+
+#start-button {
+    background-color: green;
+    width: 100px;
+}
+
+#start-button:hover {
+    background-color: darkgreen;
+}
+
+#pause-button {
+    visibility: hidden;
+    background-color: orange;
+    position:relative;
+    right: -290px;
+}
+
+#pause-button:hover {
+    background-color: rgb(180, 100, 3);
+}
+
+#resume-button {
+    visibility: hidden;
+    position:relative;
+    right: -180px;
+}
+
+#reset-button {
+    background-color: red;
+    position: relative;
+    width: 100%;
+    right: 10px;
+}
+
+#reset-button:hover {
+    background-color: darkred;
+}
+
+select {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    margin-top: 2%;
+    font-size: 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: var(--secondary);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+select:disabled {
+    cursor: default;
+}
+
+.process-element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    margin: 5px;
+    border-radius: 50%;
+    border: 2px solid black;
+}
