@@ -8,7 +8,7 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
                 crossorigin="anonymous">
     <link rel="stylesheet" href="test.css">
-    <script src="test.js"></script>
+    <script src="test.js" defer></script>
 </head>
 </head>
 <body>
@@ -16,8 +16,8 @@
 
     <div class="container-fluid">
         <div class="row custom-row">
-            <div class="col-sm-3">
-                <div id="process-div">
+            <div class="col-sm-3 left-col">
+                <div id="process-div" style="overflow: hidden;">
                     <div id="process-table" style="overflow-y: scroll;">
                         <table>
                             <thead>
@@ -42,9 +42,9 @@
                                 style="width: 25%; padding: 1%; margin: 3% 1% 0% 0%; font-size: 62%; font-style:italic; font-weight: bold;">
                         <button type="button" id="add-button" onclick="addProcess()">Add</button>
                     </div>
-    
+                    
                     <button type="button" id="gen-button" onclick="generate()">Generate 10 Random Processes</button>
-
+                    
                     <div id="error-message">
                         <p id="value-error">Please Ensure That: </p>
                         <p id="value-error">(1) All Inputs Are Positive Integers</p>
@@ -52,19 +52,45 @@
                     </div>
                     
                     <div id="error-message-2">
-                        <p id="sim-error">There Must Be At Least One Valid Process Before The Simulation Can Begin</p>
+                        <p id="sim-error">There Must Be At Least One Valid Process</p>
+                        <p id="sim-error">Before The Simulation Can Begin</p>
                     </div>
     
                     <div id="error-message-3">
                         <p id="sim-error">The Time Quantum Must Be A Positive Integer</p>
                     </div>
+
+                </div>
+
+                <div id="algo-div" style="overflow: hidden;">
+                    <label id="algo-text">Algorithm: </label>
+                    <div id="algo-select">
+                        <select id="select" onchange="toggleVisibility()">
+                            <option value="fcfs">First-Come, First-Serve</option>
+                            <option value="sjf">Shortest Job First</option>
+                            <option value="rr">Round Robin</option>
+                        </select>
+                    </div>
+                    <div id="quantum">
+                        <label>Quantum:</label>
+                        <input type="number" min="0" id="quantum-input" placeholder="seconds" pattern="[0-9]+"
+                        style="width: 25%; padding: 1%; margin: 3% 1% 3% 3%; font-size: 70%; font-style:italic; font-weight: bold;">
+                    </div>
+    
+    
+                    <div id="algo-buttons">
+                        <button type="button" id="resume-button" onclick="resumeTimer()">RESUME</button>
+                        <button type="button" id="pause-button" onclick="stopTimer()">PAUSE</button>
+                        <button type="button" id="reset-button" onclick="reset()">RESET</button>
+                        <button type="button" id="start-button" onclick="start()">START</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-6 mid-col">
                 Middle
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3 right-col">
                 Right
             </div>
         </div>
