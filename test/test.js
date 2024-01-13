@@ -31,6 +31,10 @@ var progressDiv = document.getElementById("progress-div");
 var algorithm;
 var running = false;
 
+/////////test/////////////
+test_message = document.getElementById('error-message-test')
+/////////////////////////
+
    //waiting queue, finished queue, cpu queue
 var wQueue = [];
 var fQueue = [];
@@ -451,9 +455,40 @@ function removeProcess(childID) {
    child.parentNode.removeChild(child);
 }
 
+function showError(error_num) {
+   errorMessage.textContent = "";
+   p = document.createElement("p");
+   p2 = document.createElement("p");
+   p3 = document.createElement("p");
+
+   switch (error_num) {
+      case 1:
+         p.textContent = "Please Ensure That: ";
+         p2.textContent = "(1) All Inputs Are Positive Integers";
+         p3.textContent = "(2) Each Process Has A Unique ID";
+         break;
+      case 2:
+         p.textContent = "There Must Be At Least One Valid Process";
+         p2.textContent = "Before The Simulation Can Begin";
+         break;
+      case 3:
+         p.textContent = "The Time Quantum Must Be A Positive Integer";
+         break;
+      default:
+         alert("Invalid Error Message");
+   }
+
+   
+   errorMessage.appendChild(p);
+   errorMessage.appendChild(p2);
+   errorMessage.appendChild(p3);
+   errorMessage.style.visibility = "visible";
+}
+
 function removeErrors() {
-   errorMessage.classList.remove("show");
-   errorMessage2.classList.remove("show");
+   errorMessage.style.visibility = "hidden";
+   // errorMessage.classList.remove("show");
+   // errorMessage2.classList.remove("show");
    process.processID.classList.remove("error");
    process.arrivalTime.classList.remove("error");
    process.burstTime.classList.remove("error");
@@ -495,8 +530,9 @@ function validateInput(element, isID) {
    if ((table.rows.length > 0 && isID) || isID) {
       if ((element.value === "" || parseFloat(element.value) < 0 || !/^[0-9]+$/.test(element.value))) {
          element.classList.add("error");
-         errorMessage.classList.add("show");
-         errorMessage2.classList.remove("show");
+         // errorMessage.classList.add("show");
+         // errorMessage2.classList.remove("show");
+         showError(1);
          return false;
       }
 
@@ -505,7 +541,8 @@ function validateInput(element, isID) {
 
          if (existingID === element.value) {
             element.classList.add("error");
-            errorMessage.classList.add("show");
+            // errorMessage.classList.add("show");
+            showError(1);
             return false;
          } 
       }
@@ -514,12 +551,13 @@ function validateInput(element, isID) {
    //when validating any input other than id.
    if ((element.value === "" || parseFloat(element.value) < 0 || !/^[0-9]+$/.test(element.value)) && !isID) {
       element.classList.add("error");
-      errorMessage.classList.add("show");
-      errorMessage2.classList.remove("show");
+      // errorMessage.classList.add("show");
+      // errorMessage2.classList.remove("show");
       return false;
    } else {
       element.classList.remove("error");
-      errorMessage.classList.remove("show");
+      // errorMessage.classList.remove("show");
+      errorMessage.style.visibility = "hidden";
       return true;
    }
 }
@@ -596,10 +634,12 @@ function start() {
          case "rr":
             if ((validateInput(quantumInput, false))) {
                running = true;
-               errorMessage3.classList.remove("show");
+               // errorMessage3.classList.remove("show");
+               errorMessage.style.visibility = "hidden";
                rr();
             } else {
-               errorMessage3.classList.add("show");
+               // errorMessage3.classList.add("show");
+               showError(3)
                quantumInput.classList.add("error");
             }
             break;
@@ -628,8 +668,9 @@ function start() {
       removeErrors();
    } else {
       removeErrors();
-      errorMessage.classList.remove("show");
-      errorMessage2.classList.add("show");
+      // errorMessage.classList.remove("show");
+      // errorMessage2.classList.add("show");
+      showError(2)
    }
 }
 
