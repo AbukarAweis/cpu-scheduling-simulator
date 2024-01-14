@@ -22,7 +22,7 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th style="padding: 0% 0% 0% 0%;">Process ID</th>
+                                    <th style="padding: 0% 8% 0% 0%;">Process ID</th>
                                     <th style="padding: 0% 0% 0% 0%;">Arrival Time (s)</th>
                                     <th style="padding: 0% 0% 0% 0%;">Burst Time (s)</th>
                                 </tr>
@@ -95,8 +95,9 @@
                             <p id="time">Time: -:--</p>
                         </div>
                         <div id="progress">
-                            <div id="progress-percent">0%</div>
+                            <div id="progress-percent">0.00%</div>
                             <!-- <progress id="progress-bar"></progress> -->
+                            <!-- <div class="progress-section" style="width: 50%;"></div> -->
                         </div>
                     </div>
     
@@ -118,11 +119,11 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Process ID</th>
+                                <th style="padding: 0% 4% 0% 0%;">Process ID</th>
                                 <th>Arrival Time (s)</th>
                                 <th>Burst Time (s)</th>
                                 <th>Completed Time</th>
-                                <th>Waiting Time</th>
+                                <th style="padding: 0% 2% 0% 0%;">Waiting Time</th>
                                 <th>Turnaroud Time</th>
                             </tr>
                         </thead>
@@ -134,6 +135,7 @@
             </div>
 
             <div class="col-sm-3 right-col">
+                <label id="summary-label">Summary</label>
                 <div id="summary-log">
 
                 </div>

@@ -14,7 +14,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: green;
+    background-color: var(--primary);
     height: 100%;
     font-size: 2cqh;
 }
@@ -48,7 +48,7 @@ footer {
 
 .col-sm-3 {
     background-color: var(--primary);
-    padding:0.5%;
+    padding:1%;
     box-sizing: border-box;
     max-height: 100%;
 }
@@ -68,7 +68,6 @@ footer {
 .mid-col {
     display: flex;
     flex-direction: column;
-    background-color: green;
 }
 
 .right-col {
@@ -130,11 +129,12 @@ footer {
     max-height: 50%;
     overflow-y: auto;
     border-collapse: collapse;
+    border-radius: 5px;
 }
 
 #process-table th, #process-table td {
     border: 1px solid gray;
-    text-align: left;
+    text-align: center;
 }
 
 #process-table th {
@@ -179,14 +179,12 @@ footer {
 
 #waiting-queue {
     position: relative;
-    background-color: #ff0000;
-    /* max-height: 60px; */
+    background-color: #006400;
 }
 
 #finished-queue {
     position: relative;
-    background-color: #0000ff;
-    /* max-height: 60px; */
+    background-color: #004BA8;
 }
 
 #waiting-queue, #finished-queue {
@@ -196,6 +194,8 @@ footer {
     width: 85%;
     overflow:auto;
     margin-left: 5%;
+    border: solid .3cqh black;
+    border-radius: 4px;
 }
 
 #time-algorithm-div {
@@ -207,26 +207,18 @@ footer {
 
 #time {
     position: fixed;
-    /* margin-left: 350px; */
     margin-left: 28%;
 }
 
 #progress {
     position: relative;
     width: 85%;
-    height: 5%;
+    height: 6%;
     margin-left: 5%;
-    background-color: #eee;
+    background-color: var(--primary);
     border-radius: 10px;
+    border: solid .3cqh black;
     overflow: hidden;
-}
-
-#progress-bar {
-    height: 110%;
-    width: 0%;
-    background-color: #4caf50;
-    border-radius: 10px;
-    transition: width 0.3s ease-in-out;
 }
 
 #progress-percent {
@@ -235,12 +227,13 @@ footer {
     left: 50%;
     transform: translate(-50%, -50%);
     color: black;
+    z-index: 1;
 }
 
 .progress-section {
+    position: absolute;
     height: 100%;
     background-color: #3498db;
-    position: absolute;
     transition: width 0.5s ease-in-out;
 }
 
@@ -249,7 +242,8 @@ footer {
     flex-direction: column;
     width: 25%;
     font-weight: bold;
-    background-color: blue;
+    background-color: #a2aebb;
+    border-radius: 15px;
 }
 
 
@@ -265,6 +259,7 @@ footer {
     height: 30%;
     margin-right: 40%;
     align-items: center;
+    border: solid .3cqh black;
 
     .process-element {
         height: 50%;
@@ -276,6 +271,7 @@ footer {
     background-color: gray;
     height: 45%;
     margin-right: 10%;
+    border: solid .3cqh black;
 }
 
 #working-on {
@@ -287,43 +283,58 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    /* background-color: purple; */
+    background-color: #a2aebb;
+    color: black;
     height: 50%;
-    
+    border-radius: 15px;
+    margin-bottom: 1%;
+    border: solid .3cqh black;
 }
 
 #summary-table {
     background-color: var(--secondary);
-    min-height: 50%;
-    max-height: 50%;
-    width: 100%;
+    /* /* min-height: 47.2%; */
+    max-height: 46.5%;
+    margin: 0% 1% 0% 1%;
     overflow-y: auto;
     border-collapse: collapse;
+    border-radius: 5px;
 }
 
 #summary-table th, #summary-table td {
     border: 1px solid gray;
-    width: 16%;
-    text-align: left;
+    text-align: center;
 }
 
 #summary-table th {
     position: sticky;
     top: 0;
     background-color: darkgray;
+    width: 14%;
 }
 
 #summary-table tr {
-    height: 41px;
+    /* height: 41px; */
+    height: 20px;
+}
+
+#summary-label {
+    font-size: 2.5cqh;
+    font-weight: bold;
+    color: black;
 }
 
 #summary-log {
-    background-color: purple;
+    /* background-color: #4A525A; */
+    background-color: var(--secondary);
     height: 100%;
-    width: 100%;
+    width: 90%;
     margin-bottom: 1%;
+    margin-left: 5%;
     overflow: auto;
     padding-left: 2%;
+    font-size: 2cqh;
+    border-radius: 5px;
 }
 
 #algo-div {
@@ -455,7 +466,7 @@ button:disabled {
 
 #pause-button {
     visibility: hidden;
-    background-color: orange;
+    background-color: ffa500;
     position:relative;
     right: -52.5%;
 }

@@ -56,15 +56,13 @@ var availableID = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 percentage = 0;
 
-///test////
-// Function to dynamically create progress sections
 function createProgressSections() {
    for (let i = 0; i < numOfProcesses; i++) {
-       const section = document.createElement('div');
-       section.className = 'progress-section';
-       section.style.width = `${100 / numOfProcesses}%`; // Set initial width
-
-       progress.appendChild(section);
+      const section = document.createElement('div');
+      section.className = 'progress-section';
+      section.style.width = `${100 / numOfProcesses}%`
+      section.style.background = "white";
+      progress.appendChild(section);
    }
 }
 
@@ -75,6 +73,7 @@ function updateProgress() {
 
    sections.forEach((section, index) => {
       section.style.width = `${percentage / sections.length * (index + 1)}%`;
+      section.style.backgroundColor = "#3498db";
       // section.style.width = 10;
    });
 
@@ -109,7 +108,7 @@ function addToWaitingQueue(process, processElement) {
    wQueue.push(process);
    waitingDisplay.appendChild(processElement);
 
-   updateSummaryLog(process.processID + " -- Waiting", "#ff0000");
+   updateSummaryLog(process.processID + " -- Waiting", "#006400");
 }
 
    /*
@@ -125,7 +124,7 @@ function addToFinishedQueue(process, processElement) {
 
    addSummaryTable(process);
    updateProgress();
-   updateSummaryLog(process.processID + " -- Finished", "#0000ff");
+   updateSummaryLog(process.processID + " -- Finished", "#0E6BA8");
 }
 
    /*
@@ -149,7 +148,7 @@ function addToCPU(process, processElement) {
       cpuDisplay.appendChild(processElement);
       
          //update the status of what the CPU is working on
-      statusDiv.style.backgroundColor = "red";
+      statusDiv.style.backgroundColor = "#C04ABC";
       if (process.burstTime != 0 && process.arrivalTime != 0) {
          workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime + 1) + "/" + burstCopy;
       } else {
@@ -178,27 +177,9 @@ function updateCPU() {
       statusDiv.style.backgroundColor = "gray";
       workingOn.textContent = "< IDLE >";
    } else {
-      process.burstTime--;
       workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + burstCopy;
+      process.burstTime--;
    }
-
-   // if (process.burstTime <= 0) {
-   //    cpu.pop();
-   //    addToFinishedQueue(process, processElement);
-   //    statusDiv.style.backgroundColor = "gray";
-   //    workingOn.textContent = "< IDLE >";
-   // } else {
-   //    process.burstTime--;
-   //    workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + burstCopy;
-
-   //    if (process.burstTime == 0) {
-   //       cpu.pop();
-   //       addToFinishedQueue(process, processElement);
-   //       statusDiv.style.backgroundColor = "gray";
-   //       workingOn.textContent = "< IDLE >";
-   //    }
-   // }
-   
 
    totalNIT++;
 }
@@ -593,7 +574,7 @@ function validateInput(element, isID) {
    //and update accordinly if progress is at 100%
    */
 function getPercentComplete() {
-   if (progressPercent.textContent == "100%") {
+   if (progressPercent.textContent == "100.00%") {
       pauseButton.disabled = true;
       resumeButton.disabled = true;
       stopTimer();
@@ -676,8 +657,13 @@ function start() {
       }
 
       if (running) {
-            //Setting the algorithm to the text content of selected option
-         algoDiv.textContent = "Algorithm: " + selectedAlgo.options[(selectedAlgo.selectedIndex)].textContent;
+         //Setting the algorithm to the text content of selected option
+         var algoText = document.createElement('span');
+         algoText.textContent = selectedAlgo.options[(selectedAlgo.selectedIndex)].textContent;
+         algoText.style.fontStyle = "italic";
+         algoDiv.textContent = "Algorithm: "
+         algoDiv.appendChild(algoText);
+
          timer.textContent = "Time: " + formatTime(seconds);
    
          genButton.disabled = true;
@@ -831,7 +817,7 @@ function rr() {
 
 -finish styling middle div
 
--style progress bar, cpu and status areas
+-summary table, have the new table blink when it gets added
 
 -bug when you start rr without valid qt. summary log prints a message
 */
