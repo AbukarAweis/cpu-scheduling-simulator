@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700&display=swap');
+
 :root {
     --error: #e7195a;
     --primary: white;
@@ -11,7 +14,8 @@ html {
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: 'Tektur', sans-serif;
     margin: 0;
     padding: 0;
     background-color: var(--primary);
@@ -141,7 +145,7 @@ footer {
     position: sticky;
     top: 0;
     background-color: darkgray;
-    width: 200px;
+    width: 2000px;
 }
 
 #process-table tr {
@@ -233,7 +237,6 @@ footer {
 .progress-section {
     position: absolute;
     height: 100%;
-    background-color: #3498db;
     transition: width 0.5s ease-in-out;
 }
 
@@ -255,7 +258,7 @@ footer {
 }
 
 #cpu {
-    background-color: #ffa500;
+    background-color: #FFBA49;
     height: 30%;
     margin-right: 40%;
     align-items: center;
@@ -267,6 +270,20 @@ footer {
     }
 }
 
+@keyframes colorChange {
+    0%, 100% {
+        background-color: #FFBA49;
+    }
+    50% {
+        background-color: #c96f00;
+    }
+}
+
+#cpu.col-change {
+    animation: colorChange 1s linear infinite;
+}
+
+
 #status {
     background-color: gray;
     height: 45%;
@@ -274,10 +291,24 @@ footer {
     border: solid .3cqh black;
 }
 
+@keyframes colorChange2 {
+    0%, 100% {
+        background-color: #C04ABC;
+    }
+    50% {
+        background-color: darkmagenta;
+    }
+}
+
+#status.col-change-2 {
+    animation: colorChange2 1s ease-in-out;
+}
+
 #working-on {
     text-align: center;
     margin-top: 35%;
 }
+
 
 #simulation {
     display: flex;
@@ -293,8 +324,7 @@ footer {
 
 #summary-table {
     background-color: var(--secondary);
-    /* /* min-height: 47.2%; */
-    max-height: 46.5%;
+    max-height: 41.2%;
     margin: 0% 1% 0% 1%;
     overflow-y: auto;
     border-collapse: collapse;
@@ -310,12 +340,32 @@ footer {
     position: sticky;
     top: 0;
     background-color: darkgray;
-    width: 14%;
+    width: 2000px;
 }
 
 #summary-table tr {
-    /* height: 41px; */
     height: 20px;
+}
+
+#info {
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 2cqh;
+    visibility: hidden;
+}
+
+@keyframes highlight {
+    0%, 100% {
+        background-color: inherit;
+    }
+    50% {
+        background-color: #3498db;
+    }
+}
+
+.highlighted-row {
+    animation: highlight .8s ease;
 }
 
 #summary-label {
@@ -325,15 +375,15 @@ footer {
 }
 
 #summary-log {
-    /* background-color: #4A525A; */
-    background-color: var(--secondary);
+    /* background-color: var(--secondary); */
+    background-color: #A4A9AD;
     height: 100%;
     width: 90%;
     margin-bottom: 1%;
     margin-left: 5%;
     overflow: auto;
     padding-left: 2%;
-    font-size: 2cqh;
+    font-size: 2.1cqh;
     border-radius: 5px;
 }
 
@@ -349,7 +399,6 @@ footer {
 #algo-text {
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
 }
 
@@ -360,7 +409,6 @@ footer {
     justify-content: right;
     height: 30%;
     align-items: center;
-    font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
 }
 
@@ -386,7 +434,6 @@ footer {
 
 #error-message {
     visibility: hidden;
-    /* position:relative; */
     background: #ffefef;
     text-align: center;
     font-weight: bold;
@@ -424,8 +471,7 @@ button:disabled {
 
 #add-button {
     max-height: 70%;
-    width: 30%;
-    /* padding: 0.5% 0% 0.5% 0%; */
+    width: 25%;
     margin-top: 3.5%;
     overflow: hidden;
 }
@@ -466,7 +512,7 @@ button:disabled {
 
 #pause-button {
     visibility: hidden;
-    background-color: ffa500;
+    background-color: #ffa500;
     position:relative;
     right: -52.5%;
 }
@@ -510,9 +556,18 @@ select:disabled {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 10%;
+    width: 9%;
     height: 80%;
     margin: 1%;
     border-radius: 50%;
     border: .3cqh solid black;
+}
+
+
+.process-element.roll {
+    animation: roll 1000ms infinite;
+}
+
+@keyframes roll {
+    100% { rotate: 360deg; }
 }

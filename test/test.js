@@ -6,6 +6,10 @@ var waitingDisplay = document.getElementById('waiting-queue');
 var finishedDisplay = document.getElementById('finished-queue');
 var cpuDisplay = document.getElementById('cpu');
 
+var wlabel = document.getElementById("waiting-label");
+var flabel = document.getElementById("finished-label");
+var clabel = document.getElementById("cpu-label");
+
 var timer = document.getElementById('time');
 var statusDiv = document.getElementById("status");
 var workingOn = document.getElementById("working-on");
@@ -74,7 +78,6 @@ function updateProgress() {
    sections.forEach((section, index) => {
       section.style.width = `${percentage / sections.length * (index + 1)}%`;
       section.style.backgroundColor = "#3498db";
-      // section.style.width = 10;
    });
 
    progressPercent.textContent = `${percentage.toFixed(2)}%`;
@@ -125,6 +128,8 @@ function addToFinishedQueue(process, processElement) {
    addSummaryTable(process);
    updateProgress();
    updateSummaryLog(process.processID + " -- Finished", "#0E6BA8");
+
+   processElement.classList.remove("roll");
 }
 
    /*
@@ -135,6 +140,7 @@ function addToFinishedQueue(process, processElement) {
    //Update summary log using CPU's color
    */
 function addToCPU(process, processElement) {
+   cpuDisplay.classList.add("col-change");
    if (process.burstTime == 0) {
       burstCopy = 0;
       addToFinishedQueue(process, processElement);
@@ -149,13 +155,20 @@ function addToCPU(process, processElement) {
       
          //update the status of what the CPU is working on
       statusDiv.style.backgroundColor = "#C04ABC";
+      statusDiv.classList.add('col-change-2');
+
+      statusDiv.addEventListener('animationend', function () {
+         statusDiv.classList.remove('col-change-2');
+      });
+
       if (process.burstTime != 0 && process.arrivalTime != 0) {
          workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime + 1) + "/" + burstCopy;
       } else {
          workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime) + "/" + burstCopy;
       }
 
-      updateSummaryLog(process.processID + " > CPU", "#ffa500");
+      processElement.classList.add("roll");
+      updateSummaryLog(process.processID + " > CPU", "#FFBA49");
    }
 }
 
@@ -426,6 +439,13 @@ function addSummaryTable(process) {
       minAT = process.arrivalTime;
    }
 
+   newRow.classList.add('highlighted-row');
+   
+   // Remove the 'highlighted-row' class after the animation completes
+   newRow.addEventListener('animationend', function () {
+      newRow.classList.remove('highlighted-row');
+   });
+
    sortTable();
 }
 
@@ -433,6 +453,9 @@ function sortTable() {
    var table = document.getElementById('summary-table');
    var tbody = table.querySelector('tbody');
    var rows = Array.from(tbody.getElementsByTagName('tr'));
+
+   var info = document.getElementById('info');
+   info.style.visibility = "visible";
 
    // Sort the rows based on the id attribute
    rows.sort(function (a, b) {
@@ -492,8 +515,6 @@ function showError(error_num) {
 
 function removeErrors() {
    errorMessage.style.visibility = "hidden";
-   // errorMessage.classList.remove("show");
-   // errorMessage2.classList.remove("show");
    process.processID.classList.remove("error");
    process.arrivalTime.classList.remove("error");
    process.burstTime.classList.remove("error");
@@ -655,6 +676,10 @@ function start() {
       }
 
       if (running) {
+         wlabel.textContent = "Waiting (0/" + numOfProcesses + ")";
+         flabel.textContent = "Finished (0/" + numOfProcesses + ")";
+         clabel.textContent = "CPU (0/1)"; 
+
          //Setting the algorithm to the text content of selected option
          var algoText = document.createElement('span');
          algoText.textContent = selectedAlgo.options[(selectedAlgo.selectedIndex)].textContent;
@@ -705,17 +730,41 @@ function stopTimer() {
    pauseButton.style.visibility = "hidden";
    resumeButton.style.visibility = "visible";
    clearInterval(timerInterval);
+
+   if (cpu.length > 0) {
+      var c = cpu[0];
+      var cur = document.getElementById("P" + c.id);
+      cur.classList.remove("roll");
+
+   }
+   cpuDisplay.classList.remove("col-change");
 }
 
 function updateTimer() {
    timer.textContent = "Time: " + formatTime(seconds);
    seconds++;
+
+   wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
+   flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
+   clabel.textContent = "CPU (" + cpu.length + "/1)";
+
+   if (cpu.length == 0) {
+      cpuDisplay.classList.remove("col-change");
+   }
 }
 
 function resumeTimer() {
    resumeButton.style.visibility = "hidden";
    pauseButton.style.visibility = "visible";
    startTimer(algorithm);
+
+   if (cpu.length > 0) {
+      var p = cpu[0];
+      var cur = document.getElementById("P" + p.id);
+      cur.classList.add("roll");
+
+      cpuDisplay.classList.add("col-change");
+   }
 }
 
 function formatTime(seconds) {
