@@ -53,6 +53,13 @@ footer {
     max-height: 100%;
 }
 
+.col-sm-6 {
+    background-color: var(--primary);
+    padding:0.5%;
+    box-sizing: border-box;
+    max-height: 100%;
+}
+
 .left-col {
     display: flex;
     flex-direction: column;
@@ -62,6 +69,11 @@ footer {
     display: flex;
     flex-direction: column;
     background-color: green;
+}
+
+.right-col {
+    display: flex;
+    flex-direction: column;
 }
 
 /* .left-div, .center-div, .right-div {
@@ -158,150 +170,161 @@ footer {
 
 
 /* QUEUES & SUMMARY */
-/* #queues {
+#queues {
     display:flex;
     flex-direction: column;
-    width: 75%;
+    width: 100%;
     font-weight: bold;
-} */
+}
 
-/* #waiting-queue {
+#waiting-queue {
     position: relative;
     background-color: #ff0000;
-    max-height: 60px;
-} */
+    /* max-height: 60px; */
+}
 
-/* #finished-queue {
+#finished-queue {
     position: relative;
     background-color: #0000ff;
-    max-height: 60px;
-} */
+    /* max-height: 60px; */
+}
 
-/* #waiting-queue, #finished-queue {
+#waiting-queue, #finished-queue {
     display: flex;
     flex-wrap: wrap;
-    height: 30%;
-    width: 82%;
+    height: 20%;
+    width: 85%;
     overflow:auto;
     margin-left: 5%;
-} */
+}
 
-/* #time-algorithm-div {
+#time-algorithm-div {
     display: flex;
     flex-direction: row;
     margin-left: 5%;
-} */
+    margin-top: 5%;
+}
 
-/* #time {
+#time {
     position: fixed;
-    margin-left: 350px;
-} */
-/* 
-#progress-div {
+    /* margin-left: 350px; */
+    margin-left: 28%;
+}
+
+#progress {
     position: relative;
-    right: -15px;
-    bottom: 5px;
-    width: 87%;
-    height: 20px;
+    width: 85%;
+    height: 5%;
+    margin-left: 5%;
     background-color: #eee;
     border-radius: 10px;
     overflow: hidden;
-} */
+}
 
-/* #progress-bar {
-    height: 100%;
-    width: 0;
+#progress-bar {
+    height: 110%;
+    width: 0%;
     background-color: #4caf50;
     border-radius: 10px;
     transition: width 0.3s ease-in-out;
-} */
+}
 
-/* #progress-percent {
+#progress-percent {
     position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: black;
-} */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+}
 
-/* #control {
+.progress-section {
+    height: 100%;
+    background-color: #3498db;
+    position: absolute;
+    transition: width 0.5s ease-in-out;
+}
+
+#control {
     display: flex;
     flex-direction: column;
     width: 25%;
     font-weight: bold;
     background-color: blue;
-} */
+}
 
 
-/* #cpu, #status {
+#cpu, #status {
     display: flex;
     justify-content: center;
     margin-left: 10%;
     border-radius: 15px;
-} */
+}
 
-/* #cpu {
+#cpu {
     background-color: #ffa500;
     height: 30%;
     margin-right: 40%;
     align-items: center;
-} */
 
-/* #status {
+    .process-element {
+        height: 50%;
+        width: 60%;
+    }
+}
+
+#status {
     background-color: gray;
     height: 45%;
     margin-right: 10%;
-} */
+}
 
-/* #working-on {
+#working-on {
     text-align: center;
     margin-top: 35%;
-} */
+}
 
-/* #simulation {
+#simulation {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    background-color: green;
+    /* background-color: purple; */
     height: 50%;
     
-} */
+}
 
-/* #summary-table {
+#summary-table {
     background-color: var(--secondary);
     min-height: 50%;
     max-height: 50%;
     width: 100%;
     overflow-y: auto;
     border-collapse: collapse;
-} */
+}
 
-/* #summary-table th, #summary-table td {
+#summary-table th, #summary-table td {
     border: 1px solid gray;
     width: 16%;
     text-align: left;
-} */
-/* 
+}
+
 #summary-table th {
     position: sticky;
     top: 0;
     background-color: darkgray;
-} */
+}
 
-/* #summary-table tr {
+#summary-table tr {
     height: 41px;
-} */
+}
 
-/* #summary-log {
+#summary-log {
     background-color: purple;
     height: 100%;
     width: 100%;
     margin-bottom: 1%;
     overflow: auto;
     padding-left: 2%;
-} */
-
-
+}
 
 #algo-div {
     display: flex;
@@ -472,13 +495,13 @@ select:disabled {
     cursor: default;
 }
 
-/* .process-element {
+.process-element {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 45px;
-    height: 45px;
-    margin: 5px;
+    width: 10%;
+    height: 80%;
+    margin: 1%;
     border-radius: 50%;
-    border: 2px solid black;
-} */
+    border: .3cqh solid black;
+}

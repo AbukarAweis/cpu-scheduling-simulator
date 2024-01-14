@@ -1,5 +1,5 @@
 var table = document.getElementById('process-table').getElementsByTagName('tbody')[0];
-// var summaryTable = document.getElementById('summary-table').getElementsByTagName('tbody')[0];
+var summaryTable = document.getElementById('summary-table').getElementsByTagName('tbody')[0];
 var summaryLog = document.getElementById('summary-log');
 
 var waitingDisplay = document.getElementById('waiting-queue');
@@ -24,16 +24,12 @@ var errorMessage3 = document.getElementById("error-message-3");
 var selectedAlgo = document.getElementById("select");
 var algoDiv = document.getElementById("algorithm");
 var quantumInput = document.getElementById("quantum-input");
+var progress = document.getElementById("progress");
 var progressBar = document.getElementById("progress-bar");
 var progressPercent = document.getElementById("progress-percent");
-var progressDiv = document.getElementById("progress-div");
 
 var algorithm;
 var running = false;
-
-/////////test/////////////
-test_message = document.getElementById('error-message-test')
-/////////////////////////
 
    //waiting queue, finished queue, cpu queue
 var wQueue = [];
@@ -59,21 +55,52 @@ var totalNIT = 0;
 
 var availableID = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-function updateProgress() {
-   var currentValue = parseFloat(getComputedStyle(progressBar).width);
-   var maxValue = parseFloat(getComputedStyle(progressBar.parentElement).width);
-   var value = (currentValue + (progressDiv.offsetWidth / numOfProcesses));
-   
-   // Increase the progress value (simulating progress)
-   if (currentValue < maxValue) {
-      progressBar.style.width = value + 'px';
-   } else {
-      progressBar.style.width = '0'; // Reset when reaching maximum value
+percentage = 0;
+
+///test////
+// Function to dynamically create progress sections
+function createProgressSections() {
+   for (let i = 0; i < numOfProcesses; i++) {
+       const section = document.createElement('div');
+       section.className = 'progress-section';
+       section.style.width = `${100 / numOfProcesses}%`; // Set initial width
+
+       progress.appendChild(section);
    }
-   
-   var percent = (value) / maxValue * 100;
-   progressPercent.textContent = Math.round(percent) + "%";
 }
+
+function updateProgress() {
+   const sections = document.querySelectorAll('.progress-section');
+
+   percentage += (100 / numOfProcesses);
+
+   sections.forEach((section, index) => {
+      section.style.width = `${percentage / sections.length * (index + 1)}%`;
+      // section.style.width = 10;
+   });
+
+   progressPercent.textContent = `${percentage.toFixed(2)}%`;
+}
+
+//////////
+
+// function updateProgress() {
+//    var currentValue = parseFloat(getComputedStyle(progressBar).width);
+//    var maxValue = parseFloat(getComputedStyle(progressBar.parentElement).width);
+//    var value = (currentValue + (progress.offsetWidth / numOfProcesses));
+   
+//    // Increase the progress value (simulating progress)
+//    if (currentValue < maxValue) {
+//       progressBar.style.width = value + 'px';
+//       console.log("div: " + (progress.offsetWidth));
+//       console.log("pwidth: " + progressBar.style.width);
+//    } else {
+//       progressBar.style.width = '0'; // Reset when reaching maximum value
+//    }
+   
+//    var percent = (value) / maxValue * 100;
+//    progressPercent.textContent = Math.round(percent) + "%";
+// }
 
    //process object
 var process = {
@@ -164,17 +191,35 @@ function updateCPU() {
    console.log("p:" + cpu[0].id + ", b:" + cpu[0].burstTime + ", s:" + seconds);
    var process = cpu[0];
    var processElement = document.getElementById("P" + process.processID);
-
    
+   //using this method when there were 10 processes with aT = 0, and bT = 2, there was a lag taking them out of cpu
    if (process.burstTime <= 0) {
       cpu.pop();
       addToFinishedQueue(process, processElement);
       statusDiv.style.backgroundColor = "gray";
       workingOn.textContent = "< IDLE >";
    } else {
-      workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + burstCopy;
       process.burstTime--;
+      workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + burstCopy;
    }
+
+   // if (process.burstTime <= 0) {
+   //    cpu.pop();
+   //    addToFinishedQueue(process, processElement);
+   //    statusDiv.style.backgroundColor = "gray";
+   //    workingOn.textContent = "< IDLE >";
+   // } else {
+   //    process.burstTime--;
+   //    workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + burstCopy;
+
+   //    if (process.burstTime == 0) {
+   //       cpu.pop();
+   //       addToFinishedQueue(process, processElement);
+   //       statusDiv.style.backgroundColor = "gray";
+   //       workingOn.textContent = "< IDLE >";
+   //    }
+   // }
+   
 
    totalNIT++;
 }
@@ -232,8 +277,10 @@ function generate() {
       var cell3 = newRow.insertCell(2);
 
       cell1.innerHTML = id;
-      cell2.innerHTML = Math.floor(Math.random() * 10) + 1;
-      cell3.innerHTML = Math.floor(Math.random() * 10) + 1;
+      // cell2.innerHTML = Math.floor(Math.random() * 10) + 1;
+      // cell3.innerHTML = Math.floor(Math.random() * 10) + 1;
+      cell2.innerHTML = 0;
+      cell3.innerHTML = 2;
 
       numOfProcesses++;
    }
@@ -622,6 +669,8 @@ function start() {
       startSummary.style.fontWeight = "bold";
       summaryLog.appendChild(startSummary);
 
+      createProgressSections();
+
       switch (algorithm) {
          case "fcfs":
             startTimer(algorithm);
@@ -788,6 +837,9 @@ function rr() {
 }
 
 /*
+-cpu bug
+
+-percent number not abouve color bug
 -bug when arrival = 0 and burst = 0, reason is that time doesn't update right as start is pressed.
    -p1 a0, b0 -> ct 0, wt 0, tat 0
    -p2 a0, b0 -> ct 0, wt 0, tat 0

@@ -40,29 +40,11 @@
                                 style="width: 25%; padding: 1%; margin: 4% 1% 0% 0%;  font-size: 1.4cqh; font-style:italic; font-weight: bold;">
                         <input type="number" min="0" id="burst-time" placeholder="Burst Time" pattern="[0-9]+"
                                 style="width: 25%; padding: 1%; margin: 4% 1% 0% 0%; font-size: 1.4cqh; font-style:italic; font-weight: bold;">
-                        <button type="button" id="add-button" onclick="addProcess()">Add Process</button>
+                        <button type="button" id="add-button" onclick="addProcess()">Add</button>
                     </div>
                     
                     <button type="button" id="gen-button" onclick="generate()">Generate 10 Random Processes</button>
                     
-                    <!-- <div id="em">
-                        <div id="error-message">
-                            <p id="value-error">Please Ensure That: </p>
-                            <p id="value-error">(1) All Inputs Are Positive Integers</p>
-                            <p id="value-error">(2) Each Process Has A Unique ID</p>
-                        </div>
-                        
-                        
-                        <div id="error-message-2">
-                            <p id="sim-error">There Must Be At Least One Valid Process</p>
-                            <p id="sim-error">Before The Simulation Can Begin</p>
-                        </div>
-        
-                        <div id="error-message-3">
-                            <p id="sim-error">The Time Quantum Must Be A Positive Integer</p>
-                        </div>
-    
-                    </div> -->
                     <div id="error-message">
 
                     </div>
@@ -95,10 +77,66 @@
             </div>
 
             <div class="col-sm-6 mid-col">
-                Middle
+                <div id="simulation">
+                    <div id="queues">
+                        <label id="waiting-label" style="margin: 1% 0% 1% 2%">Waiting</label>
+                        <div id="waiting-queue">
+    
+                        </div>
+                        
+                        <label id="finished-label" style="margin: 1% 0% 1% 2%">Finished</label>
+                        <div id="finished-queue">
+    
+                        </div>
+    
+                        <div id="time-algorithm-div">
+                            
+                            <p id="algorithm">Algorithm: ---</p>
+                            <p id="time">Time: -:--</p>
+                        </div>
+                        <div id="progress">
+                            <div id="progress-percent">0%</div>
+                            <!-- <progress id="progress-bar"></progress> -->
+                        </div>
+                    </div>
+    
+                    <div id="control">
+                        <label id="cpu-label" style="margin: 1% 0% 1% 2%">CPU</label>
+                        <div id="cpu">
+                            
+                        </div>
+        
+                        <label id="status-label" style="margin: 1% 0% 1% 2%">Status</label>
+                        <div id="status">
+                            <p id="working-on">&lt; IDLE &gt;</p>
+                            <!-- <p id="working-on">Processing: 5/10</p> -->
+                        </div>
+                    </div>
+                </div>
+    
+                <div id="summary-table" style="overflow-y:scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Process ID</th>
+                                <th>Arrival Time (s)</th>
+                                <th>Burst Time (s)</th>
+                                <th>Completed Time</th>
+                                <th>Waiting Time</th>
+                                <th>Turnaroud Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
             <div class="col-sm-3 right-col">
-                Right
+                <div id="summary-log">
+
+                </div>
             </div>
         </div>
     </div>
