@@ -25,7 +25,6 @@ var selectedAlgo = document.getElementById("select");
 var algoDiv = document.getElementById("algorithm");
 var quantumInput = document.getElementById("quantum-input");
 var progress = document.getElementById("progress");
-var progressBar = document.getElementById("progress-bar");
 var progressPercent = document.getElementById("progress-percent");
 
 var algorithm;
@@ -81,26 +80,6 @@ function updateProgress() {
 
    progressPercent.textContent = `${percentage.toFixed(2)}%`;
 }
-
-//////////
-
-// function updateProgress() {
-//    var currentValue = parseFloat(getComputedStyle(progressBar).width);
-//    var maxValue = parseFloat(getComputedStyle(progressBar.parentElement).width);
-//    var value = (currentValue + (progress.offsetWidth / numOfProcesses));
-   
-//    // Increase the progress value (simulating progress)
-//    if (currentValue < maxValue) {
-//       progressBar.style.width = value + 'px';
-//       console.log("div: " + (progress.offsetWidth));
-//       console.log("pwidth: " + progressBar.style.width);
-//    } else {
-//       progressBar.style.width = '0'; // Reset when reaching maximum value
-//    }
-   
-//    var percent = (value) / maxValue * 100;
-//    progressPercent.textContent = Math.round(percent) + "%";
-// }
 
    //process object
 var process = {
