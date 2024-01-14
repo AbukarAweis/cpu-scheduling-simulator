@@ -237,10 +237,8 @@ function generate() {
       var cell3 = newRow.insertCell(2);
 
       cell1.innerHTML = id;
-      // cell2.innerHTML = Math.floor(Math.random() * 10) + 1;
-      // cell3.innerHTML = Math.floor(Math.random() * 10) + 1;
-      cell2.innerHTML = 0;
-      cell3.innerHTML = 2;
+      cell2.innerHTML = Math.floor(Math.random() * 10) + 1;
+      cell3.innerHTML = Math.floor(Math.random() * 10) + 1;
 
       numOfProcesses++;
    }
