@@ -107,17 +107,20 @@ function toggleVisibility() {
    //and append a process element child to waitingDisplay so it can be displayed.
    //Update the summary log using waiting queue's color
    */
-// function addToWaitingQueue(process, processElement) {
-//    wQueue.push(process);
-//    waitingDisplay.appendChild(processElement);
+function addToWaitingQueue(process, processElement) {
+   wQueue.push(process);
+   waitingDisplay.appendChild(processElement);
 
-//    updateSummaryLog(process.processID + " -- Waiting", "#006400");
-// }
+   updateSummaryLog(process.processID + " -- Waiting", "#006400");
+}
 
 function addToWaitingQueue(process, processElement, index) {
+   wQueue.splice(index, 0, process);
    waitingDisplay.insertBefore(processElement, waitingDisplay.children[index]);
 
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
+   // console.log("w:")
+   // console.log(wQueue);
 }
 
    /*
@@ -270,6 +273,7 @@ function generate() {
 
 //test
 function generate2() {
+   console.log("s = " + seconds);
    var id;
 
    // var newRow1 = table.insertRow(table.rows.length);
@@ -326,7 +330,7 @@ function generate2() {
    // cell2.innerHTML = 3;
    // cell3.innerHTML = 2;
    
-   numOfProcesses += 4;
+   numOfProcesses += 5;
 
    var newRow3 = table.insertRow(table.rows.length);
    newRow3.id = "P" + 1;
@@ -334,8 +338,8 @@ function generate2() {
    var cell2 = newRow3.insertCell(1);
    var cell3 = newRow3.insertCell(2);
    cell1.innerHTML = 1;
-   cell2.innerHTML = 0;
-   cell3.innerHTML = 5;
+   cell2.innerHTML = 2;
+   cell3.innerHTML = 6;
 
    var newRow3 = table.insertRow(table.rows.length);
    newRow3.id = "P" + 2;
@@ -343,7 +347,7 @@ function generate2() {
    var cell2 = newRow3.insertCell(1);
    var cell3 = newRow3.insertCell(2);
    cell1.innerHTML = 2;
-   cell2.innerHTML = 0;
+   cell2.innerHTML = 5;
    cell3.innerHTML = 2;
 
    var newRow3 = table.insertRow(table.rows.length);
@@ -352,8 +356,8 @@ function generate2() {
    var cell2 = newRow3.insertCell(1);
    var cell3 = newRow3.insertCell(2);
    cell1.innerHTML = 3;
-   cell2.innerHTML = 0;
-   cell3.innerHTML = 3;
+   cell2.innerHTML = 1;
+   cell3.innerHTML = 8;
 
    var newRow3 = table.insertRow(table.rows.length);
    newRow3.id = "P" + 4;
@@ -361,8 +365,17 @@ function generate2() {
    var cell2 = newRow3.insertCell(1);
    var cell3 = newRow3.insertCell(2);
    cell1.innerHTML = 4;
-   cell2.innerHTML = 1;
-   cell3.innerHTML = 2;
+   cell2.innerHTML = 0;
+   cell3.innerHTML = 3;
+
+   var newRow3 = table.insertRow(table.rows.length);
+   newRow3.id = "P" + 5;
+   var cell1 = newRow3.insertCell(0);
+   var cell2 = newRow3.insertCell(1);
+   var cell3 = newRow3.insertCell(2);
+   cell1.innerHTML = 5;
+   cell2.innerHTML = 4;
+   cell3.innerHTML = 4;
 }
 
    /*
@@ -763,10 +776,10 @@ function startTimer(algorithm) {
          updateCPU();
       }
       
+      updateTimer();
       if (algorithm == "fcfs" ){fcfs();}
       if (algorithm == "sjf"){sjf();}
       
-      updateTimer();
       getPercentComplete();
    }, 1000);
 }
@@ -909,20 +922,36 @@ function sjf() {
       });
 
       if (temp.length < all.length) {
-      temp = all.map((process, index) => ({index, ...process}));
+         temp = all.map((process, index) => ({index, ...process}));
       }
    }
 
-   console.log(all);
-   console.log(temp);
-
+      //works
    temp.forEach(function (process) {
-      var processElement = createProcessElement(process);
       if (process.arrivalTime == seconds) {
-         addToWaitingQueue(process, processElement, temp.indexOf(process));
-         removeProcess(processElement.textContent);
+         filter.push(process);
+         filter.sort(function (a, b) {
+            return a.burstTime - b.burstTime;
+         });
       }
    });
+   
+   filter.forEach(function (process) {
+      if (temp[temp.indexOf(process)].index > 0) {
+         temp[temp.indexOf(process)].index--;
+      }
+      var processElement = createProcessElement(process);
+      addToWaitingQueue(process, processElement, temp[temp.indexOf(process)].index);
+      removeProcess(processElement.textContent);
+   });
+
+   
+   if ((wQueue.length != 0) && (cpu.length == 0)) {
+      var process = wQueue[0];
+      var processElement = document.getElementById("P" + process.processID);
+      addToCPU(process, processElement);
+      wQueue.splice(0, 1);
+   }
 }
 
 function rr() {
@@ -943,9 +972,7 @@ function rr() {
    -p2 a0, b0 -> ct 1, wt 1, tat 1
    -p3 a0, b0 -> ct 2, wt 2, tat 2
 
--finish styling middle div
-
--summary table, have the new table blink when it gets added
+-timer but. its 2 seconds off
 
 -bug when you start rr without valid qt. summary log prints a message
 */
