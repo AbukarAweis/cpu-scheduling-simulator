@@ -925,16 +925,6 @@ function sjf() {
       }
    }
 
-      //works
-   // temp.forEach(function (process) {
-   //    if (process.arrivalTime == seconds) {
-   //       filter.push(process);
-   //       filter.sort(function (a, b) {
-   //          return a.burstTime - b.burstTime;
-   //       });
-   //    }
-   // });
-
    temp.forEach(function (process) {
       if (process.arrivalTime == seconds) {
          filter.push(process);
@@ -946,20 +936,10 @@ function sjf() {
    
    filter.forEach(function (process) {
       var processElement = createProcessElement(process);
-      
-      console.log("p" + process.id + " index " + (process.index - wQueue.length));
-      // wQueue.sort((a, b) => a.index - b.index);
-      // console.log(wQueue);
       addToWaitingQueueAt(process, processElement, wQueue.indexOf(wQueue[process.index]));
-      
       removeProcess(processElement.textContent);
-
    });
 
-   
-   // console.log(wQueue);
-
-   
    if ((wQueue.length != 0) && (cpu.length == 0)) {
       var process = wQueue[0];
       var processElement = document.getElementById("P" + process.processID);
