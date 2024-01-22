@@ -148,17 +148,17 @@ function addToFinishedQueue(process, processElement) {
    //and append a process element child to cpuDisplay so it can be displayed.
    //Update summary log using CPU's color
    */
-function addToCPU(process, processElement) {
-   cpuDisplay.classList.add("col-change");
-   if (process.burstTime == 0) {
-      burstCopy = 0;
-      addToFinishedQueue(process, processElement);
-   } else if (cpu.length < 1) {
+  function addToCPU(process, processElement) {
+     cpuDisplay.classList.add("col-change");
+     if (process.burstTime == 0) {
+        burstCopy = 0;
+        addToFinishedQueue(process, processElement);
+      } else if (cpu.length < 1) {
       burstCopy = process.burstTime;
       if (process.arrivalTime != 0) {
          process.burstTime--;
-      }
-
+      } 
+      
       cpu.push(process);
       cpuDisplay.appendChild(processElement);
       
@@ -188,7 +188,7 @@ function addToCPU(process, processElement) {
    //Non-idle time is incremented whenever the cpu is updated.
    */
 function updateCPU() {
-   // console.log("p:" + cpu[0].id + ", b:" + cpu[0].burstTime + ", s:" + seconds);
+   console.log("p:" + cpu[0].id + ", b:" + cpu[0].burstTime + ", s:" + seconds);
    var process = cpu[0];
    var processElement = document.getElementById("P" + process.processID);
    
@@ -799,8 +799,9 @@ function stopTimer() {
 }
 
 function updateTimer() {
-   timer.textContent = "Time: " + formatTime(seconds);
    seconds++;
+   timer.textContent = "Time: " + formatTime(seconds);
+   console.log(seconds);
 
    wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
    flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
@@ -944,6 +945,8 @@ function sjf() {
       addToWaitingQueue(process, processElement, temp[temp.indexOf(process)].index);
       removeProcess(processElement.textContent);
    });
+
+   console.log(wQueue);
 
    
    if ((wQueue.length != 0) && (cpu.length == 0)) {
