@@ -114,8 +114,8 @@ function addToWaitingQueue(process, processElement) {
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
 }
 
-function addToWaitingQueue(process, processElement, index) {
-   wQueue.splice(index, 0, process);
+function addToWaitingQueueAt(process, processElement, index) {
+   wQueue.splice((index), 0, process);
    waitingDisplay.insertBefore(processElement, waitingDisplay.children[index]);
 
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
@@ -188,7 +188,7 @@ function addToFinishedQueue(process, processElement) {
    //Non-idle time is incremented whenever the cpu is updated.
    */
 function updateCPU() {
-   console.log("p:" + cpu[0].id + ", b:" + cpu[0].burstTime + ", s:" + seconds);
+   // console.log("p:" + cpu[0].id + ", b:" + cpu[0].burstTime + ", s:" + seconds);
    var process = cpu[0];
    var processElement = document.getElementById("P" + process.processID);
    
@@ -273,7 +273,6 @@ function generate() {
 
 //test
 function generate2() {
-   console.log("s = " + seconds);
    var id;
 
    // var newRow1 = table.insertRow(table.rows.length);
@@ -801,7 +800,6 @@ function stopTimer() {
 function updateTimer() {
    seconds++;
    timer.textContent = "Time: " + formatTime(seconds);
-   console.log(seconds);
 
    wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
    flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
@@ -928,6 +926,15 @@ function sjf() {
    }
 
       //works
+   // temp.forEach(function (process) {
+   //    if (process.arrivalTime == seconds) {
+   //       filter.push(process);
+   //       filter.sort(function (a, b) {
+   //          return a.burstTime - b.burstTime;
+   //       });
+   //    }
+   // });
+
    temp.forEach(function (process) {
       if (process.arrivalTime == seconds) {
          filter.push(process);
@@ -938,15 +945,19 @@ function sjf() {
    });
    
    filter.forEach(function (process) {
-      if (temp[temp.indexOf(process)].index > 0) {
-         temp[temp.indexOf(process)].index--;
-      }
       var processElement = createProcessElement(process);
-      addToWaitingQueue(process, processElement, temp[temp.indexOf(process)].index);
+      
+      console.log("p" + process.id + " index " + (process.index - wQueue.length));
+      // wQueue.sort((a, b) => a.index - b.index);
+      // console.log(wQueue);
+      addToWaitingQueueAt(process, processElement, wQueue.indexOf(wQueue[process.index]));
+      
       removeProcess(processElement.textContent);
+
    });
 
-   console.log(wQueue);
+   
+   // console.log(wQueue);
 
    
    if ((wQueue.length != 0) && (cpu.length == 0)) {
