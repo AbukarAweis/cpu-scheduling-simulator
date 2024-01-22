@@ -115,12 +115,13 @@ function addToWaitingQueue(process, processElement) {
 }
 
 function addToWaitingQueueAt(process, processElement, index) {
-   wQueue.splice((index), 0, process);
+   if (index < 0) {index = index + wQueue.length};
+
+   wQueue.splice(index, 0, process);
    waitingDisplay.insertBefore(processElement, waitingDisplay.children[index]);
 
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
-   // console.log("w:")
-   // console.log(wQueue);
+
 }
 
    /*
@@ -896,8 +897,11 @@ function fcfs() {
       wQueue.splice(0, 1);
    }
 }
-var temp = [];
 //============================================================================================================================================
+//NON PRE-EMPTIVE SJF APPROACH
+//If the cpu is empty, the process with the shortest job will be executed until the burst is finished
+//temp is used to copy all[]
+var temp = [];
 function sjf() {
    /*
    //all[] is used to store all the processes.
@@ -915,16 +919,26 @@ function sjf() {
       };
       process.id = process.processID;
 
+      /*
+      //the processes are sorted by their burst time 
+      */
       all.push(process);
       all.sort(function (a, b) {
          return a.burstTime - b.burstTime;
       });
 
+      /*
+      //temp is mapped to every processes all[] and their indices
+      */
       if (temp.length < all.length) {
          temp = all.map((process, index) => ({index, ...process}));
       }
    }
 
+   /*
+   //each process in temp[] is sent to filter[] if its arrival time is reached.
+   //filter[] is then sorted by burst time
+   */
    temp.forEach(function (process) {
       if (process.arrivalTime == seconds) {
          filter.push(process);
@@ -934,12 +948,30 @@ function sjf() {
       }
    });
    
+   /*
+   //a process element is created for each process in filter[].
+   //if filter > 1 (more than 1 process arrived at the same time),
+   //waiting queue is updated using the order of processes in filter[]
+   //else, waiting queue is updated using the order of process in wQueue[]
+   */
    filter.forEach(function (process) {
       var processElement = createProcessElement(process);
-      addToWaitingQueueAt(process, processElement, wQueue.indexOf(wQueue[process.index]));
+
+      if (filter.length > 1) {
+         addToWaitingQueueAt(process, processElement, filter.indexOf(filter[process.index]))
+      } else {
+         wQueue.sort((a, b) => a.index - b.index);
+         addToWaitingQueueAt(process, processElement, wQueue.indexOf(wQueue[process.index]));
+      }
+
       removeProcess(processElement.textContent);
    });
 
+   /*
+   //if there are processes waiting and the cpu is empty,
+   //add the first process in the waiting queue to the cpu
+   //and remove that process from teh waiting queue
+   */
    if ((wQueue.length != 0) && (cpu.length == 0)) {
       var process = wQueue[0];
       var processElement = document.getElementById("P" + process.processID);
