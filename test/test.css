@@ -403,7 +403,7 @@ footer {
 }
 
 #quantum {
-    visibility: hidden;
+    visibility: visible;
     display: flex;
     flex-direction: row;
     justify-content: right;

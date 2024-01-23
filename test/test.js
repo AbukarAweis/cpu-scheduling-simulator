@@ -22,12 +22,13 @@ var resumeButton = document.getElementById("resume-button");
 var resetButton = document.getElementById("reset-button");
 
 var errorMessage = document.getElementById("error-message");
-var errorMessage2 = document.getElementById("error-message-2");
-var errorMessage3 = document.getElementById("error-message-3");
 
 var selectedAlgo = document.getElementById("select");
 var algoDiv = document.getElementById("algorithm");
+
 var quantumInput = document.getElementById("quantum-input");
+var qTime = document.getElementById("quantum");
+
 var progress = document.getElementById("progress");
 var progressPercent = document.getElementById("progress-percent");
 
@@ -91,13 +92,10 @@ var process = {
 };
 
 function toggleVisibility() {
-   var qTime = document.getElementById("quantum");
-
    if (selectedAlgo.value === "rr") {
       qTime.classList.add("show");
    } else {
       qTime.classList.remove("show");
-      errorMessage3.classList.remove("show");
       quantumInput.classList.remove("error");
    }
 }
@@ -112,6 +110,7 @@ function addToWaitingQueue(process, processElement) {
    waitingDisplay.appendChild(processElement);
 
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
+   processElement.classList.remove("roll");
 }
 
 function addToWaitingQueueAt(process, processElement, index) {
@@ -121,7 +120,6 @@ function addToWaitingQueueAt(process, processElement, index) {
    waitingDisplay.insertBefore(processElement, waitingDisplay.children[index]);
 
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
-
 }
 
    /*
@@ -152,10 +150,8 @@ function addToFinishedQueue(process, processElement) {
   function addToCPU(process, processElement) {
      cpuDisplay.classList.add("col-change");
      if (process.burstTime == 0) {
-        burstCopy = 0;
         addToFinishedQueue(process, processElement);
       } else if (cpu.length < 1) {
-      burstCopy = process.burstTime;
       if (process.arrivalTime != 0) {
          process.burstTime--;
       } 
@@ -172,9 +168,9 @@ function addToFinishedQueue(process, processElement) {
       });
 
       if (process.burstTime != 0 && process.arrivalTime != 0) {
-         workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime + 1) + "/" + burstCopy;
+         workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime + 1) + "/" + process.burstCopy;
       } else {
-         workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime) + "/" + burstCopy;
+         workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime) + "/" + process.burstCopy;
       }
 
       processElement.classList.add("roll");
@@ -200,7 +196,7 @@ function updateCPU() {
       statusDiv.style.backgroundColor = "gray";
       workingOn.textContent = "< IDLE >";
    } else {
-      workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + burstCopy;
+      workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + process.burstCopy;
       process.burstTime--;
    }
 
@@ -282,8 +278,8 @@ function generate2() {
    // var cell2 = newRow1.insertCell(1);
    // var cell3 = newRow1.insertCell(2);
    // cell1.innerHTML = 1;
-   // cell2.innerHTML = 2;
-   // cell3.innerHTML = 6;
+   // cell2.innerHTML = 0;
+   // cell3.innerHTML = 5;
 
    // var newRow2 = table.insertRow(table.rows.length);
    // newRow2.id = "P" + 2;
@@ -291,8 +287,8 @@ function generate2() {
    // var cell2 = newRow2.insertCell(1);
    // var cell3 = newRow2.insertCell(2);
    // cell1.innerHTML = 2;
-   // cell2.innerHTML = 5;
-   // cell3.innerHTML = 2;
+   // cell2.innerHTML = 1;
+   // cell3.innerHTML = 6;
    
    // var newRow3 = table.insertRow(table.rows.length);
    // newRow3.id = "P" + 3;
@@ -300,8 +296,8 @@ function generate2() {
    // var cell2 = newRow3.insertCell(1);
    // var cell3 = newRow3.insertCell(2);
    // cell1.innerHTML = 3;
-   // cell2.innerHTML = 1;
-   // cell3.innerHTML = 8;
+   // cell2.innerHTML = 2;
+   // cell3.innerHTML = 3;
 
    // var newRow3 = table.insertRow(table.rows.length);
    // newRow3.id = "P" + 4;
@@ -309,8 +305,8 @@ function generate2() {
    // var cell2 = newRow3.insertCell(1);
    // var cell3 = newRow3.insertCell(2);
    // cell1.innerHTML = 4;
-   // cell2.innerHTML = 0;
-   // cell3.innerHTML = 3;
+   // cell2.innerHTML = 3;
+   // cell3.innerHTML = 1;
 
    // var newRow3 = table.insertRow(table.rows.length);
    // newRow3.id = "P" + 5;
@@ -319,7 +315,7 @@ function generate2() {
    // var cell3 = newRow3.insertCell(2);
    // cell1.innerHTML = 5;
    // cell2.innerHTML = 4;
-   // cell3.innerHTML = 4;
+   // cell3.innerHTML = 5;
 
    // var newRow3 = table.insertRow(table.rows.length);
    // newRow3.id = "P" + 6;
@@ -327,55 +323,18 @@ function generate2() {
    // var cell2 = newRow3.insertCell(1);
    // var cell3 = newRow3.insertCell(2);
    // cell1.innerHTML = 6;
-   // cell2.innerHTML = 3;
-   // cell3.innerHTML = 2;
-   
-   numOfProcesses += 5;
-
+   // cell2.innerHTML = 6;
+   // cell3.innerHTML = 4;
    var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 1;
+   newRow3.id = "P" + 7;
    var cell1 = newRow3.insertCell(0);
    var cell2 = newRow3.insertCell(1);
    var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 1;
-   cell2.innerHTML = 2;
-   cell3.innerHTML = 6;
-
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 2;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 2;
-   cell2.innerHTML = 5;
-   cell3.innerHTML = 2;
-
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 3;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 3;
-   cell2.innerHTML = 1;
-   cell3.innerHTML = 8;
-
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 4;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 4;
+   cell1.innerHTML = 7;
    cell2.innerHTML = 0;
-   cell3.innerHTML = 3;
-
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 5;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 5;
-   cell2.innerHTML = 4;
-   cell3.innerHTML = 4;
+   cell3.innerHTML = 6;
+   
+   numOfProcesses += 1;
 }
 
    /*
@@ -463,7 +422,7 @@ function endSummaryLog() {
 function addSummaryTable(process) {
    var newRow = summaryTable.insertRow(summaryTable.rows.length);
    var turnAroundTime = exitTime - process.arrivalTime;
-   var waitingTime = turnAroundTime - burstCopy;
+   var waitingTime = turnAroundTime - process.burstCopy;
    
    newRow.id = "row" + process.processID;
    
@@ -476,7 +435,7 @@ function addSummaryTable(process) {
    
    cell1.innerHTML = process.processID;
    cell2.innerHTML = process.arrivalTime;
-   cell3.innerHTML = burstCopy;
+   cell3.innerHTML = process.burstCopy;
    cell4.innerHTML = formatTime(exitTime);
    cell5.innerHTML = formatTime(waitingTime);
    cell6.innerHTML = formatTime(turnAroundTime);
@@ -611,8 +570,6 @@ function validateInput(element, isID) {
    if ((table.rows.length > 0 && isID) || isID) {
       if ((element.value === "" || parseFloat(element.value) < 0 || !/^[0-9]+$/.test(element.value))) {
          element.classList.add("error");
-         // errorMessage.classList.add("show");
-         // errorMessage2.classList.remove("show");
          showError(1);
          return false;
       }
@@ -622,7 +579,6 @@ function validateInput(element, isID) {
 
          if (existingID === element.value) {
             element.classList.add("error");
-            // errorMessage.classList.add("show");
             showError(1);
             return false;
          } 
@@ -632,12 +588,9 @@ function validateInput(element, isID) {
    //when validating any input other than id.
    if ((element.value === "" || parseFloat(element.value) < 0 || !/^[0-9]+$/.test(element.value)) && !isID) {
       element.classList.add("error");
-      // errorMessage.classList.add("show");
-      // errorMessage2.classList.remove("show");
       return false;
    } else {
       element.classList.remove("error");
-      // errorMessage.classList.remove("show");
       errorMessage.style.visibility = "hidden";
       return true;
    }
@@ -698,34 +651,24 @@ function start() {
 
    if (table.rows.length != 0) {
 
-      var startSummary = document.createElement("p");
-      startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
-      startSummary.style.fontWeight = "bold";
-      summaryLog.appendChild(startSummary);
-
-      createProgressSections();
-
       switch (algorithm) {
          case "fcfs":
             startTimer(algorithm);
             running = true;
-            fcfs();
+            // fcfs();
             break;
          case "sjf":
             startTimer(algorithm);
             running = true;
-            sjf();
+            // sjf();
             break;
          case "rr":
-            if ((validateInput(quantumInput, false))) {
+            if (validateInput(quantumInput, false)) {
+               startTimer(algorithm);
                running = true;
-               // errorMessage3.classList.remove("show");
-               errorMessage.style.visibility = "hidden";
                rr();
             } else {
-               // errorMessage3.classList.add("show");
-               showError(3)
-               quantumInput.classList.add("error");
+               showError(3);
             }
             break;
          default:
@@ -733,6 +676,13 @@ function start() {
       }
 
       if (running) {
+         var startSummary = document.createElement("p");
+         startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
+         startSummary.style.fontWeight = "bold";
+         summaryLog.appendChild(startSummary);
+
+         createProgressSections();
+
          wlabel.textContent = "Waiting (0/" + numOfProcesses + ")";
          flabel.textContent = "Finished (0/" + numOfProcesses + ")";
          clabel.textContent = "CPU (0/1)"; 
@@ -756,14 +706,11 @@ function start() {
 
          startButton.style.visibility = "hidden";
          pauseButton.style.visibility = "visible";
+
+         removeErrors();
       }
-
-
-      removeErrors();
    } else {
       removeErrors();
-      // errorMessage.classList.remove("show");
-      // errorMessage2.classList.add("show");
       showError(2)
    }
 }
@@ -777,8 +724,10 @@ function startTimer(algorithm) {
       }
       
       updateTimer();
+
       if (algorithm == "fcfs" ){fcfs();}
       if (algorithm == "sjf"){sjf();}
+      if (algorithm == "rr"){rr();}
       
       getPercentComplete();
    }, 1000);
@@ -854,7 +803,8 @@ function fcfs() {
       var process = {
          processID: table.rows[i].cells[0].innerHTML,
          arrivalTime: table.rows[i].cells[1].innerHTML,
-         burstTime: table.rows[i].cells[2].innerHTML
+         burstTime: table.rows[i].cells[2].innerHTML,
+         burstCopy: table.rows[i].cells[2].innerHTML
       };
       process.id = process.processID;
 
@@ -915,7 +865,8 @@ function sjf() {
       var process = {
          processID: table.rows[i].cells[0].innerHTML,
          arrivalTime: table.rows[i].cells[1].innerHTML,
-         burstTime: table.rows[i].cells[2].innerHTML
+         burstTime: table.rows[i].cells[2].innerHTML,
+         burstCopy: table.rows[i].cells[2].innerHTML
       };
       process.id = process.processID;
 
@@ -979,9 +930,59 @@ function sjf() {
       wQueue.splice(0, 1);
    }
 }
+//============================================================================================================================================
+var currentTime;
 
+// var b;
 function rr() {
-   alert("rr");
+   var all = [];
+   var filter = [];
+
+   for (var i = 0; i < table.rows.length; i++) {
+      var process = {
+         processID: table.rows[i].cells[0].innerHTML,
+         arrivalTime: table.rows[i].cells[1].innerHTML,
+         burstTime: table.rows[i].cells[2].innerHTML,
+         burstCopy: table.rows[i].cells[2].innerHTML
+      };
+      process.id = process.processID;
+      
+      all.push(process);
+   }
+   
+   all.forEach(function (process) {
+      if (process.arrivalTime == seconds) {
+         filter.push(process);
+         filter.sort(function (a, b) {
+            return a.id - b.id;
+         }); 
+      }  
+   });
+   
+   filter.forEach(function (process) {
+      var processElement = createProcessElement(process);
+      addToWaitingQueue(process, processElement);
+      removeProcess(processElement.textContent);
+   });
+   
+   if ((wQueue.length != 0) && (cpu.length == 0)) {
+      var process = wQueue[0];
+      var processElement = document.getElementById("P" + process.processID);
+      currentTime = seconds;
+      addToCPU(process, processElement);
+      wQueue.splice(0, 1);
+   }
+  
+   cpu.forEach(function (process) {
+      console.log("p" + process.id + " " + process.burstCopy);
+      if (seconds == ((Number(quantumInput.value)) + currentTime)) {
+         currentTime = seconds;
+         var processElement = document.getElementById("P" + process.processID);
+         cpu.pop();
+         addToWaitingQueue(process, processElement);
+      }
+   })
+
 }
 
 /*
