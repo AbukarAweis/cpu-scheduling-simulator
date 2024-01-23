@@ -111,6 +111,8 @@ function addToWaitingQueue(process, processElement) {
 
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
    processElement.classList.remove("roll");
+
+   wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
 }
 
 function addToWaitingQueueAt(process, processElement, index) {
@@ -120,6 +122,8 @@ function addToWaitingQueueAt(process, processElement, index) {
    waitingDisplay.insertBefore(processElement, waitingDisplay.children[index]);
 
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
+
+   wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
 }
 
    /*
@@ -138,6 +142,8 @@ function addToFinishedQueue(process, processElement) {
    updateSummaryLog(process.processID + " -- Finished", "#0E6BA8");
 
    processElement.classList.remove("roll");
+
+   flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
 }
 
    /*
@@ -175,6 +181,8 @@ function addToFinishedQueue(process, processElement) {
 
       processElement.classList.add("roll");
       updateSummaryLog(process.processID + " > CPU", "#FFBA49");
+
+      clabel.textContent = "CPU (" + cpu.length + "/1)";
    }
 }
 
@@ -185,9 +193,11 @@ function addToFinishedQueue(process, processElement) {
    //Non-idle time is incremented whenever the cpu is updated.
    */
 function updateCPU() {
-   // console.log("p:" + cpu[0].id + ", b:" + cpu[0].burstTime + ", s:" + seconds);
    var process = cpu[0];
    var processElement = document.getElementById("P" + process.processID);
+   // process.burstTime--;
+   process.burstTime--;
+   workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + process.burstCopy;
    
    //using this method when there were 10 processes with aT = 0, and bT = 2, there was a lag taking them out of cpu
    if (process.burstTime <= 0) {
@@ -196,10 +206,11 @@ function updateCPU() {
       statusDiv.style.backgroundColor = "gray";
       workingOn.textContent = "< IDLE >";
    } else {
-      workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + process.burstCopy;
-      process.burstTime--;
+      // workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + process.burstCopy;
+      // process.burstTime--;
    }
-
+   
+   clabel.textContent = "CPU (" + cpu.length + "/1)";
    totalNIT++;
 }
 
@@ -272,69 +283,70 @@ function generate() {
 function generate2() {
    var id;
 
-   // var newRow1 = table.insertRow(table.rows.length);
-   // newRow1.id = "P" + 1;
-   // var cell1 = newRow1.insertCell(0);
-   // var cell2 = newRow1.insertCell(1);
-   // var cell3 = newRow1.insertCell(2);
-   // cell1.innerHTML = 1;
-   // cell2.innerHTML = 0;
-   // cell3.innerHTML = 5;
+   var newRow1 = table.insertRow(table.rows.length);
+   newRow1.id = "P" + 1;
+   var cell1 = newRow1.insertCell(0);
+   var cell2 = newRow1.insertCell(1);
+   var cell3 = newRow1.insertCell(2);
+   cell1.innerHTML = 1;
+   cell2.innerHTML = 0;
+   cell3.innerHTML = 5;
 
-   // var newRow2 = table.insertRow(table.rows.length);
-   // newRow2.id = "P" + 2;
-   // var cell1 = newRow2.insertCell(0);
-   // var cell2 = newRow2.insertCell(1);
-   // var cell3 = newRow2.insertCell(2);
-   // cell1.innerHTML = 2;
-   // cell2.innerHTML = 1;
-   // cell3.innerHTML = 6;
+   var newRow2 = table.insertRow(table.rows.length);
+   newRow2.id = "P" + 2;
+   var cell1 = newRow2.insertCell(0);
+   var cell2 = newRow2.insertCell(1);
+   var cell3 = newRow2.insertCell(2);
+   cell1.innerHTML = 2;
+   cell2.innerHTML = 1;
+   cell3.innerHTML = 6;
    
-   // var newRow3 = table.insertRow(table.rows.length);
-   // newRow3.id = "P" + 3;
-   // var cell1 = newRow3.insertCell(0);
-   // var cell2 = newRow3.insertCell(1);
-   // var cell3 = newRow3.insertCell(2);
-   // cell1.innerHTML = 3;
-   // cell2.innerHTML = 2;
-   // cell3.innerHTML = 3;
-
-   // var newRow3 = table.insertRow(table.rows.length);
-   // newRow3.id = "P" + 4;
-   // var cell1 = newRow3.insertCell(0);
-   // var cell2 = newRow3.insertCell(1);
-   // var cell3 = newRow3.insertCell(2);
-   // cell1.innerHTML = 4;
-   // cell2.innerHTML = 3;
-   // cell3.innerHTML = 1;
-
-   // var newRow3 = table.insertRow(table.rows.length);
-   // newRow3.id = "P" + 5;
-   // var cell1 = newRow3.insertCell(0);
-   // var cell2 = newRow3.insertCell(1);
-   // var cell3 = newRow3.insertCell(2);
-   // cell1.innerHTML = 5;
-   // cell2.innerHTML = 4;
-   // cell3.innerHTML = 5;
-
-   // var newRow3 = table.insertRow(table.rows.length);
-   // newRow3.id = "P" + 6;
-   // var cell1 = newRow3.insertCell(0);
-   // var cell2 = newRow3.insertCell(1);
-   // var cell3 = newRow3.insertCell(2);
-   // cell1.innerHTML = 6;
-   // cell2.innerHTML = 6;
-   // cell3.innerHTML = 4;
    var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 7;
+   newRow3.id = "P" + 3;
    var cell1 = newRow3.insertCell(0);
    var cell2 = newRow3.insertCell(1);
    var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 7;
-   cell2.innerHTML = 0;
-   cell3.innerHTML = 6;
+   cell1.innerHTML = 3;
+   cell2.innerHTML = 2;
+   cell3.innerHTML = 3;
+
+   var newRow3 = table.insertRow(table.rows.length);
+   newRow3.id = "P" + 4;
+   var cell1 = newRow3.insertCell(0);
+   var cell2 = newRow3.insertCell(1);
+   var cell3 = newRow3.insertCell(2);
+   cell1.innerHTML = 4;
+   cell2.innerHTML = 3;
+   cell3.innerHTML = 1;
+
+   var newRow3 = table.insertRow(table.rows.length);
+   newRow3.id = "P" + 5;
+   var cell1 = newRow3.insertCell(0);
+   var cell2 = newRow3.insertCell(1);
+   var cell3 = newRow3.insertCell(2);
+   cell1.innerHTML = 5;
+   cell2.innerHTML = 4;
+   cell3.innerHTML = 5;
+
+   var newRow3 = table.insertRow(table.rows.length);
+   newRow3.id = "P" + 6;
+   var cell1 = newRow3.insertCell(0);
+   var cell2 = newRow3.insertCell(1);
+   var cell3 = newRow3.insertCell(2);
+   cell1.innerHTML = 6;
+   cell2.innerHTML = 6;
+   cell3.innerHTML = 4;
+
+   // var newRow3 = table.insertRow(table.rows.length);
+   // newRow3.id = "P" + 7;
+   // var cell1 = newRow3.insertCell(0);
+   // var cell2 = newRow3.insertCell(1);
+   // var cell3 = newRow3.insertCell(2);
+   // cell1.innerHTML = 7;
+   // cell2.innerHTML = 0;
+   // cell3.innerHTML = 6;
    
-   numOfProcesses += 1;
+   numOfProcesses += 6;
 }
 
    /*
@@ -604,6 +616,7 @@ function getPercentComplete() {
    if (progressPercent.textContent == "100.00%") {
       pauseButton.disabled = true;
       resumeButton.disabled = true;
+      
       stopTimer();
       endSummaryLog();
    }
@@ -651,6 +664,13 @@ function start() {
 
    if (table.rows.length != 0) {
 
+      var startSummary = document.createElement("p");
+      startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
+      startSummary.style.fontWeight = "bold";
+      summaryLog.appendChild(startSummary);
+
+      createProgressSections();
+      
       switch (algorithm) {
          case "fcfs":
             startTimer(algorithm);
@@ -676,16 +696,10 @@ function start() {
       }
 
       if (running) {
-         var startSummary = document.createElement("p");
-         startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
-         startSummary.style.fontWeight = "bold";
-         summaryLog.appendChild(startSummary);
 
-         createProgressSections();
-
-         wlabel.textContent = "Waiting (0/" + numOfProcesses + ")";
-         flabel.textContent = "Finished (0/" + numOfProcesses + ")";
-         clabel.textContent = "CPU (0/1)"; 
+         wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
+         flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
+         clabel.textContent = "CPU (" + cpu.length + "/1)"; 
 
          //Setting the algorithm to the text content of selected option
          var algoText = document.createElement('span');
@@ -718,12 +732,11 @@ function start() {
 function startTimer(algorithm) {
    clearInterval(timerInterval);
    timerInterval = setInterval(function () {
+      updateTimer();
 
       if (cpu.length == 1) {
          updateCPU();
       }
-      
-      updateTimer();
 
       if (algorithm == "fcfs" ){fcfs();}
       if (algorithm == "sjf"){sjf();}
@@ -750,10 +763,10 @@ function stopTimer() {
 function updateTimer() {
    seconds++;
    timer.textContent = "Time: " + formatTime(seconds);
-
-   wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
-   flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
-   clabel.textContent = "CPU (" + cpu.length + "/1)";
+   
+   // wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
+   // flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
+   // clabel.textContent = "CPU (" + cpu.length + "/1)";
 
    if (cpu.length == 0) {
       cpuDisplay.classList.remove("col-change");
@@ -931,7 +944,7 @@ function sjf() {
    }
 }
 //============================================================================================================================================
-var currentTime;
+var currentTime = 0;
 
 // var b;
 function rr() {
@@ -973,13 +986,18 @@ function rr() {
       wQueue.splice(0, 1);
    }
   
+   console.log(cpu.length);
+
    cpu.forEach(function (process) {
-      console.log("p" + process.id + " " + process.burstCopy);
-      if (seconds == ((Number(quantumInput.value)) + currentTime)) {
+      if (seconds == ((Number(quantumInput.value)) + currentTime) && (wQueue.length != 0)) {
          currentTime = seconds;
          var processElement = document.getElementById("P" + process.processID);
          cpu.pop();
          addToWaitingQueue(process, processElement);
+         statusDiv.style.backgroundColor = "gray";
+         workingOn.textContent = "< IDLE >";
+         cpuDisplay.classList.remove("col-change");
+         clabel.textContent = "CPU (" + cpu.length + "/1)";
       }
    })
 
@@ -1001,5 +1019,5 @@ function rr() {
 
 -timer but. its 2 seconds off
 
--bug when you start rr without valid qt. summary log prints a message
+-bug cpu should not be idle if processes are waiting in queue
 */
