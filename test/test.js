@@ -574,24 +574,28 @@ function start() {
 
    if (table.rows.length != 0) {
 
-      var startSummary = document.createElement("p");
-      startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
-      startSummary.style.fontWeight = "bold";
-      summaryLog.appendChild(startSummary);
-
-      createProgressSections();
-      
       switch (algorithm) {
          case "fcfs":
-            startTimer(algorithm);
-            running = true;
-            break;
          case "sjf":
+            var startSummary = document.createElement("p");
+            startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
+            startSummary.style.fontWeight = "bold";
+            summaryLog.appendChild(startSummary);
+            createProgressSections();
+
             startTimer(algorithm);
             running = true;
             break;
+
          case "rr":
             if (validateInput(quantumInput, false)) {
+
+               var startSummary = document.createElement("p");
+               startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
+               startSummary.style.fontWeight = "bold";
+               summaryLog.appendChild(startSummary);
+               createProgressSections();
+
                startTimer(algorithm);
                running = true;
                quantumInput.disabled = true;
