@@ -112,7 +112,7 @@ function addToWaitingQueue(process, processElement) {
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
    processElement.classList.remove("roll");
 
-   wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
+   // wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
 }
 
 function addToWaitingQueueAt(process, processElement, index) {
@@ -123,7 +123,7 @@ function addToWaitingQueueAt(process, processElement, index) {
 
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
 
-   wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
+   // wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
 }
 
    /*
@@ -143,7 +143,8 @@ function addToFinishedQueue(process, processElement) {
 
    processElement.classList.remove("roll");
 
-   flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
+   // wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
+   // flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
 }
 
    /*
@@ -158,9 +159,12 @@ function addToFinishedQueue(process, processElement) {
      if (process.burstTime == 0) {
         addToFinishedQueue(process, processElement);
       } else if (cpu.length < 1) {
-      if (process.arrivalTime != 0) {
-         process.burstTime--;
-      } 
+      // if (process.arrivalTime == 0) {
+      //    process.burstTime--;
+      // }
+      // if (process.burstTime != 0) {
+      //    process.burstTime--;
+      // }
       
       cpu.push(process);
       cpuDisplay.appendChild(processElement);
@@ -174,7 +178,8 @@ function addToFinishedQueue(process, processElement) {
       });
 
       if (process.burstTime != 0 && process.arrivalTime != 0) {
-         workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime + 1) + "/" + process.burstCopy;
+         // workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime + 1) + "/" + process.burstCopy;
+         workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime) + "/" + process.burstCopy;
       } else {
          workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime) + "/" + process.burstCopy;
       }
@@ -182,7 +187,7 @@ function addToFinishedQueue(process, processElement) {
       processElement.classList.add("roll");
       updateSummaryLog(process.processID + " > CPU", "#FFBA49");
 
-      clabel.textContent = "CPU (" + cpu.length + "/1)";
+      // clabel.textContent = "CPU (" + cpu.length + "/1)";
    }
 }
 
@@ -195,7 +200,6 @@ function addToFinishedQueue(process, processElement) {
 function updateCPU() {
    var process = cpu[0];
    var processElement = document.getElementById("P" + process.processID);
-   // process.burstTime--;
    process.burstTime--;
    workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + process.burstCopy;
    
@@ -205,10 +209,11 @@ function updateCPU() {
       addToFinishedQueue(process, processElement);
       statusDiv.style.backgroundColor = "gray";
       workingOn.textContent = "< IDLE >";
-   } else {
-      // workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + process.burstCopy;
-      // process.burstTime--;
-   }
+   } 
+   // else {
+   //    // workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + process.burstCopy;
+   //    process.burstTime--;
+   // }
    
    clabel.textContent = "CPU (" + cpu.length + "/1)";
    totalNIT++;
@@ -289,8 +294,8 @@ function generate2() {
    var cell2 = newRow1.insertCell(1);
    var cell3 = newRow1.insertCell(2);
    cell1.innerHTML = 1;
-   cell2.innerHTML = 0;
-   cell3.innerHTML = 5;
+   cell2.innerHTML = 2;
+   cell3.innerHTML = 6;
 
    var newRow2 = table.insertRow(table.rows.length);
    newRow2.id = "P" + 2;
@@ -298,8 +303,8 @@ function generate2() {
    var cell2 = newRow2.insertCell(1);
    var cell3 = newRow2.insertCell(2);
    cell1.innerHTML = 2;
-   cell2.innerHTML = 1;
-   cell3.innerHTML = 6;
+   cell2.innerHTML = 5;
+   cell3.innerHTML = 2;
    
    var newRow3 = table.insertRow(table.rows.length);
    newRow3.id = "P" + 3;
@@ -307,8 +312,8 @@ function generate2() {
    var cell2 = newRow3.insertCell(1);
    var cell3 = newRow3.insertCell(2);
    cell1.innerHTML = 3;
-   cell2.innerHTML = 2;
-   cell3.innerHTML = 3;
+   cell2.innerHTML = 1;
+   cell3.innerHTML = 8;
 
    var newRow3 = table.insertRow(table.rows.length);
    newRow3.id = "P" + 4;
@@ -316,8 +321,8 @@ function generate2() {
    var cell2 = newRow3.insertCell(1);
    var cell3 = newRow3.insertCell(2);
    cell1.innerHTML = 4;
-   cell2.innerHTML = 3;
-   cell3.innerHTML = 1;
+   cell2.innerHTML = 0;
+   cell3.innerHTML = 3;
 
    var newRow3 = table.insertRow(table.rows.length);
    newRow3.id = "P" + 5;
@@ -326,16 +331,16 @@ function generate2() {
    var cell3 = newRow3.insertCell(2);
    cell1.innerHTML = 5;
    cell2.innerHTML = 4;
-   cell3.innerHTML = 5;
-
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 6;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 6;
-   cell2.innerHTML = 6;
    cell3.innerHTML = 4;
+
+   // var newRow3 = table.insertRow(table.rows.length);
+   // newRow3.id = "P" + 6;
+   // var cell1 = newRow3.insertCell(0);
+   // var cell2 = newRow3.insertCell(1);
+   // var cell3 = newRow3.insertCell(2);
+   // cell1.innerHTML = 6;
+   // cell2.innerHTML = 3;
+   // cell3.innerHTML = 2;
 
    // var newRow3 = table.insertRow(table.rows.length);
    // newRow3.id = "P" + 7;
@@ -346,7 +351,7 @@ function generate2() {
    // cell2.innerHTML = 0;
    // cell3.innerHTML = 6;
    
-   numOfProcesses += 6;
+   numOfProcesses += 5;
 }
 
    /*
@@ -397,14 +402,13 @@ function endSummaryLog() {
    var avgWTElement = document.createElement("p");
    var avgTATElement = document.createElement("p");
    var cpuUtilElement = document.createElement("p");
-   
-   if (seconds > 1) {seconds -= 1};
+
    var throughput = (numOfProcesses / (maxET - minAT)).toFixed(2);
    var cpuUtilization = ((totalNIT / (seconds)) * 100).toFixed(2);
 
    endSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION COMPLETE***";
    numProc.textContent = "# of Processes: " + numOfProcesses;
-   totalTime.textContent = "Total Duration: " + (formatTime(seconds));
+   totalTime.textContent = "Total Duration: " + (formatTime(seconds - 1));
    avgWTElement.textContent = "Avg. Waiting Time: " + formatTime((totalWT / numOfProcesses).toFixed(2));
    avgTATElement.textContent = "Avg. Turnaround Time: " + formatTime((totalTAT / numOfProcesses).toFixed(2));
    throughputElement.textContent = "Throughput: " + ((throughput != Infinity) ? throughput : 0);
@@ -697,10 +701,6 @@ function start() {
 
       if (running) {
 
-         wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
-         flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
-         clabel.textContent = "CPU (" + cpu.length + "/1)"; 
-
          //Setting the algorithm to the text content of selected option
          var algoText = document.createElement('span');
          algoText.textContent = selectedAlgo.options[(selectedAlgo.selectedIndex)].textContent;
@@ -708,7 +708,7 @@ function start() {
          algoDiv.textContent = "Algorithm: "
          algoDiv.appendChild(algoText);
 
-         timer.textContent = "Time: " + formatTime(seconds);
+         // timer.textContent = "Time: " + formatTime(seconds);
    
          genButton.disabled = true;
          addButton.disabled = true;
@@ -732,16 +732,16 @@ function start() {
 function startTimer(algorithm) {
    clearInterval(timerInterval);
    timerInterval = setInterval(function () {
-      updateTimer();
-
+      
       if (cpu.length == 1) {
          updateCPU();
       }
-
+      
       if (algorithm == "fcfs" ){fcfs();}
       if (algorithm == "sjf"){sjf();}
       if (algorithm == "rr"){rr();}
       
+      updateTimer();
       getPercentComplete();
    }, 1000);
 }
@@ -761,16 +761,16 @@ function stopTimer() {
 }
 
 function updateTimer() {
-   seconds++;
    timer.textContent = "Time: " + formatTime(seconds);
-   
-   // wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
-   // flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
-   // clabel.textContent = "CPU (" + cpu.length + "/1)";
+   seconds++;
 
    if (cpu.length == 0) {
       cpuDisplay.classList.remove("col-change");
    }
+
+   wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
+   flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
+   clabel.textContent = "CPU (" + cpu.length + "/1)"; 
 }
 
 function resumeTimer() {
@@ -834,7 +834,7 @@ function fcfs() {
          filter.sort(function (a, b) {
             return a.id - b.id;
          }); 
-      }  
+      }
    });
 
    /*
