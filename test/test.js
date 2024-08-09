@@ -35,7 +35,6 @@ var progressPercent = document.getElementById("progress-percent");
 var algorithm;
 var running = false;
 
-   //waiting queue, finished queue, cpu queue
 var wQueue = [];
 var fQueue = [];
 var cpu = [];
@@ -111,8 +110,6 @@ function addToWaitingQueue(process, processElement) {
 
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
    processElement.classList.remove("roll");
-
-   // wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
 }
 
 function addToWaitingQueueAt(process, processElement, index) {
@@ -122,8 +119,6 @@ function addToWaitingQueueAt(process, processElement, index) {
    waitingDisplay.insertBefore(processElement, waitingDisplay.children[index]);
 
    updateSummaryLog(process.processID + " -- Waiting", "#006400");
-
-   // wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
 }
 
    /*
@@ -142,9 +137,6 @@ function addToFinishedQueue(process, processElement) {
    updateSummaryLog(process.processID + " -- Finished", "#0E6BA8");
 
    processElement.classList.remove("roll");
-
-   // wlabel.textContent = "Waiting (" + wQueue.length + "/" + numOfProcesses + ")";
-   // flabel.textContent = "Finished (" + fQueue.length + "/" + numOfProcesses + ")";
 }
 
    /*
@@ -159,13 +151,7 @@ function addToFinishedQueue(process, processElement) {
      if (process.burstTime == 0) {
         addToFinishedQueue(process, processElement);
       } else if (cpu.length < 1) {
-      // if (process.arrivalTime == 0) {
-      //    process.burstTime--;
-      // }
-      // if (process.burstTime != 0) {
-      //    process.burstTime--;
-      // }
-      
+
       cpu.push(process);
       cpuDisplay.appendChild(processElement);
       
@@ -178,7 +164,6 @@ function addToFinishedQueue(process, processElement) {
       });
 
       if (process.burstTime != 0 && process.arrivalTime != 0) {
-         // workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime + 1) + "/" + process.burstCopy;
          workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime) + "/" + process.burstCopy;
       } else {
          workingOn.textContent = "P" + process.processID + " Burst: " + (process.burstTime) + "/" + process.burstCopy;
@@ -186,8 +171,6 @@ function addToFinishedQueue(process, processElement) {
 
       processElement.classList.add("roll");
       updateSummaryLog(process.processID + " > CPU", "#FFBA49");
-
-      // clabel.textContent = "CPU (" + cpu.length + "/1)";
    }
 }
 
@@ -203,17 +186,12 @@ function updateCPU() {
    process.burstTime--;
    workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + process.burstCopy;
    
-   //using this method when there were 10 processes with aT = 0, and bT = 2, there was a lag taking them out of cpu
    if (process.burstTime <= 0) {
       cpu.pop();
       addToFinishedQueue(process, processElement);
       statusDiv.style.backgroundColor = "gray";
       workingOn.textContent = "< IDLE >";
    } 
-   // else {
-   //    // workingOn.textContent = "P" + process.processID + " Burst: " + process.burstTime + "/" + process.burstCopy;
-   //    process.burstTime--;
-   // }
    
    clabel.textContent = "CPU (" + cpu.length + "/1)";
    totalNIT++;
@@ -241,7 +219,6 @@ function addProcess() {
       cell1.innerHTML = process.processID.value;
       cell2.innerHTML = process.arrivalTime.value;
       cell3.innerHTML = process.burstTime.value;
-
 
          //disable generate button and reset all values to placeholder
       genButton.disabled = true;
@@ -361,7 +338,6 @@ function endSummaryLog() {
    summaryLog.appendChild(cpuUtilElement);
    summaryLog.scrollTop = summaryLog.scrollHeight;
 }
-
 
    //used to add a process and all of its simulation results
    //to the summary table
@@ -609,19 +585,16 @@ function start() {
          case "fcfs":
             startTimer(algorithm);
             running = true;
-            // fcfs();
             break;
          case "sjf":
             startTimer(algorithm);
             running = true;
-            // sjf();
             break;
          case "rr":
             if (validateInput(quantumInput, false)) {
                startTimer(algorithm);
                running = true;
                quantumInput.disabled = true;
-               // rr();
             } else {
                showError(3);
             }
@@ -638,8 +611,6 @@ function start() {
          algoText.style.fontStyle = "italic";
          algoDiv.textContent = "Algorithm: "
          algoDiv.appendChild(algoText);
-
-         // timer.textContent = "Time: " + formatTime(seconds);
    
          genButton.disabled = true;
          addButton.disabled = true;
@@ -680,13 +651,13 @@ function startTimer(algorithm) {
 function stopTimer() {
    pauseButton.style.visibility = "hidden";
    resumeButton.style.visibility = "visible";
+
    clearInterval(timerInterval);
 
    if (cpu.length > 0) {
       var c = cpu[0];
       var cur = document.getElementById("P" + c.id);
       cur.classList.remove("roll");
-
    }
    cpuDisplay.classList.remove("col-change");
 }
@@ -923,6 +894,5 @@ function rr() {
       currentTime = seconds;
       addToCPU(process, processElement);
       wQueue.splice(0, 1);
-   }
-  
+   }  
 }
