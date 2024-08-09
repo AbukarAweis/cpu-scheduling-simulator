@@ -310,7 +310,7 @@ function endSummaryLog() {
    var avgTATElement = document.createElement("p");
    var cpuUtilElement = document.createElement("p");
 
-   var throughput = (numOfProcesses / (maxET - minAT)).toFixed(2);
+   var throughput = (numOfProcesses / (seconds - 1)).toFixed(2);
    var cpuUtilization = ((totalNIT / (seconds)) * 100).toFixed(2);
 
    endSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION COMPLETE***";
