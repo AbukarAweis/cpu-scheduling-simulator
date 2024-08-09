@@ -284,76 +284,6 @@ function generate() {
    genButton.disabled = true;
 }
 
-//test
-function generate2() {
-   var id;
-
-   var newRow1 = table.insertRow(table.rows.length);
-   newRow1.id = "P" + 1;
-   var cell1 = newRow1.insertCell(0);
-   var cell2 = newRow1.insertCell(1);
-   var cell3 = newRow1.insertCell(2);
-   cell1.innerHTML = 1;
-   cell2.innerHTML = 2;
-   cell3.innerHTML = 6;
-
-   var newRow2 = table.insertRow(table.rows.length);
-   newRow2.id = "P" + 2;
-   var cell1 = newRow2.insertCell(0);
-   var cell2 = newRow2.insertCell(1);
-   var cell3 = newRow2.insertCell(2);
-   cell1.innerHTML = 2;
-   cell2.innerHTML = 5;
-   cell3.innerHTML = 2;
-   
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 3;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 3;
-   cell2.innerHTML = 1;
-   cell3.innerHTML = 8;
-
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 4;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 4;
-   cell2.innerHTML = 0;
-   cell3.innerHTML = 3;
-
-   var newRow3 = table.insertRow(table.rows.length);
-   newRow3.id = "P" + 5;
-   var cell1 = newRow3.insertCell(0);
-   var cell2 = newRow3.insertCell(1);
-   var cell3 = newRow3.insertCell(2);
-   cell1.innerHTML = 5;
-   cell2.innerHTML = 4;
-   cell3.innerHTML = 4;
-
-   // var newRow3 = table.insertRow(table.rows.length);
-   // newRow3.id = "P" + 6;
-   // var cell1 = newRow3.insertCell(0);
-   // var cell2 = newRow3.insertCell(1);
-   // var cell3 = newRow3.insertCell(2);
-   // cell1.innerHTML = 6;
-   // cell2.innerHTML = 3;
-   // cell3.innerHTML = 2;
-
-   // var newRow3 = table.insertRow(table.rows.length);
-   // newRow3.id = "P" + 7;
-   // var cell1 = newRow3.insertCell(0);
-   // var cell2 = newRow3.insertCell(1);
-   // var cell3 = newRow3.insertCell(2);
-   // cell1.innerHTML = 7;
-   // cell2.innerHTML = 0;
-   // cell3.innerHTML = 6;
-   
-   numOfProcesses += 5;
-}
-
    /*
    //Used to output the results of the simulation in real time.
    */
@@ -690,7 +620,8 @@ function start() {
             if (validateInput(quantumInput, false)) {
                startTimer(algorithm);
                running = true;
-               rr();
+               quantumInput.disabled = true;
+               // rr();
             } else {
                showError(3);
             }
@@ -946,7 +877,6 @@ function sjf() {
 //============================================================================================================================================
 var currentTime = 0;
 
-// var b;
 function rr() {
    var all = [];
    var filter = [];
@@ -971,12 +901,21 @@ function rr() {
          }); 
       }  
    });
-   
+
    filter.forEach(function (process) {
       var processElement = createProcessElement(process);
       addToWaitingQueue(process, processElement);
       removeProcess(processElement.textContent);
    });
+
+   cpu.forEach(function (process) {
+      if (seconds == ((Number(quantumInput.value)) + currentTime) && (wQueue.length != 0)) {
+         currentTime = seconds;
+         var processElement = document.getElementById("P" + process.processID);
+         cpu.pop();
+         addToWaitingQueue(process, processElement);
+      }
+   })
    
    if ((wQueue.length != 0) && (cpu.length == 0)) {
       var process = wQueue[0];
@@ -986,38 +925,4 @@ function rr() {
       wQueue.splice(0, 1);
    }
   
-   console.log(cpu.length);
-
-   cpu.forEach(function (process) {
-      if (seconds == ((Number(quantumInput.value)) + currentTime) && (wQueue.length != 0)) {
-         currentTime = seconds;
-         var processElement = document.getElementById("P" + process.processID);
-         cpu.pop();
-         addToWaitingQueue(process, processElement);
-         statusDiv.style.backgroundColor = "gray";
-         workingOn.textContent = "< IDLE >";
-         cpuDisplay.classList.remove("col-change");
-         clabel.textContent = "CPU (" + cpu.length + "/1)";
-      }
-   })
-
 }
-
-/*
--cpu bug
-
--percent number not abouve color bug
--bug when arrival = 0 and burst = 0, reason is that time doesn't update right as start is pressed.
-   -p1 a0, b0 -> ct 0, wt 0, tat 0
-   -p2 a0, b0 -> ct 0, wt 0, tat 0
-   -p3 a0, b0 -> ct 1, wt 1, tat 0
-
-   should be, but incrementing timer by 1 when the sim starts results in off by 1 errors for real cases
-   -p1 a0, b0 -> ct 0, wt 0, tat 0
-   -p2 a0, b0 -> ct 1, wt 1, tat 1
-   -p3 a0, b0 -> ct 2, wt 2, tat 2
-
--timer but. its 2 seconds off
-
--bug cpu should not be idle if processes are waiting in queue
-*/
