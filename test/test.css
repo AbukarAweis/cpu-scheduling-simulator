@@ -14,7 +14,6 @@ html {
 }
 
 body {
-    /* font-family: Arial, Helvetica, sans-serif; */
     font-family: 'Tektur', sans-serif;
     margin: 0;
     padding: 0;
@@ -79,44 +78,6 @@ footer {
     flex-direction: column;
 }
 
-/* .left-div, .center-div, .right-div {
-    padding:20px;
-    box-sizing: border-box;
-} */
-
-/* .left-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
-    background-color: white;
-    height: 100%;
-    width: 20%;
-} */
-
-/* .center-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 2;
-    background-color: gray;
-    height:100%;
-} */
-
-/* .right-div {
-    flex:1;
-    background-color: blue;
-    height:100%;
-    width:20%;
-} */
-/* 
-#text {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bolder;
-} */
-
 /* LEFT COLUMN */
 #process-div {
     display: flex;
@@ -171,7 +132,6 @@ footer {
     transition: border-color 0.3s;
     height: 10%;
 }
-
 
 /* QUEUES & SUMMARY */
 #queues {
@@ -248,7 +208,6 @@ footer {
     background-color: #a2aebb;
     border-radius: 15px;
 }
-
 
 #cpu, #status {
     display: flex;

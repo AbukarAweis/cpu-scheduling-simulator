@@ -613,7 +613,7 @@ function start() {
          var algoText = document.createElement('span');
          algoText.textContent = selectedAlgo.options[(selectedAlgo.selectedIndex)].textContent;
          algoText.style.fontStyle = "italic";
-         algoDiv.textContent = "Algorithm: "
+         algoDiv.textContent = "Algorithm: ";
          algoDiv.appendChild(algoText);
    
          genButton.disabled = true;
