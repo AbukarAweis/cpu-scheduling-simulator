@@ -3,21 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>CPU Scheduling Simulator</title>
     <link rel="icon" href="images/cpu.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
-                crossorigin="anonymous">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous"
+    >
+
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <script src="src/state.js" defer></script>
+    <script src="src/ui.js" defer></script>
+    <script src="src/processes.js" defer></script>
+    <script src="src/algorithms.js" defer></script>
+    <script src="src/main.js" defer></script>
+    <!-- <script src="script.js" defer></script> -->
 </head>
-</head>
+
 <body>
-    <header><h1>CPU Scheduling Simulator</h1></header>
+    <header>
+        <h1>CPU Scheduling Simulator</h1>
+    </header>
 
     <div class="container-fluid">
         <div class="row custom-row">
+
+            <!-- Process and algorithm controls -->
             <div class="col-sm-3 left-col">
+
                 <div id="process-div" style="overflow: hidden;">
                     <div id="process-table" style="overflow-y: scroll;">
                         <table>
@@ -28,32 +44,53 @@
                                     <th style="padding: 0% 0% 0% 0%;">Burst Time (s)</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
 
                     <div id="input">
-                        <input type="number" min="0" id="process-id" placeholder="Process ID" pattern="[0-9]+"
-                                style="width: 25%; padding: 1%; margin: 4% 1% 0% 0%; font-size: 1.4cqh; font-style:italic; font-weight: bold;">
-                        <input type="number" min="0" id="arrival-time" placeholder="Arrival Time" pattern="[0-9]+"
-                                style="width: 25%; padding: 1%; margin: 4% 1% 0% 0%;  font-size: 1.4cqh; font-style:italic; font-weight: bold;">
-                        <input type="number" min="0" id="burst-time" placeholder="Burst Time" pattern="[0-9]+"
-                                style="width: 25%; padding: 1%; margin: 4% 1% 0% 0%; font-size: 1.4cqh; font-style:italic; font-weight: bold;">
-                        <button type="button" id="add-button" onclick="addProcess()">Add</button>
-                    </div>
-                    
-                    <button type="button" id="gen-button" onclick="generate()">Generate 10 Random Processes</button>
-                    
-                    <div id="error-message">
+                        <input
+                            type="number"
+                            min="0"
+                            id="process-id"
+                            placeholder="Process ID"
+                            pattern="[0-9]+"
+                            style="width: 25%; padding: 1%; margin: 4% 1% 0% 0%; font-size: 1.4cqh; font-style: italic; font-weight: bold;"
+                        >
 
+                        <input
+                            type="number"
+                            min="0"
+                            id="arrival-time"
+                            placeholder="Arrival Time"
+                            pattern="[0-9]+"
+                            style="width: 25%; padding: 1%; margin: 4% 1% 0% 0%; font-size: 1.4cqh; font-style: italic; font-weight: bold;"
+                        >
+
+                        <input
+                            type="number"
+                            min="0"
+                            id="burst-time"
+                            placeholder="Burst Time"
+                            pattern="[0-9]+"
+                            style="width: 25%; padding: 1%; margin: 4% 1% 0% 0%; font-size: 1.4cqh; font-style: italic; font-weight: bold;"
+                        >
+
+                        <button type="button" id="add-button" onclick="addProcess()">
+                            Add
+                        </button>
                     </div>
-                    
+
+                    <button type="button" id="gen-button" onclick="generate()">
+                        Generate 10 Random Processes
+                    </button>
+
+                    <div id="error-message"></div>
                 </div>
 
                 <div id="algo-div" style="overflow: hidden;">
-                    <label id="algo-text">Algorithm: </label>
+                    <label id="algo-text">Algorithm:</label>
+
                     <div id="algo-select">
                         <select id="select" onchange="toggleVisibility()">
                             <option value="fcfs">First-Come, First-Serve</option>
@@ -61,59 +98,85 @@
                             <option value="rr">Round Robin</option>
                         </select>
                     </div>
+
                     <div id="quantum">
                         <label>Time Quantum:</label>
-                        <input type="number" min="0" id="quantum-input" placeholder="seconds" pattern="[0-9]+"
-                        style="width: 25%; padding: 1%; margin: 3% 1% 3% 3%; font-size: 1.6cqh; font-style:italic; font-weight: bold;">
+
+                        <input
+                            type="number"
+                            min="0"
+                            id="quantum-input"
+                            placeholder="seconds"
+                            pattern="[0-9]+"
+                            style="width: 25%; padding: 1%; margin: 3% 1% 3% 3%; font-size: 1.6cqh; font-style: italic; font-weight: bold;"
+                        >
                     </div>
-    
-    
+
                     <div id="algo-buttons">
-                        <button type="button" id="resume-button" onclick="resumeTimer()">RESUME</button>
-                        <button type="button" id="pause-button" onclick="stopTimer()">PAUSE</button>
-                        <button type="button" id="reset-button" onclick="reset()">RESET</button>
-                        <button type="button" id="start-button" onclick="start()">START</button>
+                        <button type="button" id="resume-button" onclick="resumeTimer()">
+                            RESUME
+                        </button>
+
+                        <button type="button" id="pause-button" onclick="stopTimer()">
+                            PAUSE
+                        </button>
+
+                        <button type="button" id="reset-button" onclick="reset()">
+                            RESET
+                        </button>
+
+                        <button type="button" id="start-button" onclick="start()">
+                            START
+                        </button>
                     </div>
                 </div>
             </div>
 
+            <!-- Simulation -->
             <div class="col-sm-6 mid-col">
                 <div id="simulation">
+
                     <div id="queues">
-                        <label id="waiting-label" style="margin: 1% 0% 1% 2%">Waiting</label>
-                        <div id="waiting-queue">
-    
-                        </div>
-                        
-                        <label id="finished-label" style="margin: 1% 0% 1% 2%">Finished</label>
-                        <div id="finished-queue">
-    
-                        </div>
-    
+                        <label id="waiting-label" style="margin: 1% 0% 1% 2%;">
+                            Waiting
+                        </label>
+
+                        <div id="waiting-queue"></div>
+
+                        <label id="finished-label" style="margin: 1% 0% 1% 2%;">
+                            Finished
+                        </label>
+
+                        <div id="finished-queue"></div>
+
                         <div id="time-algorithm-div">
-                            
                             <p id="algorithm">Algorithm: ---</p>
                             <p id="time">Time: -:--</p>
                         </div>
+
                         <div id="progress">
                             <div id="progress-percent">0.00%</div>
                         </div>
                     </div>
-    
+
                     <div id="control">
-                        <label id="cpu-label" style="margin: 1% 0% 1% 2%">CPU</label>
-                        <div id="cpu">
-                            
-                        </div>
-        
-                        <label id="status-label" style="margin: 1% 0% 1% 2%">Status</label>
+                        <label id="cpu-label" style="margin: 1% 0% 1% 2%;">
+                            CPU
+                        </label>
+
+                        <div id="cpu"></div>
+
+                        <label id="status-label" style="margin: 1% 0% 1% 2%;">
+                            Status
+                        </label>
+
                         <div id="status">
                             <p id="working-on">&lt; IDLE &gt;</p>
                         </div>
                     </div>
                 </div>
-    
-                <div id="summary-table" style="overflow-y:scroll">
+
+                <div id="summary-table" style="overflow-y: scroll;">
                     <table>
                         <thead>
                             <tr>
@@ -122,32 +185,36 @@
                                 <th>Burst Time (s)</th>
                                 <th style="padding: 0% 2% 0% 0%;">Completed Time</th>
                                 <th style="padding: 0% 2% 0% 0%;">Waiting Time</th>
-                                <th style="padding: 0% 2% 0% 0%;">Turnaroud Time</th>
+                                <th style="padding: 0% 2% 0% 0%;">Turnaround Time</th>
                             </tr>
                         </thead>
-                        <tbody>
-    
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
+
                 <div id="info">
                     <p>Processes Are Sorted By Their ID</p>
                 </div>
             </div>
 
+            <!-- Summary log -->
             <div class="col-sm-3 right-col">
                 <label id="summary-label">Summary</label>
-                <div id="summary-log">
-
-                </div>
+                <div id="summary-log"></div>
             </div>
+
         </div>
     </div>
 
-    <footer>Developed by Abukar Aweis © 2024 | <a href="https://github.com/AbukarAweis/scheduling-simulator"> Source Code</a></footer>
-   
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
-    crossorigin="anonymous"></script>
+    <footer>
+        Developed by Abukar Aweis |&nbsp;
+        <a href="https://github.com/AbukarAweis/scheduling-simulator">View Source</a>
+    </footer>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"
+    ></script>
 </body>
 </html>
