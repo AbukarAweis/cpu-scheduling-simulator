@@ -80,31 +80,30 @@ function toggleVisibility() {
 // Simulation log
 function updateSummaryLog(content, color) {
 
-      //span elements used to change color of the text
    var contentElement = document.createElement("p");
-   var first = document.createElement("span");
-   var second = document.createElement("span");
-   var third = document.createElement("span");
+   var time = document.createElement("span");
+   var processID = document.createElement("span");
+   var arrow = document.createElement("span");
+   var state = document.createElement("span");
 
-      //the content is split into three parts using a whitespace
-      //each part is styled and colored if needed
    const wordsArray = content.split(' ');
 
-   first.textContent = " P" + wordsArray[0] + " ";
-   first.style.fontWeight = "bold";
+   time.textContent = formatTime(seconds);
+   processID.textContent = "P" + wordsArray[0];
+   arrow.textContent = wordsArray[1];
+   state.textContent = wordsArray[2];
 
-   second.textContent = wordsArray[1] + " ";
+   contentElement.classList.add("summary-entry");
 
-   third.textContent = wordsArray[2];
-   third.style.color = color;
-   third.style.fontWeight = "bold";
+   processID.style.fontWeight = "bold";
 
-      //each part is added to the paragraph element
-      //which is then appended to the summary log location
-   contentElement.textContent = "@ " + formatTime(seconds);
-   contentElement.appendChild(first);
-   contentElement.appendChild(second);
-   contentElement.appendChild(third);
+   state.style.color = color;
+   state.style.fontWeight = "bold";
+
+   contentElement.appendChild(time);
+   contentElement.appendChild(processID);
+   contentElement.appendChild(arrow);
+   contentElement.appendChild(state);
 
    summaryLog.appendChild(contentElement);
    summaryLog.scrollTop = summaryLog.scrollHeight;
@@ -122,21 +121,15 @@ function endSummaryLog() {
    var throughput = (numOfProcesses / (seconds - 1)).toFixed(2);
    var cpuUtilization = ((totalNIT / (seconds)) * 100).toFixed(2);
 
-   endSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION COMPLETE***";
-   numProc.textContent = "# of Processes: " + numOfProcesses;
-   totalTime.textContent = "Total Duration: " + (formatTime(seconds - 1));
-   avgWTElement.textContent = "Avg. Waiting Time: " + formatTime((totalWT / numOfProcesses).toFixed(2));
-   avgTATElement.textContent = "Avg. Turnaround Time: " + formatTime((totalTAT / numOfProcesses).toFixed(2));
-   throughputElement.textContent = "Throughput: " + ((throughput != Infinity) ? throughput : 0);
-   cpuUtilElement.textContent = "CPU Utilization: " + ((cpuUtilization > 100) ? 100 : cpuUtilization) + "%";
-   
+   endSummary.textContent = algorithm.toUpperCase() + " SIMULATION COMPLETE";
    endSummary.style.fontWeight = "bold";
-   numProc.style.fontWeight = "bold";
-   totalTime.style.fontWeight = "bold";
-   avgWTElement.style.fontWeight = "bold";
-   avgTATElement.style.fontWeight = "bold";
-   throughputElement.style.fontWeight = "bold";
-   cpuUtilElement.style.fontWeight = "bold";
+
+   addSummaryMetric(numProc, "Processes:", numOfProcesses);
+   addSummaryMetric(totalTime, "Total Duration:", formatTime(seconds - 1));
+   addSummaryMetric(avgWTElement, "Avg. Waiting Time:", formatTime((totalWT / numOfProcesses).toFixed(2)));
+   addSummaryMetric(avgTATElement, "Avg. Turnaround Time:", formatTime((totalTAT / numOfProcesses).toFixed(2)));
+   addSummaryMetric(throughputElement, "Throughput:", ((throughput != Infinity) ? throughput : 0));
+   addSummaryMetric(cpuUtilElement, "CPU Utilization:", ((cpuUtilization > 100) ? 100 : cpuUtilization) + "%");
 
    summaryLog.appendChild(endSummary);
    summaryLog.appendChild(numProc);
@@ -148,6 +141,19 @@ function endSummaryLog() {
    summaryLog.scrollTop = summaryLog.scrollHeight;
 }
 
+function addSummaryMetric(element, label, value) {
+   var labelSpan = document.createElement("span");
+   var valueSpan = document.createElement("span");
+
+   labelSpan.textContent = label + " ";
+   labelSpan.style.fontWeight = "bold";
+
+   valueSpan.textContent = value;
+   valueSpan.style.fontWeight = "normal";
+
+   element.appendChild(labelSpan);
+   element.appendChild(valueSpan);
+}
 
 // Summary table
 function addSummaryTable(process) {

@@ -3,7 +3,7 @@ function addToWaitingQueue(process, processElement) {
    wQueue.push(process);
    waitingDisplay.appendChild(processElement);
 
-   updateSummaryLog(process.processID + " -- Waiting", "#006400");
+   updateSummaryLog(process.processID + " → Waiting", "#006400");
    processElement.classList.remove("roll");
 }
 
@@ -13,7 +13,7 @@ function addToWaitingQueueAt(process, processElement, index) {
    wQueue.splice(index, 0, process);
    waitingDisplay.insertBefore(processElement, waitingDisplay.children[index]);
 
-   updateSummaryLog(process.processID + " -- Waiting", "#006400");
+   updateSummaryLog(process.processID + " → Waiting", "#006400");
 }
 
 
@@ -26,7 +26,7 @@ function addToFinishedQueue(process, processElement) {
 
    addSummaryTable(process);
    updateProgress();
-   updateSummaryLog(process.processID + " -- Finished", "#0E6BA8");
+   updateSummaryLog(process.processID + " → Finished", "#0E6BA8");
 
    processElement.classList.remove("roll");
 }
@@ -57,7 +57,7 @@ function addToCPU(process, processElement) {
     }
 
     processElement.classList.add("roll");
-    updateSummaryLog(process.processID + " > CPU", "#FFBA49");
+    updateSummaryLog(process.processID + " → CPU", "#C96F00");
    }
 }
 

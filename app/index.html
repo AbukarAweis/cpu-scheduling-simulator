@@ -20,7 +20,6 @@
     <script src="src/processes.js" defer></script>
     <script src="src/algorithms.js" defer></script>
     <script src="src/main.js" defer></script>
-    <!-- <script src="script.js" defer></script> -->
 </head>
 
 <body>
@@ -93,9 +92,9 @@
 
                     <div id="algo-select">
                         <select id="select" onchange="toggleVisibility()">
-                            <option value="fcfs">First-Come, First-Serve</option>
-                            <option value="sjf">Shortest Job First</option>
-                            <option value="rr">Round Robin</option>
+                            <option value="fcfs">First-Come, First-Serve (FCFS)</option>
+                            <option value="sjf">Shortest Job First (SJF)</option>
+                            <option value="rr">Round Robin (RR)</option>
                         </select>
                     </div>
 
@@ -193,13 +192,13 @@
                 </div>
 
                 <div id="info">
-                    <p>Processes Are Sorted By Their ID</p>
+                    <p>Finished Processes Sorted By ID</p>
                 </div>
             </div>
 
             <!-- Summary log -->
             <div class="col-sm-3 right-col">
-                <label id="summary-label">Summary</label>
+                <label id="summary-label">Event Log</label>
                 <div id="summary-log"></div>
             </div>
 

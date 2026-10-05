@@ -14,7 +14,7 @@ function start() {
          case "fcfs":
          case "sjf":
             var startSummary = document.createElement("p");
-            startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
+            startSummary.textContent = algorithm.toUpperCase() + " SIMULATION START";
             startSummary.style.fontWeight = "bold";
             summaryLog.appendChild(startSummary);
             createProgressSections();
@@ -27,7 +27,7 @@ function start() {
             if (validateInput(quantumInput, false)) {
 
                var startSummary = document.createElement("p");
-               startSummary.textContent = "***" + algorithm.toUpperCase() + " SIMULATION BEGIN***";
+               startSummary.textContent = algorithm.toUpperCase() + " SIMULATION START";
                startSummary.style.fontWeight = "bold";
                summaryLog.appendChild(startSummary);
                createProgressSections();
@@ -48,8 +48,10 @@ function start() {
          // Display the selected algorithm.
          var algoText = document.createElement('span');
          algoText.textContent = selectedAlgo.options[(selectedAlgo.selectedIndex)].textContent;
+         algoText.textContent = algorithm.toUpperCase();
          algoText.style.fontStyle = "italic";
          algoDiv.textContent = "Algorithm: ";
+
          algoDiv.appendChild(algoText);
 
          genButton.disabled = true;
