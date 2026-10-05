@@ -15,7 +15,7 @@ Try the simulator directly in your browser:
 The animation below shows a complete scheduling simulation, including process arrivals, queue movement, CPU execution, progress tracking, and final performance metrics.
 
 <p align="center">
-  <img src="assets/scheduling-simulator-demo.gif" width="900">
+  <img src="assets/scheduling-simulator-demo.gif" width="800">
 </p>
 
 ## Features
