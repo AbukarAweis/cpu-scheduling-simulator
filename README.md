@@ -12,10 +12,10 @@ Try the simulator directly in your browser:
 
 [Live Demo](https://abukaraweis.github.io/scheduling-simulator/)
 
-The animation below shows a complete scheduling simulation, including process arrivals, queue movement, CPU execution, progress tracking, and final performance metrics.
+The animation below (sped up 3x) shows a complete scheduling simulation, including process arrivals, queue movement, CPU execution, progress tracking, and final performance metrics.
 
 <p align="center">
-  <img src="assets/scheduling-simulator-demo.gif" width="800">
+  <img src="assets/scheduling-simulator-demo.gif" width="900">
 </p>
 
 ## Features
