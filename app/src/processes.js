@@ -187,8 +187,10 @@ function validateInput(element, isID) {
    }
 
    //when validating any input other than id.
+   //when validating any input other than id.
    if ((element.value === "" || parseFloat(element.value) < 0 || !/^[0-9]+$/.test(element.value)) && !isID) {
       element.classList.add("error");
+      showError(1);
       return false;
    } else {
       element.classList.remove("error");
