@@ -10,7 +10,7 @@ The simulator supports custom process creation, randomly generated processes, re
 
 Try the simulator directly in your browser:
 
-[Live Demo](https://abukaraweis.github.io/scheduling-simulator/)
+[Live Demo](https://abukaraweis.github.io/cpu-scheduling-simulator/)
 
 The animation below (sped up 3x) shows a complete scheduling simulation, including process arrivals, queue movement, CPU execution, progress tracking, and final performance metrics.
 
